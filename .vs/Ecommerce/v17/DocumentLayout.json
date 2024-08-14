@@ -1,7 +1,20 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\AW7\\Ecommerce\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\validations\\user\\loginvalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:validations\\user\\loginvalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\dtos\\user\\newuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:dtos\\user\\newuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +22,47 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LoginValidation.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Validations\\User\\LoginValidation.cs",
+              "RelativeDocumentMoniker": "Validations\\User\\LoginValidation.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Validations\\User\\LoginValidation.cs",
+              "RelativeToolTip": "Validations\\User\\LoginValidation.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-14T06:55:02.923Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Controllers\\UserController.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAewCIAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-14T06:45:36.56Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NewUser.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Dtos\\User\\NewUser.cs",
+              "RelativeDocumentMoniker": "Dtos\\User\\NewUser.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Dtos\\User\\NewUser.cs",
+              "RelativeToolTip": "Dtos\\User\\NewUser.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-14T06:38:21.667Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"

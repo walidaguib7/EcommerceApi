@@ -125,3 +125,13 @@ D:\AW7\Ecommerce\obj\Debug\net8.0\refint\Ecommerce.dll
 D:\AW7\Ecommerce\obj\Debug\net8.0\Ecommerce.pdb
 D:\AW7\Ecommerce\obj\Debug\net8.0\Ecommerce.genruntimeconfig.cache
 D:\AW7\Ecommerce\obj\Debug\net8.0\ref\Ecommerce.dll
+D:\AW7\Ecommerce\obj\Debug\net8.0\Ecommerce.sourcelink.json
+D:\AW7\Ecommerce\bin\Debug\net8.0\FluentValidation.dll
+D:\AW7\Ecommerce\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\AW7\Ecommerce\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\AW7\Ecommerce\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\AW7\Ecommerce\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\AW7\Ecommerce\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\AW7\Ecommerce\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\AW7\Ecommerce\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\AW7\Ecommerce\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

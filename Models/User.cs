@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 
 namespace Ecommerce.Models
 {
@@ -7,8 +8,11 @@ namespace Ecommerce.Models
         public string? first_name { get; set; }
         public string? last_name { get; set; }
         public string? gender { get; set; }
-        public  int? age { get; set; }
+        public int? age { get; set; }
         public string? country { get; set; }
         public string? city { get; set; }
+        public int? ZipCode { get; set; }
+        public IEnumerable<Orders> orders { get; set; }
+        public IEnumerable<Payments> payments { get; set; } = [];
     }
 }
