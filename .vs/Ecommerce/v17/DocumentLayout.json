@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\AW7\\Ecommerce\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\validations\\user\\loginvalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:validations\\user\\loginvalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\repositories\\categoryrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:repositories\\categoryrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\dtos\\user\\newuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:dtos\\user\\newuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\services\\icategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:services\\icategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,45 +27,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "LoginValidation.cs",
-              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Validations\\User\\LoginValidation.cs",
-              "RelativeDocumentMoniker": "Validations\\User\\LoginValidation.cs",
-              "ToolTip": "D:\\AW7\\Ecommerce\\Validations\\User\\LoginValidation.cs",
-              "RelativeToolTip": "Validations\\User\\LoginValidation.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAA+AAAA",
+              "Title": "CategoryController.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Controllers\\CategoryController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CategoryController.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Controllers\\CategoryController.cs",
+              "RelativeToolTip": "Controllers\\CategoryController.cs",
+              "ViewState": "AQIAADgAAAAAAAAAAAAmwDMAAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-14T06:55:02.923Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
-              "ToolTip": "D:\\AW7\\Ecommerce\\Controllers\\UserController.cs",
-              "RelativeToolTip": "Controllers\\UserController.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAewCIAAAAyAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-14T06:45:36.56Z",
+              "WhenOpened": "2024-08-15T03:51:14.364Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "NewUser.cs",
-              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Dtos\\User\\NewUser.cs",
-              "RelativeDocumentMoniker": "Dtos\\User\\NewUser.cs",
-              "ToolTip": "D:\\AW7\\Ecommerce\\Dtos\\User\\NewUser.cs",
-              "RelativeToolTip": "Dtos\\User\\NewUser.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAFAAAA",
+              "Title": "ICategory.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Services\\ICategory.cs",
+              "RelativeDocumentMoniker": "Services\\ICategory.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Services\\ICategory.cs",
+              "RelativeToolTip": "Services\\ICategory.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAABCAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-14T06:38:21.667Z",
+              "WhenOpened": "2024-08-15T03:41:23.377Z",
               "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CategoryRepo.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Repositories\\CategoryRepo.cs",
+              "RelativeDocumentMoniker": "Repositories\\CategoryRepo.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Repositories\\CategoryRepo.cs",
+              "RelativeToolTip": "Repositories\\CategoryRepo.cs",
+              "ViewState": "AQIAADIAAAAAAAAAAAAUwEYAAAA9AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-15T03:34:53.51Z",
+              "EditorCaption": ""
             }
           ]
         }

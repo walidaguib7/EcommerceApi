@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Crypto.Digests;
 
 namespace Ecommerce.Data
 {
@@ -11,6 +12,10 @@ namespace Ecommerce.Data
         {
 
         }
+
+
+        public DbSet<Category> categories { get; set; }
+        public DbSet<MediaModel> media { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
