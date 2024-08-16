@@ -3,16 +3,27 @@
   "WorkspaceRootPath": "D:\\AW7\\Ecommerce\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\repositories\\categoryrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:repositories\\categoryrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\repositories\\mediarepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:repositories\\mediarepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\services\\icategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:services\\icategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\extensions\\middelwareextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:extensions\\middelwareextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2856DE0-6730-45DC-B37E-6B12C6F5E63B}|..\\Ecommerce.Test\\Ecommerce.Test.csproj|d:\\aw7\\ecommerce.test\\controllers\\mediacontrollertest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\controllers\\mediacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:controllers\\mediacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,45 +38,84 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CategoryController.cs",
-              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Controllers\\CategoryController.cs",
-              "RelativeDocumentMoniker": "Controllers\\CategoryController.cs",
-              "ToolTip": "D:\\AW7\\Ecommerce\\Controllers\\CategoryController.cs",
-              "RelativeToolTip": "Controllers\\CategoryController.cs",
-              "ViewState": "AQIAADgAAAAAAAAAAAAmwDMAAAAUAAAA",
+              "Title": ".gitignore",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\.gitignore",
+              "RelativeDocumentMoniker": ".gitignore",
+              "ToolTip": "D:\\AW7\\Ecommerce\\.gitignore",
+              "RelativeToolTip": ".gitignore",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAEAAAA",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAF8SURBVDhPjVNLTgJBEG1lwpoFB3GNK9fieA48hD8iwT/ihwgSDAIHgAGXXsEV18CNzL/LquqZdsYM6kteXqcy3fWqpmpNRBgOhyABBEgpAFVKPIMUcYzUyOU\u002BXM/b2qtU3vkSfRjjZTCAMAw1A2LwzdFoBPP5HNqdzuL27n4juibWI\u002BUshBA1DIkhEx9iEorFotgslQqGYbxxAGFEqt1MxmPWJLbLZdZ\u002Bv89q5PMFPiTR6z2zdaxR0fXA0XTBcVywkb4fwHXjRteecIDNQ7UmExVYAdPcxYaqclN46na5WenMKjtlVnTYwcXlVYaDqImW9beD5N/TeGy32QHXm6hZ03ZgiSQHp2fnWQ4oBmJqWSqwAqZpZjt4aLXAD4J0VqyZsmoubfB8H2r1eoaD6NXZ9HcHO\u002BSA3f4AjifXl8rItOETM8ckB9WTWpYD9RdeZ1PWVWAHWXPQaDb59f/w8LiqHeh1pvGkCaP6qB8yXusoxmuNZ7XmII4O9vGuEF86osuDYRkpYQAAAABJRU5ErkJggg==",
+              "WhenOpened": "2024-08-16T14:21:04.061Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MediaRepo.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Repositories\\MediaRepo.cs",
+              "RelativeDocumentMoniker": "Repositories\\MediaRepo.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Repositories\\MediaRepo.cs",
+              "RelativeToolTip": "Repositories\\MediaRepo.cs",
+              "ViewState": "AQIAAB8AAAAAAAAAAAAowDAAAABEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-15T03:51:14.364Z",
+              "WhenOpened": "2024-08-16T14:16:33.804Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ICategory.cs",
-              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Services\\ICategory.cs",
-              "RelativeDocumentMoniker": "Services\\ICategory.cs",
-              "ToolTip": "D:\\AW7\\Ecommerce\\Services\\ICategory.cs",
-              "RelativeToolTip": "Services\\ICategory.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAABCAAAA",
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAABwAAAAAAAAAAADwvygAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-15T03:41:23.377Z",
+              "WhenOpened": "2024-08-16T14:13:27.354Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MiddelwareExtensions.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Extensions\\MiddelwareExtensions.cs",
+              "RelativeDocumentMoniker": "Extensions\\MiddelwareExtensions.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Extensions\\MiddelwareExtensions.cs",
+              "RelativeToolTip": "Extensions\\MiddelwareExtensions.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAzwAkAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-16T14:12:37.155Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MediaController.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Controllers\\MediaController.cs",
+              "RelativeDocumentMoniker": "Controllers\\MediaController.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Controllers\\MediaController.cs",
+              "RelativeToolTip": "Controllers\\MediaController.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAAABgAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-16T14:10:44.813Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MediaControllerTest.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce.Test\\Controllers\\MediaControllerTest.cs",
+              "RelativeDocumentMoniker": "..\\Ecommerce.Test\\Controllers\\MediaControllerTest.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce.Test\\Controllers\\MediaControllerTest.cs",
+              "RelativeToolTip": "..\\Ecommerce.Test\\Controllers\\MediaControllerTest.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABoAAAA6AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-16T13:54:37.361Z",
               "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CategoryRepo.cs",
-              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Repositories\\CategoryRepo.cs",
-              "RelativeDocumentMoniker": "Repositories\\CategoryRepo.cs",
-              "ToolTip": "D:\\AW7\\Ecommerce\\Repositories\\CategoryRepo.cs",
-              "RelativeToolTip": "Repositories\\CategoryRepo.cs",
-              "ViewState": "AQIAADIAAAAAAAAAAAAUwEYAAAA9AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-15T03:34:53.51Z",
-              "EditorCaption": ""
             }
           ]
         }

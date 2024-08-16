@@ -1,11 +1,13 @@
 ﻿
 using Ecommerce.Data;
 using Ecommerce.Dtos.Category;
+using Ecommerce.Dtos.Media;
 using Ecommerce.Dtos.User;
 using Ecommerce.Models;
 using Ecommerce.Repositories;
 using Ecommerce.Services;
 using Ecommerce.Validations.Category;
+using Ecommerce.Validations.Media;
 using Ecommerce.Validations.User;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,11 +24,13 @@ namespace Ecommerce.Extensions
             services.AddScoped<IUser,UserRepo>();
             services.AddSingleton<IToken, TokenRepo>();
             services.AddScoped<ICategory, CategoryRepo>();
+            services.AddTransient<IMedia, MediaRepo>();
 
             services.AddKeyedScoped<IValidator<RegisterDto>, RegisterValidation>("register");
             services.AddKeyedScoped<IValidator<LoginDto>, LoginValidation>("login");
 
             services.AddKeyedScoped<IValidator<CreateCategoryDto>, CategoryValidation>("category");
+            services.AddKeyedScoped<IValidator<CreateFile>, MediaValidation>("media");
         }
 
         public static void AddCustomAuth(this IServiceCollection services ,WebApplicationBuilder builder)

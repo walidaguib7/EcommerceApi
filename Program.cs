@@ -1,4 +1,6 @@
 using Ecommerce.Extensions;
+using Microsoft.Extensions.FileProviders;
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddCustomServices();
 builder.Services.AddCustomAuth(builder);
 builder.Services.AddCustomIdentity();
 
+builder.Services.AddDirectoryBrowser();
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -19,7 +24,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.AddMediaMiddelwares(builder);
+var fileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Media"));
+var requestPath = "/MyImages";
+
+app.UseCors("MyAllowSpecificOrigins");
+
+// Enable displaying browser links.
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = fileProvider,
+    RequestPath = requestPath
+});
+
+app.UseDirectoryBrowser(new DirectoryBrowserOptions
+{
+    FileProvider = fileProvider,
+    RequestPath = requestPath
+});
 
 app.UseHttpsRedirection();
 
