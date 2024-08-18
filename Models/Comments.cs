@@ -12,5 +12,7 @@ namespace Ecommerce.Models
         public int productId { get; set; }
         public User user { get; set; }
         public Products product { get; set; }
+
+        public ICollection<CommentLikes> commentLikes { get; set; } = [];
     }
 }

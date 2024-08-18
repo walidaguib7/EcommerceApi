@@ -8,7 +8,7 @@
         public string Order_Status { get; set; }
         public string userId { get; set; }
         public User user { get; set; }
-        public IEnumerable<Products> Product { get; set; } = [];
+        public IEnumerable<Order_Product> order_Products { get; set; } = [];
         public IEnumerable<Payments> payments { get; set; } = [];
     }
 }

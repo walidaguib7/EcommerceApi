@@ -1,6 +1,6 @@
 ﻿namespace Ecommerce.Models
 {
-    public class Whishlist
+    public class Wishlists
     {
         public int Id { get; set; }
         public string userId { get; set; }

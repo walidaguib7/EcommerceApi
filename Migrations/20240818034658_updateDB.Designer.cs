@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240815032029_addCategoryandFiles")]
-    partial class addCategoryandFiles
+    [Migration("20240818034658_updateDB")]
+    partial class updateDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,21 @@ namespace Ecommerce.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Ecommerce.Models.BlockedUsers", b =>
+                {
+                    b.Property<string>("userId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("blockedUserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("userId", "blockedUserId");
+
+                    b.HasIndex("blockedUserId");
+
+                    b.ToTable("blockedUsers");
+                });
 
             modelBuilder.Entity("Ecommerce.Models.Category", b =>
                 {
@@ -35,6 +50,65 @@ namespace Ecommerce.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("categories");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.CommentLikes", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "CommentId");
+
+                    b.HasIndex("CommentId");
+
+                    b.ToTable("commentLikes");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Comments", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("productId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("productId");
+
+                    b.ToTable("comments");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Follower", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("FollowerId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("UserId", "FollowerId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("followers");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.MediaModel", b =>
@@ -53,6 +127,58 @@ namespace Ecommerce.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("media");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Messages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("content")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("fileId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("mediaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("receiverId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("senderId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("mediaId");
+
+                    b.HasIndex("receiverId");
+
+                    b.HasIndex("senderId");
+
+                    b.ToTable("messages");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Order_Product", b =>
+                {
+                    b.Property<int>("productId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("orderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("productId", "orderId");
+
+                    b.HasIndex("orderId");
+
+                    b.ToTable("order_Products");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Orders", b =>
@@ -79,7 +205,7 @@ namespace Ecommerce.Migrations
 
                     b.HasIndex("userId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("orders");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Payments", b =>
@@ -112,7 +238,22 @@ namespace Ecommerce.Migrations
 
                     b.HasIndex("userId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("payments");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.ProductFiles", b =>
+                {
+                    b.Property<int>("fileId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("fileId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("productFiles");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Products", b =>
@@ -140,7 +281,37 @@ namespace Ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("products");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Reviews", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("commentId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("rating")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("userId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("commentId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("reviews");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.User", b =>
@@ -228,6 +399,28 @@ namespace Ecommerce.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Ecommerce.Models.Wishlists", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("wishlists");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -256,13 +449,13 @@ namespace Ecommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5ca78144-2c5a-4fe9-a2af-2b75712e7b53",
+                            Id = "8d940222-f22c-4430-9eca-2ffa3ee04491",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "04073a8c-060d-45cb-8d8a-a6febf31d983",
+                            Id = "8b5eac06-1298-4b87-81ec-15ccaa448a7f",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -370,19 +563,126 @@ namespace Ecommerce.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("OrdersProducts", b =>
+            modelBuilder.Entity("Ecommerce.Models.BlockedUsers", b =>
                 {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.HasOne("Ecommerce.Models.User", "blockedUser")
+                        .WithMany()
+                        .HasForeignKey("blockedUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("ordersId")
-                        .HasColumnType("int");
+                    b.HasOne("Ecommerce.Models.User", "user")
+                        .WithMany("blockedUsers")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasKey("ProductId", "ordersId");
+                    b.Navigation("blockedUser");
 
-                    b.HasIndex("ordersId");
+                    b.Navigation("user");
+                });
 
-                    b.ToTable("OrdersProducts");
+            modelBuilder.Entity("Ecommerce.Models.CommentLikes", b =>
+                {
+                    b.HasOne("Ecommerce.Models.Comments", "comment")
+                        .WithMany("commentLikes")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.User", "user")
+                        .WithMany("commentLikes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("comment");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Comments", b =>
+                {
+                    b.HasOne("Ecommerce.Models.User", "user")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.Products", "product")
+                        .WithMany()
+                        .HasForeignKey("productId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("product");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Follower", b =>
+                {
+                    b.HasOne("Ecommerce.Models.User", "follower")
+                        .WithMany()
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.User", "User")
+                        .WithMany("followers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("follower");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Messages", b =>
+                {
+                    b.HasOne("Ecommerce.Models.MediaModel", "media")
+                        .WithMany()
+                        .HasForeignKey("mediaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.User", "receiver")
+                        .WithMany()
+                        .HasForeignKey("receiverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.User", "sender")
+                        .WithMany()
+                        .HasForeignKey("senderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("media");
+
+                    b.Navigation("receiver");
+
+                    b.Navigation("sender");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Order_Product", b =>
+                {
+                    b.HasOne("Ecommerce.Models.Orders", "order")
+                        .WithMany("order_Products")
+                        .HasForeignKey("orderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.Products", "product")
+                        .WithMany("order_Products")
+                        .HasForeignKey("productId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("order");
+
+                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Orders", b =>
@@ -411,6 +711,71 @@ namespace Ecommerce.Migrations
                         .IsRequired();
 
                     b.Navigation("order");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.ProductFiles", b =>
+                {
+                    b.HasOne("Ecommerce.Models.Products", "Product")
+                        .WithMany("productFiles")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.MediaModel", "file")
+                        .WithMany("productFiles")
+                        .HasForeignKey("fileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("file");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Reviews", b =>
+                {
+                    b.HasOne("Ecommerce.Models.Products", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.Comments", "comment")
+                        .WithMany()
+                        .HasForeignKey("commentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("comment");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Wishlists", b =>
+                {
+                    b.HasOne("Ecommerce.Models.Products", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
 
                     b.Navigation("user");
                 });
@@ -466,28 +831,38 @@ namespace Ecommerce.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OrdersProducts", b =>
+            modelBuilder.Entity("Ecommerce.Models.Comments", b =>
                 {
-                    b.HasOne("Ecommerce.Models.Products", null)
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("commentLikes");
+                });
 
-                    b.HasOne("Ecommerce.Models.Orders", null)
-                        .WithMany()
-                        .HasForeignKey("ordersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("Ecommerce.Models.MediaModel", b =>
+                {
+                    b.Navigation("productFiles");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Orders", b =>
                 {
+                    b.Navigation("order_Products");
+
                     b.Navigation("payments");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Products", b =>
+                {
+                    b.Navigation("order_Products");
+
+                    b.Navigation("productFiles");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.User", b =>
                 {
+                    b.Navigation("blockedUsers");
+
+                    b.Navigation("commentLikes");
+
+                    b.Navigation("followers");
+
                     b.Navigation("orders");
 
                     b.Navigation("payments");
