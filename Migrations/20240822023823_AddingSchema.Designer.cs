@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240818034658_updateDB")]
-    partial class updateDB
+    [Migration("20240822023823_AddingSchema")]
+    partial class AddingSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,6 +109,21 @@ namespace Ecommerce.Migrations
                     b.HasIndex("FollowerId");
 
                     b.ToTable("followers");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Following", b =>
+                {
+                    b.Property<string>("followerId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("followingId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("followerId", "followingId");
+
+                    b.HasIndex("followingId");
+
+                    b.ToTable("followings");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.MediaModel", b =>
@@ -449,13 +464,13 @@ namespace Ecommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8d940222-f22c-4430-9eca-2ffa3ee04491",
+                            Id = "399407b4-1178-4248-a8f6-7bd45467bf03",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8b5eac06-1298-4b87-81ec-15ccaa448a7f",
+                            Id = "bf40f118-2c85-4d2b-a66d-9264e5d6b709",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -637,6 +652,25 @@ namespace Ecommerce.Migrations
                     b.Navigation("User");
 
                     b.Navigation("follower");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Following", b =>
+                {
+                    b.HasOne("Ecommerce.Models.User", "follower")
+                        .WithMany("followings")
+                        .HasForeignKey("followerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.User", "following")
+                        .WithMany()
+                        .HasForeignKey("followingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("follower");
+
+                    b.Navigation("following");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Messages", b =>
@@ -862,6 +896,8 @@ namespace Ecommerce.Migrations
                     b.Navigation("commentLikes");
 
                     b.Navigation("followers");
+
+                    b.Navigation("followings");
 
                     b.Navigation("orders");
 

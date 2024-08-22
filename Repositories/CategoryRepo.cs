@@ -5,19 +5,22 @@ using Ecommerce.Models;
 using Ecommerce.Services;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Ecommerce.Repositories
 {
     public class CategoryRepo
         (
           ApplicationDBContext _context,
-          [FromKeyedServices("category")] IValidator<CreateCategoryDto> _validator
+          [FromKeyedServices("category")] IValidator<CreateCategoryDto> _validator,
+          ICache _cacheService
         )
         : ICategory
     {
 
         private readonly ApplicationDBContext context = _context;
         private readonly IValidator<CreateCategoryDto> validator = _validator;
+        private readonly ICache cacheService = _cacheService;
         public async Task<Category> CreateCategory(CreateCategoryDto dto)
         {
             var result = validator.Validate(dto);
@@ -45,7 +48,15 @@ namespace Ecommerce.Repositories
 
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
-            return await context.categories.ToListAsync();
+            var key = $"categories";
+            var CachedCategories = await cacheService.GetFromCacheAsync<IEnumerable<Category>>(key);
+            if (!CachedCategories.IsNullOrEmpty())
+            {
+                return CachedCategories;
+            }
+            var categories = await context.categories.ToListAsync();
+            await cacheService.SetAsync<IEnumerable<Category>>(key, categories);
+            return categories;
         }
 
         public async Task<Category?> GetCategoryAsync(int id)

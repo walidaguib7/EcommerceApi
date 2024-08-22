@@ -1,12 +1,13 @@
-﻿
-using Ecommerce.Data;
+﻿using Ecommerce.Data;
 using Ecommerce.Dtos.Category;
+using Ecommerce.Dtos.Followers;
 using Ecommerce.Dtos.Media;
 using Ecommerce.Dtos.User;
 using Ecommerce.Models;
 using Ecommerce.Repositories;
 using Ecommerce.Services;
 using Ecommerce.Validations.Category;
+using Ecommerce.Validations.Following;
 using Ecommerce.Validations.Media;
 using Ecommerce.Validations.User;
 using FluentValidation;
@@ -21,16 +22,24 @@ namespace Ecommerce.Extensions
     {
         public static void AddCustomServices(this IServiceCollection services)
         {
+            services.AddDistributedMemoryCache(
+                
+                );
+
             services.AddScoped<IUser,UserRepo>();
             services.AddSingleton<IToken, TokenRepo>();
             services.AddScoped<ICategory, CategoryRepo>();
             services.AddTransient<IMedia, MediaRepo>();
+            services.AddScoped<IMessages, MessagesRepo>();
+            services.AddScoped<IFollowing, FollowingRepo>();
+            services.AddTransient<ICache, CacheRepo>();
 
             services.AddKeyedScoped<IValidator<RegisterDto>, RegisterValidation>("register");
             services.AddKeyedScoped<IValidator<LoginDto>, LoginValidation>("login");
 
             services.AddKeyedScoped<IValidator<CreateCategoryDto>, CategoryValidation>("category");
             services.AddKeyedScoped<IValidator<CreateFile>, MediaValidation>("media");
+            services.AddKeyedScoped<IValidator<FollowDto>, FollowingValidation>("following");
         }
 
         public static void AddCustomAuth(this IServiceCollection services ,WebApplicationBuilder builder)
@@ -80,6 +89,19 @@ namespace Ecommerce.Extensions
             {
                 options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+        }
+
+        public static void AddRedisDB(this IServiceCollection services, WebApplicationBuilder builder)
+        {
+            services.AddStackExchangeRedisCache(opt =>
+            {
+                string RedisConnectionString = builder.Configuration["Redis:ConnectionString"];
+                opt.Configuration = RedisConnectionString;
+                opt.InstanceName = "instance";
+            });
+
+            
+
         }
     }
 }

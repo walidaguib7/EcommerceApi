@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Ecommerce.Migrations
 {
     /// <inheritdoc />
-    public partial class updateDB : Migration
+    public partial class AddingSchema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -267,6 +267,31 @@ namespace Ecommerce.Migrations
                     table.ForeignKey(
                         name: "FK_followers_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "followings",
+                columns: table => new
+                {
+                    followerId = table.Column<string>(type: "varchar(255)", nullable: false),
+                    followingId = table.Column<string>(type: "varchar(255)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_followings", x => new { x.followerId, x.followingId });
+                    table.ForeignKey(
+                        name: "FK_followings_AspNetUsers_followerId",
+                        column: x => x.followerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_followings_AspNetUsers_followingId",
+                        column: x => x.followingId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -534,8 +559,8 @@ namespace Ecommerce.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "8b5eac06-1298-4b87-81ec-15ccaa448a7f", null, "user", "USER" },
-                    { "8d940222-f22c-4430-9eca-2ffa3ee04491", null, "admin", "ADMIN" }
+                    { "399407b4-1178-4248-a8f6-7bd45467bf03", null, "admin", "ADMIN" },
+                    { "bf40f118-2c85-4d2b-a66d-9264e5d6b709", null, "user", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -599,6 +624,11 @@ namespace Ecommerce.Migrations
                 name: "IX_followers_FollowerId",
                 table: "followers",
                 column: "FollowerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_followings_followingId",
+                table: "followings",
+                column: "followingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_messages_mediaId",
@@ -695,6 +725,9 @@ namespace Ecommerce.Migrations
 
             migrationBuilder.DropTable(
                 name: "followers");
+
+            migrationBuilder.DropTable(
+                name: "followings");
 
             migrationBuilder.DropTable(
                 name: "messages");

@@ -72,6 +72,12 @@ namespace Ecommerce.Extensions
                 .HasMany(f => f.blockedUsers)
                 .WithOne(f => f.user)
                 .HasForeignKey(f => f.userId);
+
+            builder.Entity<Following>(f => f.HasKey(f => new { f.followerId, f.followingId }));
+            builder.Entity<User>()
+                .HasMany(f => f.followings)
+                .WithOne(f => f.follower)
+                .HasForeignKey(f => f.followerId);
         }
     }
 }

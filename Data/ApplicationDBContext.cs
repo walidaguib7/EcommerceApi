@@ -24,6 +24,7 @@ namespace Ecommerce.Data
         public DbSet<Comments> comments { get; set; }
         public DbSet<CommentLikes> commentLikes { get; set; }
         public DbSet<Follower> followers { get; set; }
+        public DbSet<Following> followings { get; set; }
         public DbSet<BlockedUsers> blockedUsers { get; set; }
         public DbSet<Order_Product> order_Products { get; set; }
         public DbSet<Reviews> reviews { get; set; }
