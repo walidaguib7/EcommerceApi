@@ -36,11 +36,22 @@ namespace Ecommerce.Repositories
             
         }
 
-        public Task<Follower> getFollower(string userId, string followerId)
+        public async Task<Follower> getFollower(string userId, string followerId)
         {
+            var key = $"follower_{userId}_{followerId}";
+            var cachedFollower = await cacheService.GetFromCacheAsync<Follower>(key);
+            if(cachedFollower != null)
+            {
+                return cachedFollower;
+            }
             
-            return context.followers.Where(f => f.UserId == userId && f.FollowerId == followerId)
+            var follower = await context.followers
+                .Include(f => f.follower)
+
+                .Where(f => f.UserId == userId && f.FollowerId == followerId)
                 .FirstAsync();
+            await cacheService.SetAsync(key, follower);
+            return follower;
         }
 
         public async Task<ICollection<Follower>> GetFollowers(string userId)
@@ -57,6 +68,19 @@ namespace Ecommerce.Repositories
             await cacheService.SetAsync<ICollection<Follower>>(key, followers);
             return followers;
 
+        }
+
+        public async Task<Following> GetFollowing(string followerId, string followingId)
+        {
+            var key = $"following_{followerId}_{followingId}";
+            var cachedFollowing = await cacheService.GetFromCacheAsync<Following>(key);
+            if (cachedFollowing != null) return cachedFollowing;
+            var followingUser = await context.followings
+                .Include(f => f.following)
+                .Where(f => f.followerId == followerId && f.followingId == followingId)
+                .FirstAsync();
+            await cacheService.SetAsync(key, followingUser);
+            return followingUser;
         }
 
         public async Task<ICollection<Following>> GetFollowings(string followerId)
@@ -83,7 +107,11 @@ namespace Ecommerce.Repositories
             {
                 var user = await context.followers
                                 .Where(f => f.UserId == dto.userId && f.FollowerId == dto.followerId).FirstAsync();
+                var followingUser = await context.followings
+                    .Where(f => f.followerId == dto.followerId && f.followingId == dto.userId)
+                    .FirstAsync();
                 context.followers.Remove(user);
+                context.followings.Remove(followingUser);
                 await context.SaveChangesAsync();
                 return user;
             }

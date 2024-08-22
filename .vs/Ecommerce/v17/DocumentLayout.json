@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:repositories\\followingrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\services\\ifollowing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:services\\ifollowing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\controllers\\followingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:controllers\\followingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -18,8 +22,25 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IFollowing.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Services\\IFollowing.cs",
+              "RelativeDocumentMoniker": "Services\\IFollowing.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Services\\IFollowing.cs",
+              "RelativeToolTip": "Services\\IFollowing.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAABMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-22T04:23:06.012Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -28,27 +49,23 @@
               "RelativeDocumentMoniker": "Repositories\\FollowingRepo.cs",
               "ToolTip": "D:\\AW7\\Ecommerce\\Repositories\\FollowingRepo.cs",
               "RelativeToolTip": "Repositories\\FollowingRepo.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAYwEYAAAAqAAAA",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAgwDYAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-22T03:09:09.052Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "FollowingController.cs",
               "DocumentMoniker": "D:\\AW7\\Ecommerce\\Controllers\\FollowingController.cs",
               "RelativeDocumentMoniker": "Controllers\\FollowingController.cs",
               "ToolTip": "D:\\AW7\\Ecommerce\\Controllers\\FollowingController.cs",
               "RelativeToolTip": "Controllers\\FollowingController.cs",
-              "ViewState": "AQIAAAEAAAAAAAAAAADgvw4AAAAkAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-22T03:06:31.952Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             }
           ]
         }

@@ -32,8 +32,16 @@ namespace Ecommerce.Controllers
             return Ok(following);
         }
 
+        [HttpGet]
+        [Route("follower/{userId}/{followerId}")]
+        public async Task<IActionResult> GetFollower(string userId , string followerId)
+        {
+            var follower = await followingService.getFollower(userId, followerId);
+            return Ok(follower.ToFollowerDto());
+        }
 
-        [HttpPost]
+
+        [HttpPost("Follow")]
         public async Task<IActionResult> FollowUser([FromBody] FollowDto dto)
         {
             try
@@ -45,6 +53,28 @@ namespace Ecommerce.Controllers
                 return BadRequest(
                     new ValidationErrorResponse { Errors = e.Errors.Select(e => e.ErrorMessage) });
             }catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("Unfollow")]
+        public async Task<IActionResult> UnfollowUser([FromBody] FollowDto dto)
+        {
+            try
+            {
+                var result = await followingService.Unfollow(dto);
+                return Ok("Unfollowed Sucessfully");
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValidationErrorResponse
+                {
+                    Errors = e.Errors.Select(e => e.ErrorMessage)
+                }
+                );
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
