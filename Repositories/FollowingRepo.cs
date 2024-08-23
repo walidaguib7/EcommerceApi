@@ -47,7 +47,6 @@ namespace Ecommerce.Repositories
             
             var follower = await context.followers
                 .Include(f => f.follower)
-
                 .Where(f => f.UserId == userId && f.FollowerId == followerId)
                 .FirstAsync();
             await cacheService.SetAsync(key, follower);

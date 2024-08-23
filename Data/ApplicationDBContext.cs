@@ -15,6 +15,7 @@ namespace Ecommerce.Data
 
         }
 
+        public DbSet<Profile> profiles { get; set; }
         public DbSet<Category> categories { get; set; }
         public DbSet<MediaModel> media { get; set; }
         public DbSet<Messages> messages { get; set; }

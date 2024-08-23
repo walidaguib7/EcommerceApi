@@ -24,6 +24,7 @@ namespace Ecommerce.Repositories
 
         public async Task SetAsync<T>(string key, T values)
         {
+            
             var serializedData = JsonConvert.SerializeObject(values);
             var encodedData = Encoding.UTF8.GetBytes(serializedData);
             var options = new DistributedCacheEntryOptions()

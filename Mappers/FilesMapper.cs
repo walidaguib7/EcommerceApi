@@ -10,7 +10,7 @@ namespace Ecommerce.Mappers
             return new MediaModel
             {
                 file = file.file,
-                CreatedAt = new DateOnly()
+                
             };
         }
 

@@ -15,12 +15,23 @@ namespace Ecommerce.Extensions
                   p => p.ToString(),
                   p => Enum.Parse<StatusTypes>(p)
                 );
-
-            ;
+            builder.Entity<Profile>()
+                .Property(p => p.gender)
+                .HasConversion
+                (
+                  p => p.ToString(),
+                  p => Enum.Parse<GenderType>(p)
+                )
+                ;
+                
+            
         }
     
         public static void ConfigRelations(this ModelBuilder builder)
         {
+
+
+
 
             //Comment Likes config
             builder.Entity<CommentLikes>(c => c.HasKey(c => new { c.UserId, c.CommentId }));

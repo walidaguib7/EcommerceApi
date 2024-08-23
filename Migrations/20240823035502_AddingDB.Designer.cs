@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240822023823_AddingSchema")]
-    partial class AddingSchema
+    [Migration("20240823035502_AddingDB")]
+    partial class AddingDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,14 +84,9 @@ namespace Ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("productId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("productId");
 
                     b.ToTable("comments");
                 });
@@ -131,9 +126,6 @@ namespace Ecommerce.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("date");
 
                     b.Property<string>("file")
                         .IsRequired()
@@ -299,6 +291,50 @@ namespace Ecommerce.Migrations
                     b.ToTable("products");
                 });
 
+            modelBuilder.Entity("Ecommerce.Models.Profile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ZipCode")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("city")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("country")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("fileId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("first_name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("gender")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("last_name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("userId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("fileId");
+
+                    b.HasIndex("userId")
+                        .IsUnique();
+
+                    b.ToTable("profiles");
+                });
+
             modelBuilder.Entity("Ecommerce.Models.Reviews", b =>
                 {
                     b.Property<int>("Id")
@@ -381,27 +417,6 @@ namespace Ecommerce.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
-                    b.Property<int?>("ZipCode")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("city")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("country")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("first_name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("gender")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("last_name")
-                        .HasColumnType("longtext");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -464,13 +479,13 @@ namespace Ecommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "399407b4-1178-4248-a8f6-7bd45467bf03",
+                            Id = "00f4e7e5-facc-4729-bdf1-b03a36222680",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "bf40f118-2c85-4d2b-a66d-9264e5d6b709",
+                            Id = "1aa27fc0-88a8-47cd-a78e-e92d34aea7e0",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -624,14 +639,6 @@ namespace Ecommerce.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ecommerce.Models.Products", "product")
-                        .WithMany()
-                        .HasForeignKey("productId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("product");
-
                     b.Navigation("user");
                 });
 
@@ -768,6 +775,23 @@ namespace Ecommerce.Migrations
                     b.Navigation("file");
                 });
 
+            modelBuilder.Entity("Ecommerce.Models.Profile", b =>
+                {
+                    b.HasOne("Ecommerce.Models.MediaModel", "file")
+                        .WithMany()
+                        .HasForeignKey("fileId");
+
+                    b.HasOne("Ecommerce.Models.User", "user")
+                        .WithOne("profile")
+                        .HasForeignKey("Ecommerce.Models.Profile", "userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("file");
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("Ecommerce.Models.Reviews", b =>
                 {
                     b.HasOne("Ecommerce.Models.Products", "Product")
@@ -902,6 +926,9 @@ namespace Ecommerce.Migrations
                     b.Navigation("orders");
 
                     b.Navigation("payments");
+
+                    b.Navigation("profile")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

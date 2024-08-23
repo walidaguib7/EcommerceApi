@@ -2,6 +2,7 @@
 using Ecommerce.Dtos.Category;
 using Ecommerce.Dtos.Followers;
 using Ecommerce.Dtos.Media;
+using Ecommerce.Dtos.Profiles;
 using Ecommerce.Dtos.User;
 using Ecommerce.Models;
 using Ecommerce.Repositories;
@@ -9,6 +10,7 @@ using Ecommerce.Services;
 using Ecommerce.Validations.Category;
 using Ecommerce.Validations.Following;
 using Ecommerce.Validations.Media;
+using Ecommerce.Validations.Profile;
 using Ecommerce.Validations.User;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,13 +35,22 @@ namespace Ecommerce.Extensions
             services.AddScoped<IMessages, MessagesRepo>();
             services.AddScoped<IFollowing, FollowingRepo>();
             services.AddTransient<ICache, CacheRepo>();
+            services.AddScoped<IProfiles, ProfilesRepo>();
 
+
+        }
+
+        public static void AddValidationServices(this IServiceCollection services)
+        {
             services.AddKeyedScoped<IValidator<RegisterDto>, RegisterValidation>("register");
             services.AddKeyedScoped<IValidator<LoginDto>, LoginValidation>("login");
 
             services.AddKeyedScoped<IValidator<CreateCategoryDto>, CategoryValidation>("category");
             services.AddKeyedScoped<IValidator<CreateFile>, MediaValidation>("media");
             services.AddKeyedScoped<IValidator<FollowDto>, FollowingValidation>("following");
+
+            services.AddKeyedScoped<IValidator<CreateProfileDto>, ProfileValidation>("createProfile");
+            services.AddKeyedScoped<IValidator<UpdateProfileDto>,UpdateProfileValidation>("updateProfile");
         }
 
         public static void AddCustomAuth(this IServiceCollection services ,WebApplicationBuilder builder)
@@ -90,7 +101,7 @@ namespace Ecommerce.Extensions
                 options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
         }
-
+        
         public static void AddRedisDB(this IServiceCollection services, WebApplicationBuilder builder)
         {
             services.AddStackExchangeRedisCache(opt =>

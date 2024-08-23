@@ -10,6 +10,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDB(builder);
 builder.Services.AddCustomServices();
+builder.Services.AddValidationServices();
 builder.Services.AddCustomAuth(builder);
 builder.Services.AddCustomIdentity();
 
