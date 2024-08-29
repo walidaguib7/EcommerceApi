@@ -3,6 +3,7 @@ using Ecommerce.Helpers;
 using Ecommerce.Mappers;
 using Ecommerce.Services;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,10 +26,11 @@ namespace Ecommerce.Controllers
                 if (user == null) return BadRequest("User credentials are invalid!");
                 return Created();
             }
-            catch (ValidationException e) { 
-             
+            catch (ValidationException e)
+            {
+
                 return BadRequest(new ValidationErrorResponse { Errors = e.Errors.Select(e => e.ErrorMessage) });
-            
+
             }
             catch (Exception e)
             {
@@ -47,10 +49,12 @@ namespace Ecommerce.Controllers
                 var user = await _userRepo.login(dto);
                 if (user == null) return NotFound();
                 return Ok(user);
-            }catch(ValidationException e)
+            }
+            catch (ValidationException e)
             {
                 return BadRequest(new ValidationErrorResponse { Errors = e.Errors.Select(e => e.ErrorMessage) });
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }

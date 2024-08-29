@@ -1,10 +1,12 @@
 using Ecommerce.Extensions;
 using Microsoft.Extensions.FileProviders;
-using static System.Net.Mime.MediaTypeNames;
+
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

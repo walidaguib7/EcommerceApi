@@ -9,8 +9,9 @@ namespace Ecommerce.Mappers
         {
             return new User
             {
-                Email = dto.email ,
-                UserName = dto.username
+                Email = dto.email,
+                UserName = dto.username,
+
             };
         }
     }

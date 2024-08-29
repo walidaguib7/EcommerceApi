@@ -38,7 +38,7 @@ namespace Ecommerce.Repositories
             {
                 throw new Exception("file Not Found!");
             }
-            var AllowedExtensions = new List<string> { ".jpg", ".jpeg", ".png" };
+            var AllowedExtensions = new List<string> { ".jpg", ".jpeg", ".png",".jfif" };
             var extension = Path.GetExtension(file.FileName).ToLower();
             if (!AllowedExtensions.Contains(extension))
             {

@@ -6,6 +6,6 @@ namespace Ecommerce.Dtos.Followers
     {
         public string followerId { get; set; }
         public string UserName { get; set; }
-        //public string ProfilePicture { get; set; }
+        public string? ProfilePicture { get; set; }
     }
 }

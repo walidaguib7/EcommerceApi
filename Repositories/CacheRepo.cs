@@ -2,6 +2,7 @@
 using Ecommerce.Services;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Text;
 
 namespace Ecommerce.Repositories
@@ -10,7 +11,7 @@ namespace Ecommerce.Repositories
     {
         private readonly IDistributedCache cache = _cache;
 
-        public async Task<T> GetFromCacheAsync<T>(string key)
+        public async Task<T?> GetFromCacheAsync<T>(string key)
         {
             var cachedData = await cache.GetAsync(key);
             if (cachedData == null)
@@ -19,20 +20,31 @@ namespace Ecommerce.Repositories
             }
 
             var decodedData = Encoding.UTF8.GetString(cachedData);
-            return JsonConvert.DeserializeObject<T>(decodedData);
+            return JsonConvert.DeserializeObject<T>(decodedData, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            });
         }
 
         public async Task SetAsync<T>(string key, T values)
         {
-            
-            var serializedData = JsonConvert.SerializeObject(values);
+            var serializedData = JsonConvert.SerializeObject(values, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            });
             var encodedData = Encoding.UTF8.GetBytes(serializedData);
+
             var options = new DistributedCacheEntryOptions()
-                .SetAbsoluteExpiration(DateTimeOffset.UtcNow.AddSeconds(30)); // Adjust expiration as needed
-            await cache.SetAsync(key, encodedData, options);
+                .SetAbsoluteExpiration(DateTimeOffset.UtcNow.AddSeconds(30));
+
+            // Convert the byte array back to a string
+            var encodedString = Encoding.UTF8.GetString(encodedData);
+
+            // Set the string data asynchronously
+            await cache.SetStringAsync(key, encodedString, options);
         }
 
-        
+
 
 
 

@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace Ecommerce.Repositories
 {
     public class FollowingRepo(
-        ApplicationDBContext _context ,
+        ApplicationDBContext _context,
         [FromKeyedServices("following")] IValidator<FollowDto> _validator,
         ICache _cacheService
         ) : IFollowing
@@ -31,22 +31,23 @@ namespace Ecommerce.Repositories
             }
             else
             {
-                 throw new ValidationException(result.Errors);
+                throw new ValidationException(result.Errors);
             }
-            
+
         }
 
         public async Task<Follower> getFollower(string userId, string followerId)
         {
             var key = $"follower_{userId}_{followerId}";
             var cachedFollower = await cacheService.GetFromCacheAsync<Follower>(key);
-            if(cachedFollower != null)
+            if (cachedFollower != null)
             {
                 return cachedFollower;
             }
-            
+
             var follower = await context.followers
                 .Include(f => f.follower)
+                .Include(f => f.follower.Profile)
                 .Where(f => f.UserId == userId && f.FollowerId == followerId)
                 .FirstAsync();
             await cacheService.SetAsync(key, follower);
@@ -57,12 +58,13 @@ namespace Ecommerce.Repositories
         {
             var key = $"followers_{userId}";
             var CachedFollowers = await cacheService.GetFromCacheAsync<ICollection<Follower>>(key);
-            if(!CachedFollowers.IsNullOrEmpty())
+            if (!CachedFollowers.IsNullOrEmpty())
             {
                 return CachedFollowers;
             }
             var followers = await context.followers
                 .Include(f => f.follower)
+                .Include(f => f.follower.Profile)
                 .Where(f => f.UserId == userId).ToListAsync();
             await cacheService.SetAsync<ICollection<Follower>>(key, followers);
             return followers;
@@ -76,6 +78,7 @@ namespace Ecommerce.Repositories
             if (cachedFollowing != null) return cachedFollowing;
             var followingUser = await context.followings
                 .Include(f => f.following)
+                .Include(f => f.follower.Profile)
                 .Where(f => f.followerId == followerId && f.followingId == followingId)
                 .FirstAsync();
             await cacheService.SetAsync(key, followingUser);
@@ -92,14 +95,15 @@ namespace Ecommerce.Repositories
             }
             var followings = await context.followings
                 .Include(f => f.following)
-                
+
                 .Where(f => f.followerId == followerId).ToListAsync();
 
             await cacheService.SetAsync(key, followings);
             return followings;
-         }
+        }
 
-        public async Task<Follower> Unfollow(FollowDto dto) {
+        public async Task<Follower> Unfollow(FollowDto dto)
+        {
 
             var result = validator.Validate(dto);
             if (result.IsValid)
@@ -119,7 +123,7 @@ namespace Ecommerce.Repositories
                 throw new ValidationException(result.Errors);
             }
 
-            
+
         }
     }
 }

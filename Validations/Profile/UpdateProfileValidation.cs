@@ -1,4 +1,8 @@
-﻿using Ecommerce.Dtos.Profiles;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Ecommerce.Dtos.Profile;
 using FluentValidation;
 
 namespace Ecommerce.Validations.Profile
@@ -8,22 +12,13 @@ namespace Ecommerce.Validations.Profile
         public UpdateProfileValidation()
         {
             RuleFor(p => p.first_name)
-               .NotNull().NotEmpty()
-               .WithMessage("First name shouldn't be null or empty");
+                .NotEmpty().NotNull();
             RuleFor(p => p.last_name)
-                .NotNull().NotEmpty()
-                .WithMessage("Last name shouldn't be null or empty");
+                .NotEmpty().NotNull();
             RuleFor(p => p.age)
-                .GreaterThan(15).NotNull()
-                .WithMessage("user age should be above of 15");
-            RuleFor(p => p.country)
-                .NotNull().NotEmpty();
-            RuleFor(p => p.city)
-                .NotNull().NotEmpty();
-            RuleFor(p => p.ZipCode)
-                .NotNull().GreaterThan(0);
+                .NotNull().GreaterThan(14);
             RuleFor(p => p.fileId)
-                .NotNull().GreaterThan(0);
+                .GreaterThan(0).NotNull();
         }
     }
 }

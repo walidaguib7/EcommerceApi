@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Ecommerce.Migrations
 {
     /// <inheritdoc />
-    public partial class AddingDB : Migration
+    public partial class addingDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,6 +37,7 @@ namespace Ecommerce.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    ProfileId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
@@ -378,14 +379,14 @@ namespace Ecommerce.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    first_name = table.Column<string>(type: "longtext", nullable: true),
-                    last_name = table.Column<string>(type: "longtext", nullable: true),
-                    gender = table.Column<string>(type: "longtext", nullable: true),
-                    age = table.Column<int>(type: "int", nullable: true),
+                    first_name = table.Column<string>(type: "longtext", nullable: false),
+                    last_name = table.Column<string>(type: "longtext", nullable: false),
+                    Gender = table.Column<string>(type: "longtext", nullable: false),
+                    age = table.Column<int>(type: "int", nullable: false),
                     country = table.Column<string>(type: "longtext", nullable: true),
                     city = table.Column<string>(type: "longtext", nullable: true),
                     ZipCode = table.Column<int>(type: "int", nullable: true),
-                    fileId = table.Column<int>(type: "int", nullable: true),
+                    fileId = table.Column<int>(type: "int", nullable: false),
                     userId = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
@@ -401,7 +402,8 @@ namespace Ecommerce.Migrations
                         name: "FK_profiles_media_fileId",
                         column: x => x.fileId,
                         principalTable: "media",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -577,8 +579,8 @@ namespace Ecommerce.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "00f4e7e5-facc-4729-bdf1-b03a36222680", null, "admin", "ADMIN" },
-                    { "1aa27fc0-88a8-47cd-a78e-e92d34aea7e0", null, "user", "USER" }
+                    { "30bb59bc-d787-4e9e-bf95-06219f20ef57", null, "user", "USER" },
+                    { "6e46da17-93af-4830-b3b7-3b1f6808174b", null, "admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

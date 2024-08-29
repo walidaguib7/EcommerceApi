@@ -15,7 +15,7 @@ namespace Ecommerce.Data
 
         }
 
-        public DbSet<Profile> profiles { get; set; }
+        public DbSet<Profiles> profiles { get; set; }
         public DbSet<Category> categories { get; set; }
         public DbSet<MediaModel> media { get; set; }
         public DbSet<Messages> messages { get; set; }
@@ -51,13 +51,20 @@ namespace Ecommerce.Data
             ];
             builder.Entity<IdentityRole>().HasData(roles);
 
-            builder.ConfigEnums();
+            builder.Entity<Payments>()
+                .Property(p => p.Status)
+                .HasConversion<string>();
+
+            builder.Entity<Profiles>()
+            .Property(p => p.Gender)
+            .HasConversion<string>();
+
 
             builder.ConfigRelations();
 
-           
 
-            
+
+
         }
     }
 }

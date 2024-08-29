@@ -1,43 +1,45 @@
-﻿using Ecommerce.Dtos.Profiles;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Ecommerce.Dtos.Profile;
 using Ecommerce.Models;
 
 namespace Ecommerce.Mappers
 {
     public static class ProfileMapper
     {
-        public static Profile ToProfileModel(this CreateProfileDto dto)
+        public static Profiles ToModel(this CreateProfileDto dto)
         {
-            return new Profile
+            return new Profiles
             {
                 first_name = dto.first_name,
                 last_name = dto.last_name,
-                gender = dto.gender,
-                ZipCode = dto.ZipCode,
+                Gender = dto.Gender,
                 age = dto.age,
-                city = dto.city,
                 country = dto.country,
-                userId = dto.userId,
-                fileId = dto.fileId
+                city = dto.city,
+                ZipCode = dto.ZipCode,
+                fileId = dto.fileId == null ? 1 : dto.fileId,
+                userId = dto.userId
             };
         }
 
-        public static ProfileDto ToProfileDto(this Profile profile)
+        public static ProfileDto ToDto(this Profiles profile)
         {
             return new ProfileDto
             {
                 Id = profile.Id,
                 first_name = profile.first_name,
                 last_name = profile.last_name,
-                username = profile.user.UserName,
-               email = profile.user.Email,
                 age = profile.age,
-                gender = profile.gender.Value,
-                city = profile.city,
+                Gender = profile.Gender,
                 country = profile.country,
-                ZipCode = profile.ZipCode,
+                city = profile.city,
                 fileId = profile.fileId,
-                userId = profile.userId,
-                ProfilePicture = profile.file.file,
+                ZipCode = profile.ZipCode,
+                Image = profile.file.file,
+                userId = profile.userId
 
             };
         }

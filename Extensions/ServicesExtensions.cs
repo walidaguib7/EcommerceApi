@@ -1,12 +1,14 @@
 ﻿using Ecommerce.Data;
+using Ecommerce.Dtos.Blocking;
 using Ecommerce.Dtos.Category;
 using Ecommerce.Dtos.Followers;
 using Ecommerce.Dtos.Media;
-using Ecommerce.Dtos.Profiles;
+using Ecommerce.Dtos.Profile;
 using Ecommerce.Dtos.User;
 using Ecommerce.Models;
 using Ecommerce.Repositories;
 using Ecommerce.Services;
+using Ecommerce.Validations.Blocking;
 using Ecommerce.Validations.Category;
 using Ecommerce.Validations.Following;
 using Ecommerce.Validations.Media;
@@ -24,20 +26,16 @@ namespace Ecommerce.Extensions
     {
         public static void AddCustomServices(this IServiceCollection services)
         {
-            services.AddDistributedMemoryCache(
-                
-                );
-
-            services.AddScoped<IUser,UserRepo>();
+            services.AddDistributedMemoryCache();
+            services.AddScoped<IUser, UserRepo>();
             services.AddSingleton<IToken, TokenRepo>();
             services.AddScoped<ICategory, CategoryRepo>();
             services.AddTransient<IMedia, MediaRepo>();
             services.AddScoped<IMessages, MessagesRepo>();
             services.AddScoped<IFollowing, FollowingRepo>();
             services.AddTransient<ICache, CacheRepo>();
-            services.AddScoped<IProfiles, ProfilesRepo>();
-
-
+            services.AddScoped<IBlocking, blockingRepo>();
+            services.AddScoped<IProfile, ProfilesRepo>();
         }
 
         public static void AddValidationServices(this IServiceCollection services)
@@ -48,12 +46,12 @@ namespace Ecommerce.Extensions
             services.AddKeyedScoped<IValidator<CreateCategoryDto>, CategoryValidation>("category");
             services.AddKeyedScoped<IValidator<CreateFile>, MediaValidation>("media");
             services.AddKeyedScoped<IValidator<FollowDto>, FollowingValidation>("following");
-
-            services.AddKeyedScoped<IValidator<CreateProfileDto>, ProfileValidation>("createProfile");
-            services.AddKeyedScoped<IValidator<UpdateProfileDto>,UpdateProfileValidation>("updateProfile");
+            services.AddKeyedScoped<IValidator<BlockUserDto>, BlockingValidation>("blocking");
+            services.AddKeyedScoped<IValidator<CreateProfileDto>, CreateProfileValidation>("createProfile");
+            services.AddKeyedScoped<IValidator<UpdateProfileDto>, UpdateProfileValidation>("UpdateProfile");
         }
 
-        public static void AddCustomAuth(this IServiceCollection services ,WebApplicationBuilder builder)
+        public static void AddCustomAuth(this IServiceCollection services, WebApplicationBuilder builder)
         {
             services.AddAuthentication(options =>
             {
@@ -67,22 +65,22 @@ namespace Ecommerce.Extensions
             })
                 .AddJwtBearer(options =>
             {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
 
-            ValidateIssuer = true,
-            ValidIssuer = builder.Configuration["JWT:Issuer"],
-            ValidateAudience = true,
-            ValidAudience = builder.Configuration["JWT:Audience"],
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(
-                System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SignInKey"]))
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration["JWT:Issuer"],
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["JWT:Audience"],
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SignInKey"]))
 
 
-        };
-        });
+                };
+            });
         }
-    
+
         public static void AddCustomIdentity(this IServiceCollection services)
         {
             services.AddIdentity<User, IdentityRole>(options =>
@@ -93,15 +91,15 @@ namespace Ecommerce.Extensions
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<ApplicationDBContext>();
         }
-    
-        public static void AddDB(this IServiceCollection services , WebApplicationBuilder builder)
+
+        public static void AddDB(this IServiceCollection services, WebApplicationBuilder builder)
         {
             services.AddDbContext<ApplicationDBContext>(options =>
             {
                 options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
         }
-        
+
         public static void AddRedisDB(this IServiceCollection services, WebApplicationBuilder builder)
         {
             services.AddStackExchangeRedisCache(opt =>
@@ -111,7 +109,7 @@ namespace Ecommerce.Extensions
                 opt.InstanceName = "instance";
             });
 
-            
+
 
         }
     }

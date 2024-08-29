@@ -288,16 +288,20 @@ namespace Ecommerce.Migrations
                     b.ToTable("products");
                 });
 
-            modelBuilder.Entity("Ecommerce.Models.Profile", b =>
+            modelBuilder.Entity("Ecommerce.Models.Profiles", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("ZipCode")
                         .HasColumnType("int");
 
-                    b.Property<int?>("age")
+                    b.Property<int>("age")
                         .HasColumnType("int");
 
                     b.Property<string>("city")
@@ -306,16 +310,15 @@ namespace Ecommerce.Migrations
                     b.Property<string>("country")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("fileId")
+                    b.Property<int>("fileId")
                         .HasColumnType("int");
 
                     b.Property<string>("first_name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("gender")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("last_name")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("userId")
@@ -404,6 +407,9 @@ namespace Ecommerce.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int?>("ProfileId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
 
@@ -476,13 +482,13 @@ namespace Ecommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d07dce84-8634-4af9-b895-173deefd5373",
+                            Id = "8f817e23-87b9-4d42-aee9-ecab0a260e2f",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "13777bc8-1c51-4759-8e23-14a2714030ac",
+                            Id = "28604124-2a1b-4bf2-b45b-82a4b1dca9f1",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -772,15 +778,17 @@ namespace Ecommerce.Migrations
                     b.Navigation("file");
                 });
 
-            modelBuilder.Entity("Ecommerce.Models.Profile", b =>
+            modelBuilder.Entity("Ecommerce.Models.Profiles", b =>
                 {
                     b.HasOne("Ecommerce.Models.MediaModel", "file")
                         .WithMany()
-                        .HasForeignKey("fileId");
+                        .HasForeignKey("fileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Ecommerce.Models.User", "user")
-                        .WithOne("profile")
-                        .HasForeignKey("Ecommerce.Models.Profile", "userId")
+                        .WithOne("Profile")
+                        .HasForeignKey("Ecommerce.Models.Profiles", "userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -912,6 +920,9 @@ namespace Ecommerce.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.User", b =>
                 {
+                    b.Navigation("Profile")
+                        .IsRequired();
+
                     b.Navigation("blockedUsers");
 
                     b.Navigation("commentLikes");
@@ -923,8 +934,6 @@ namespace Ecommerce.Migrations
                     b.Navigation("orders");
 
                     b.Navigation("payments");
-
-                    b.Navigation("profile");
                 });
 #pragma warning restore 612, 618
         }

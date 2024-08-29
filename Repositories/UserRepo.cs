@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Ecommerce.Repositories
 {
     public class UserRepo(
-        UserManager<User> _manager ,
-        SignInManager<User> _signin ,
+        UserManager<User> _manager,
+        SignInManager<User> _signin,
         [FromKeyedServices("register")] IValidator<RegisterDto> RegisterValidator,
         [FromKeyedServices("login")] IValidator<LoginDto> LoginValidator,
         IToken tokenService
@@ -27,10 +27,11 @@ namespace Ecommerce.Repositories
             if (result.IsValid)
             {
                 var user = dto.toUser();
+
                 var model = await manager.CreateAsync(user, dto.password);
                 if (model.Succeeded)
                 {
-                    if(dto.isAdmin == true)
+                    if (dto.isAdmin == true)
                     {
                         await manager.AddToRoleAsync(user, "admin");
                     }
@@ -54,10 +55,10 @@ namespace Ecommerce.Repositories
             if (result.IsValid)
             {
                 var user = await manager.Users
-                    
+
                     .FirstOrDefaultAsync(u => u.UserName == dto.username);
                 if (user == null) return null;
-                var status = await signInManager.CheckPasswordSignInAsync(user,dto.password,false);
+                var status = await signInManager.CheckPasswordSignInAsync(user, dto.password, false);
                 if (status.Succeeded)
                 {
                     return new NewUser { Id = user.Id, token = _tokenService.createToken(user) };

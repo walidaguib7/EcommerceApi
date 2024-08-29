@@ -19,7 +19,9 @@ namespace Ecommerce.Mappers
             return new FollowerDto
             {
                 followerId = follower.FollowerId,
-                UserName = follower.follower.UserName,
+                UserName = follower.follower.UserName
+
+
             };
         }
         public static FollowingDto ToFollowingDto(this Following following)
@@ -27,8 +29,10 @@ namespace Ecommerce.Mappers
             return new FollowingDto
             {
                 followingId = following.followingId,
-                username = following.following.UserName
-                
+                username = following.following.UserName,
+
+
+
             };
         }
     }

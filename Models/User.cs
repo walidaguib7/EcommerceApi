@@ -5,7 +5,8 @@ namespace Ecommerce.Models
 {
     public class User : IdentityUser
     {
-        public Profile? profile { get; set; }
+        public int? ProfileId { get; set; }
+        public Profiles Profile { get; set; }
         public ICollection<Orders> orders { get; set; } = [];
         public ICollection<CommentLikes> commentLikes { get; set; } = [];
         public ICollection<Payments> payments { get; set; } = [];

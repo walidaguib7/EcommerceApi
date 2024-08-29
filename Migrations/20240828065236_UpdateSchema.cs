@@ -7,7 +7,7 @@
 namespace Ecommerce.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateprofileSchema : Migration
+    public partial class UpdateSchema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,20 +15,20 @@ namespace Ecommerce.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "00f4e7e5-facc-4729-bdf1-b03a36222680");
+                keyValue: "30bb59bc-d787-4e9e-bf95-06219f20ef57");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "1aa27fc0-88a8-47cd-a78e-e92d34aea7e0");
+                keyValue: "6e46da17-93af-4830-b3b7-3b1f6808174b");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "13777bc8-1c51-4759-8e23-14a2714030ac", null, "user", "USER" },
-                    { "d07dce84-8634-4af9-b895-173deefd5373", null, "admin", "ADMIN" }
+                    { "28604124-2a1b-4bf2-b45b-82a4b1dca9f1", null, "user", "USER" },
+                    { "8f817e23-87b9-4d42-aee9-ecab0a260e2f", null, "admin", "ADMIN" }
                 });
         }
 
@@ -38,20 +38,20 @@ namespace Ecommerce.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "13777bc8-1c51-4759-8e23-14a2714030ac");
+                keyValue: "28604124-2a1b-4bf2-b45b-82a4b1dca9f1");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "d07dce84-8634-4af9-b895-173deefd5373");
+                keyValue: "8f817e23-87b9-4d42-aee9-ecab0a260e2f");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "00f4e7e5-facc-4729-bdf1-b03a36222680", null, "admin", "ADMIN" },
-                    { "1aa27fc0-88a8-47cd-a78e-e92d34aea7e0", null, "user", "USER" }
+                    { "30bb59bc-d787-4e9e-bf95-06219f20ef57", null, "user", "USER" },
+                    { "6e46da17-93af-4830-b3b7-3b1f6808174b", null, "admin", "ADMIN" }
                 });
         }
     }

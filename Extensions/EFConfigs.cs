@@ -6,31 +6,14 @@ namespace Ecommerce.Extensions
 {
     public static class EFConfigs
     {
-        public static void ConfigEnums(this ModelBuilder builder)
-        {
-            builder.Entity<Payments>()
-                .Property(p => p.Status)
-                .HasConversion
-                (
-                  p => p.ToString(),
-                  p => Enum.Parse<StatusTypes>(p)
-                );
-            builder.Entity<Profile>()
-                .Property(p => p.gender)
-                .HasConversion
-                (
-                  p => p.ToString(),
-                  p => Enum.Parse<GenderType>(p)
-                )
-                ;
-                
-            
-        }
-    
         public static void ConfigRelations(this ModelBuilder builder)
         {
 
-
+            builder.Entity<User>()
+            .HasOne(u => u.Profile)
+            .WithOne(u => u.user)
+            .HasForeignKey<Profiles>(u => u.userId)
+            .IsRequired();
 
 
             //Comment Likes config

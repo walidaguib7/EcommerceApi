@@ -1,0 +1,109 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\AW7\\Ecommerce\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\repositories\\profilesrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:repositories\\profilesrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\controllers\\profilescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:controllers\\profilescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\repositories\\cacherepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:repositories\\cacherepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\services\\icache.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:services\\icache.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|d:\\aw7\\ecommerce\\repositories\\followingrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{316F707B-DE01-4F93-B79B-AF8340E21AA5}|Ecommerce.csproj|solutionrelative:repositories\\followingrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ICache.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Services\\ICache.cs",
+              "RelativeDocumentMoniker": "Services\\ICache.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Services\\ICache.cs",
+              "RelativeToolTip": "Services\\ICache.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAQAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-23T23:47:08.736Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProfilesRepo.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Repositories\\ProfilesRepo.cs",
+              "RelativeDocumentMoniker": "Repositories\\ProfilesRepo.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Repositories\\ProfilesRepo.cs",
+              "RelativeToolTip": "Repositories\\ProfilesRepo.cs",
+              "ViewState": "AQIAACUAAAAAAAAAAAAowDIAAAA/AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-23T23:44:22.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProfilesController.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Controllers\\ProfilesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProfilesController.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Controllers\\ProfilesController.cs",
+              "RelativeToolTip": "Controllers\\ProfilesController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-23T23:29:13.319Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CacheRepo.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Repositories\\CacheRepo.cs",
+              "RelativeDocumentMoniker": "Repositories\\CacheRepo.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Repositories\\CacheRepo.cs",
+              "RelativeToolTip": "Repositories\\CacheRepo.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAYwBEAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-23T04:11:53.956Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FollowingRepo.cs",
+              "DocumentMoniker": "D:\\AW7\\Ecommerce\\Repositories\\FollowingRepo.cs",
+              "RelativeDocumentMoniker": "Repositories\\FollowingRepo.cs",
+              "ToolTip": "D:\\AW7\\Ecommerce\\Repositories\\FollowingRepo.cs",
+              "RelativeToolTip": "Repositories\\FollowingRepo.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAADMAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-23T04:09:16.215Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240823035502_AddingDB")]
-    partial class AddingDB
+    [Migration("20240828065236_UpdateSchema")]
+    partial class UpdateSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -291,16 +291,20 @@ namespace Ecommerce.Migrations
                     b.ToTable("products");
                 });
 
-            modelBuilder.Entity("Ecommerce.Models.Profile", b =>
+            modelBuilder.Entity("Ecommerce.Models.Profiles", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("ZipCode")
                         .HasColumnType("int");
 
-                    b.Property<int?>("age")
+                    b.Property<int>("age")
                         .HasColumnType("int");
 
                     b.Property<string>("city")
@@ -309,16 +313,15 @@ namespace Ecommerce.Migrations
                     b.Property<string>("country")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("fileId")
+                    b.Property<int>("fileId")
                         .HasColumnType("int");
 
                     b.Property<string>("first_name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("gender")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("last_name")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("userId")
@@ -407,6 +410,9 @@ namespace Ecommerce.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int?>("ProfileId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
 
@@ -479,13 +485,13 @@ namespace Ecommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "00f4e7e5-facc-4729-bdf1-b03a36222680",
+                            Id = "8f817e23-87b9-4d42-aee9-ecab0a260e2f",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1aa27fc0-88a8-47cd-a78e-e92d34aea7e0",
+                            Id = "28604124-2a1b-4bf2-b45b-82a4b1dca9f1",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -775,15 +781,17 @@ namespace Ecommerce.Migrations
                     b.Navigation("file");
                 });
 
-            modelBuilder.Entity("Ecommerce.Models.Profile", b =>
+            modelBuilder.Entity("Ecommerce.Models.Profiles", b =>
                 {
                     b.HasOne("Ecommerce.Models.MediaModel", "file")
                         .WithMany()
-                        .HasForeignKey("fileId");
+                        .HasForeignKey("fileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Ecommerce.Models.User", "user")
-                        .WithOne("profile")
-                        .HasForeignKey("Ecommerce.Models.Profile", "userId")
+                        .WithOne("Profile")
+                        .HasForeignKey("Ecommerce.Models.Profiles", "userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -915,6 +923,9 @@ namespace Ecommerce.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.User", b =>
                 {
+                    b.Navigation("Profile")
+                        .IsRequired();
+
                     b.Navigation("blockedUsers");
 
                     b.Navigation("commentLikes");
@@ -926,9 +937,6 @@ namespace Ecommerce.Migrations
                     b.Navigation("orders");
 
                     b.Navigation("payments");
-
-                    b.Navigation("profile")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
