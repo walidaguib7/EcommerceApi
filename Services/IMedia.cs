@@ -8,5 +8,7 @@ namespace Ecommerce.Services
         public Task<MediaModel> CreateMediaFile(CreateFile file);
 
         public Task<string> UploadImage(IFormFile file);
+
+        public Task<List<string>> UploadProductFiles(IFormCollection files);
     }
 }

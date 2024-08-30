@@ -10,7 +10,7 @@ namespace Ecommerce.Repositories
     public class MediaRepo
         (
         ApplicationDBContext _context,
-        [FromKeyedServices("media")] IValidator<CreateFile> _validator 
+        [FromKeyedServices("media")] IValidator<CreateFile> _validator
         ) : IMedia
     {
 
@@ -26,7 +26,8 @@ namespace Ecommerce.Repositories
                 await context.media.AddAsync(model);
                 await context.SaveChangesAsync();
                 return model;
-            }else
+            }
+            else
             {
                 throw new ValidationException(result.Errors);
             }
@@ -38,7 +39,7 @@ namespace Ecommerce.Repositories
             {
                 throw new Exception("file Not Found!");
             }
-            var AllowedExtensions = new List<string> { ".jpg", ".jpeg", ".png",".jfif" };
+            var AllowedExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".jfif" };
             var extension = Path.GetExtension(file.FileName).ToLower();
             if (!AllowedExtensions.Contains(extension))
             {
@@ -63,6 +64,11 @@ namespace Ecommerce.Repositories
             }
 
             return uniqueFileName;
+        }
+
+        public Task<List<string>> UploadProductFiles(IFormCollection files)
+        {
+            throw new NotImplementedException();
         }
     }
 }

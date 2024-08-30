@@ -3,6 +3,7 @@ using Ecommerce.Dtos.Blocking;
 using Ecommerce.Dtos.Category;
 using Ecommerce.Dtos.Followers;
 using Ecommerce.Dtos.Media;
+using Ecommerce.Dtos.Products;
 using Ecommerce.Dtos.Profile;
 using Ecommerce.Dtos.User;
 using Ecommerce.Models;
@@ -12,6 +13,7 @@ using Ecommerce.Validations.Blocking;
 using Ecommerce.Validations.Category;
 using Ecommerce.Validations.Following;
 using Ecommerce.Validations.Media;
+using Ecommerce.Validations.Products;
 using Ecommerce.Validations.Profile;
 using Ecommerce.Validations.User;
 using FluentValidation;
@@ -36,6 +38,7 @@ namespace Ecommerce.Extensions
             services.AddTransient<ICache, CacheRepo>();
             services.AddScoped<IBlocking, blockingRepo>();
             services.AddScoped<IProfile, ProfilesRepo>();
+            services.AddTransient<IProduct, ProductsRepo>();
         }
 
         public static void AddValidationServices(this IServiceCollection services)
@@ -49,6 +52,8 @@ namespace Ecommerce.Extensions
             services.AddKeyedScoped<IValidator<BlockUserDto>, BlockingValidation>("blocking");
             services.AddKeyedScoped<IValidator<CreateProfileDto>, CreateProfileValidation>("createProfile");
             services.AddKeyedScoped<IValidator<UpdateProfileDto>, UpdateProfileValidation>("UpdateProfile");
+            services.AddKeyedScoped<IValidator<CreateProductDto>, CreateProductValidation>("createProduct");
+            services.AddKeyedScoped<IValidator<UpdateProductDto>, UpdateProductValidation>("updateProduct");
         }
 
         public static void AddCustomAuth(this IServiceCollection services, WebApplicationBuilder builder)

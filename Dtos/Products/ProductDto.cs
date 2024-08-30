@@ -1,6 +1,11 @@
-﻿namespace Ecommerce.Models
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Ecommerce.Dtos.Products
 {
-    public class Products
+    public class ProductDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -9,10 +14,6 @@
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdateAt { get; set; }
         public string userId { get; set; }
-        public User user { get; set; }
-        public IEnumerable<Order_Product> order_Products { get; set; } = [];
-
-
-        public IEnumerable<ProductFiles> productFiles { get; set; } = [];
+        public string UserName { get; set; }
     }
 }

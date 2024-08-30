@@ -1,7 +1,7 @@
 using Ecommerce.Extensions;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Models;
 
-using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +10,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddDB(builder);
 builder.Services.AddCustomServices();
 builder.Services.AddValidationServices();
 builder.Services.AddCustomAuth(builder);
 builder.Services.AddCustomIdentity();
+
 
 builder.Services.AddDirectoryBrowser();
 
@@ -47,9 +49,11 @@ app.UseDirectoryBrowser(new DirectoryBrowserOptions
 
 app.UseHttpsRedirection();
 
+app.UseAuthorization();
+
 app.UseAuthentication();
 
-app.UseAuthorization();
+
 
 app.MapControllers();
 
