@@ -2,7 +2,7 @@
 using Ecommerce.Dtos.Blocking;
 using Ecommerce.Dtos.Category;
 using Ecommerce.Dtos.Followers;
-using Ecommerce.Dtos.Media;
+using Ecommerce.Dtos.MediaDtos;
 using Ecommerce.Dtos.Products;
 using Ecommerce.Dtos.Profile;
 using Ecommerce.Dtos.User;

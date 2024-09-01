@@ -21,13 +21,14 @@ namespace Ecommerce.Controllers
             {
                 var resource = await media.UploadImage(file);
                 if (resource == null) return NotFound();
-                var model = await media.CreateMediaFile(new Dtos.Media.CreateFile { file = resource });
+                var model = await media.CreateMediaFile(new Dtos.MediaDtos.CreateFile { file = resource });
                 return Ok(model.ToFileDto());
             }
-            catch(ValidationException e)
+            catch (ValidationException e)
             {
                 return BadRequest(new ValidationErrorResponse { Errors = e.Errors.Select(e => e.ErrorMessage) });
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest("Something went wrong!");
             }

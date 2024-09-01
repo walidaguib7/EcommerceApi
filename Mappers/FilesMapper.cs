@@ -1,4 +1,4 @@
-﻿using Ecommerce.Dtos.Media;
+﻿using Ecommerce.Dtos.MediaDtos;
 using Ecommerce.Models;
 
 namespace Ecommerce.Mappers
@@ -10,7 +10,7 @@ namespace Ecommerce.Mappers
             return new MediaModel
             {
                 file = file.file,
-                
+
             };
         }
 

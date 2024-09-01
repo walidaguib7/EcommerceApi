@@ -1,5 +1,5 @@
 ﻿using Ecommerce.Data;
-using Ecommerce.Dtos.Media;
+using Ecommerce.Dtos.MediaDtos;
 using Ecommerce.Mappers;
 using Ecommerce.Models;
 using Ecommerce.Services;

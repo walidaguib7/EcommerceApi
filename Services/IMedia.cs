@@ -1,4 +1,4 @@
-﻿using Ecommerce.Dtos.Media;
+﻿using Ecommerce.Dtos.MediaDtos;
 using Ecommerce.Models;
 
 namespace Ecommerce.Services
