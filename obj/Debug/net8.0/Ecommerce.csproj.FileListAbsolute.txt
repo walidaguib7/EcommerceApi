@@ -229,3 +229,12 @@ D:\AW7\Ecommerce\obj\Debug\net8.0\refint\Ecommerce.dll
 D:\AW7\Ecommerce\obj\Debug\net8.0\Ecommerce.pdb
 D:\AW7\Ecommerce\obj\Debug\net8.0\Ecommerce.genruntimeconfig.cache
 D:\AW7\Ecommerce\obj\Debug\net8.0\ref\Ecommerce.dll
+D:\AW7\Ecommerce\bin\Debug\net8.0\tests\bin\Debug\net8.0\appsettings.Development.json
+D:\AW7\Ecommerce\bin\Debug\net8.0\tests\bin\Debug\net8.0\appsettings.json
+D:\AW7\Ecommerce\bin\Debug\net8.0\tests\bin\Debug\net8.0\Ecommerce.deps.json
+D:\AW7\Ecommerce\bin\Debug\net8.0\tests\bin\Debug\net8.0\Ecommerce.runtimeconfig.json
+D:\AW7\Ecommerce\bin\Debug\net8.0\tests\bin\Debug\net8.0\tests.deps.json
+D:\AW7\Ecommerce\bin\Debug\net8.0\tests\bin\Debug\net8.0\tests.runtimeconfig.json
+D:\AW7\Ecommerce\bin\Debug\net8.0\tests\bin\Debug\net8.0\tests\obj\project.assets.json
+D:\AW7\Ecommerce\bin\Debug\net8.0\tests\bin\Debug\net8.0\tests\obj\tests.csproj.nuget.dgspec.json
+D:\AW7\Ecommerce\bin\Debug\net8.0\tests\obj\Debug\net8.0\tests.sourcelink.json
