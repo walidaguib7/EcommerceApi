@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Ecommerce.Migrations
 {
     /// <inheritdoc />
-    public partial class addingDb : Migration
+    public partial class newDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -84,24 +84,6 @@ namespace Ecommerce.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_media", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "products",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false),
-                    Description = table.Column<string>(type: "longtext", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CreatedAt = table.Column<DateOnly>(type: "date", nullable: false),
-                    UpdateAt = table.Column<DateOnly>(type: "date", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_products", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -337,6 +319,31 @@ namespace Ecommerce.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    userId = table.Column<string>(type: "varchar(255)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_products_AspNetUsers_userId",
+                        column: x => x.userId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "messages",
                 columns: table => new
                 {
@@ -408,58 +415,6 @@ namespace Ecommerce.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "productFiles",
-                columns: table => new
-                {
-                    fileId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_productFiles", x => new { x.fileId, x.ProductId });
-                    table.ForeignKey(
-                        name: "FK_productFiles_media_fileId",
-                        column: x => x.fileId,
-                        principalTable: "media",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_productFiles_products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "wishlists",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    userId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_wishlists", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_wishlists_AspNetUsers_userId",
-                        column: x => x.userId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_wishlists_products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "commentLikes",
                 columns: table => new
                 {
@@ -479,6 +434,86 @@ namespace Ecommerce.Migrations
                         name: "FK_commentLikes_comments_CommentId",
                         column: x => x.CommentId,
                         principalTable: "comments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "payments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Method = table.Column<string>(type: "longtext", nullable: false),
+                    Status = table.Column<string>(type: "longtext", nullable: false),
+                    userId = table.Column<string>(type: "varchar(255)", nullable: false),
+                    orderId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_payments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_payments_AspNetUsers_userId",
+                        column: x => x.userId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_payments_orders_orderId",
+                        column: x => x.orderId,
+                        principalTable: "orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "order_Products",
+                columns: table => new
+                {
+                    productId = table.Column<int>(type: "int", nullable: false),
+                    orderId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_order_Products", x => new { x.productId, x.orderId });
+                    table.ForeignKey(
+                        name: "FK_order_Products_orders_orderId",
+                        column: x => x.orderId,
+                        principalTable: "orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_order_Products_products_productId",
+                        column: x => x.productId,
+                        principalTable: "products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "productFiles",
+                columns: table => new
+                {
+                    fileId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_productFiles", x => new { x.fileId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_productFiles_media_fileId",
+                        column: x => x.fileId,
+                        principalTable: "media",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_productFiles_products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -520,55 +555,27 @@ namespace Ecommerce.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "order_Products",
-                columns: table => new
-                {
-                    productId = table.Column<int>(type: "int", nullable: false),
-                    orderId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_order_Products", x => new { x.productId, x.orderId });
-                    table.ForeignKey(
-                        name: "FK_order_Products_orders_orderId",
-                        column: x => x.orderId,
-                        principalTable: "orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_order_Products_products_productId",
-                        column: x => x.productId,
-                        principalTable: "products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "payments",
+                name: "wishlists",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Method = table.Column<string>(type: "longtext", nullable: false),
-                    Status = table.Column<string>(type: "longtext", nullable: false),
                     userId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    orderId = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_payments", x => x.Id);
+                    table.PrimaryKey("PK_wishlists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_payments_AspNetUsers_userId",
+                        name: "FK_wishlists_AspNetUsers_userId",
                         column: x => x.userId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_payments_orders_orderId",
-                        column: x => x.orderId,
-                        principalTable: "orders",
+                        name: "FK_wishlists_products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -579,8 +586,8 @@ namespace Ecommerce.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "30bb59bc-d787-4e9e-bf95-06219f20ef57", null, "user", "USER" },
-                    { "6e46da17-93af-4830-b3b7-3b1f6808174b", null, "admin", "ADMIN" }
+                    { "74408f15-7243-4c55-9284-55a79a6f94f9", null, "user", "USER" },
+                    { "98c5d36a-14e8-4bf0-b844-b4138f411d9b", null, "admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -684,6 +691,11 @@ namespace Ecommerce.Migrations
                 name: "IX_productFiles_ProductId",
                 table: "productFiles",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_products_userId",
+                table: "products",
+                column: "userId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_profiles_fileId",

@@ -488,13 +488,13 @@ namespace Ecommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "12dd874e-296e-4087-a075-1cce94abf250",
+                            Id = "98c5d36a-14e8-4bf0-b844-b4138f411d9b",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7f75d77f-952a-4b34-879c-49d99971e2df",
+                            Id = "74408f15-7243-4c55-9284-55a79a6f94f9",
                             Name = "user",
                             NormalizedName = "USER"
                         });

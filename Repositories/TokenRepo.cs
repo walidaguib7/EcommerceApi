@@ -20,8 +20,8 @@ namespace Ecommerce.Repositories
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.GivenName, user.UserName)
+                new(JwtRegisteredClaimNames.Email, user.Email),
+                new(JwtRegisteredClaimNames.GivenName, user.UserName),
             };
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
@@ -32,7 +32,7 @@ namespace Ecommerce.Repositories
                 Expires = DateTime.Now.AddMonths(2),
                 SigningCredentials = credentials,
                 Issuer = _config["JWT:Issuer"],
-                Audience = _config["JWT:Audience"]
+                Audience = _config["JWT:Audience"],
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

@@ -4,18 +4,20 @@ using Ecommerce.Helpers;
 using Ecommerce.Mappers;
 using Ecommerce.Services;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
 {
+
     [ApiController]
     [Route("api/Products")]
     public class ProductsController(IProduct _productService) : ControllerBase
     {
         private readonly IProduct productService = _productService;
 
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
@@ -26,6 +28,7 @@ namespace Ecommerce.Controllers
 
         [HttpGet]
         [Route("{userId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetProducts([FromRoute] string userId)
         {
             var products = await productService.GetProducts(userId);
@@ -42,8 +45,9 @@ namespace Ecommerce.Controllers
             return Ok(product.ToDto());
         }
 
-        [HttpPost]
 
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme , Policy = "admin")]
         public async Task<IActionResult> AddProduct([FromBody] CreateProductDto dto)
         {
             try
@@ -63,7 +67,7 @@ namespace Ecommerce.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         [Route("{id:int}")]
         public async Task<IActionResult> UpdateProduct([FromRoute] int id, [FromBody] UpdateProductDto dto)
@@ -86,7 +90,7 @@ namespace Ecommerce.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("{id:int}")]
         public async Task<IActionResult> DeleteProduct([FromRoute] int id)
