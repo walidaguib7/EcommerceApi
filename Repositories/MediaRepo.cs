@@ -66,9 +66,45 @@ namespace Ecommerce.Repositories
             return uniqueFileName;
         }
 
-        public Task<List<string>> UploadProductFiles(IFormCollection files)
+        public async Task<List<string>> UploadFiles(IFormFileCollection files)
         {
-            throw new NotImplementedException();
+            if (files == null || files.Count == 0)
+            {
+                throw new Exception("No files were uploaded.");
+            }
+
+            var allowedExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".jfif" };
+
+            var uploadedFileNames = new List<string>();
+
+            foreach (var file in files)
+            {
+                var extension = Path.GetExtension(file.FileName).ToLower();
+
+                if (!allowedExtensions.Contains(extension))
+                {
+                    throw new Exception($"Invalid file format. Only {string.Join(", ", allowedExtensions)} files are allowed.");
+                }
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
+                var filePath = Path.Combine("Media", uniqueFileName);
+
+                try
+                {
+                    await using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    uploadedFileNames.Add(uniqueFileName);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return uploadedFileNames;
         }
     }
 }

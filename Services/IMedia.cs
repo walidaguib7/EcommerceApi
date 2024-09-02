@@ -9,6 +9,6 @@ namespace Ecommerce.Services
 
         public Task<string> UploadImage(IFormFile file);
 
-        public Task<List<string>> UploadProductFiles(IFormCollection files);
+        public Task<List<string>> UploadFiles(IFormFileCollection files);
     }
 }
