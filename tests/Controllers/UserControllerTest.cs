@@ -30,7 +30,7 @@ namespace Ecommerce.Test.Controllers
             LoginDto dto = A.Fake<LoginDto>();
             UserController controller = new UserController(userService);
             var result = await controller.Login(dto);
-            result.Should().BeOfType(typeof(CreatedResult));
+            result.Should().BeOfType(typeof(OkObjectResult));
         }
     }
 }
