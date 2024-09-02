@@ -17,7 +17,7 @@ namespace Ecommerce.Controllers
     {
         private readonly IProduct productService = _productService;
 
-        [AllowAnonymous]
+
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
@@ -28,7 +28,7 @@ namespace Ecommerce.Controllers
 
         [HttpGet]
         [Route("{userId}")]
-        [AllowAnonymous]
+
         public async Task<IActionResult> GetProducts([FromRoute] string userId)
         {
             var products = await productService.GetProducts(userId);
@@ -47,12 +47,12 @@ namespace Ecommerce.Controllers
 
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme , Policy = "admin")]
         public async Task<IActionResult> AddProduct([FromBody] CreateProductDto dto)
         {
             try
             {
-                await productService.AddProduct(dto);
+                var product = await productService.AddProduct(dto);
+                if (product == null) return NotFound("user not found!");
                 return Created();
             }
             catch (ValidationException e)
@@ -62,12 +62,16 @@ namespace Ecommerce.Controllers
                     Errors = e.Errors.Select(e => e.ErrorMessage)
                 });
             }
+            catch (UnauthorizedAccessException e)
+            {
+                return Unauthorized();
+            }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpPut]
         [Route("{id:int}")]
         public async Task<IActionResult> UpdateProduct([FromRoute] int id, [FromBody] UpdateProductDto dto)
@@ -85,12 +89,16 @@ namespace Ecommerce.Controllers
                     Errors = e.Errors.Select(e => e.ErrorMessage)
                 });
             }
+            catch (UnauthorizedAccessException e)
+            {
+                return Unauthorized();
+            }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpDelete]
         [Route("{id:int}")]
         public async Task<IActionResult> DeleteProduct([FromRoute] int id)

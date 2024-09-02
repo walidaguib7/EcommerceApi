@@ -12,7 +12,7 @@ namespace Ecommerce.Services
         public Task<IEnumerable<Products>> GetProducts();
         public Task<IEnumerable<Products>> GetProducts(string userId);
         public Task<Products?> GetProduct(int id);
-        public Task<Products> AddProduct(CreateProductDto dto);
+        public Task<Products?> AddProduct(CreateProductDto dto);
         public Task<Products?> UpdateProduct(int id, UpdateProductDto dto);
         public Task<Products?> DeletePoduct(int id);
     }

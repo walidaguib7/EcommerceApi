@@ -11,5 +11,6 @@ namespace Ecommerce.Dtos.Products
         public string Description { get; set; }
         public decimal Price { get; set; }
         public DateOnly? UpdateAt { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+        public string userId { get; set; }
     }
 }

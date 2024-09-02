@@ -80,21 +80,7 @@ builder.Services.AddAuthentication(options =>
 
                 };
             }); ;
-builder.Services.AddAuthorization(
-    options =>
-    {
-        options.AddPolicy("Admin", p =>
-        {
-            p.RequireRole("admin");
-            p.RequireAuthenticatedUser();
-        });
-        options.AddPolicy("user", p =>
-        {
-            p.RequireRole("user");
-            p.RequireAuthenticatedUser();
-        });
-    }
-);
+
 
 builder.Services.AddDirectoryBrowser();
 builder.Logging.AddConsole();
