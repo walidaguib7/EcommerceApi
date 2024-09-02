@@ -116,9 +116,9 @@ app.UseDirectoryBrowser(new DirectoryBrowserOptions
 });
 
 app.UseHttpsRedirection();
-app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
 app.MapControllers();
 
 app.Run();
