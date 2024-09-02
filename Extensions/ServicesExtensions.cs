@@ -1,4 +1,5 @@
-﻿using Ecommerce.Data;
+﻿using System.Threading.RateLimiting;
+using Ecommerce.Data;
 using Ecommerce.Dtos.Blocking;
 using Ecommerce.Dtos.Category;
 using Ecommerce.Dtos.Followers;
@@ -16,6 +17,7 @@ using Ecommerce.Validations.Products;
 using Ecommerce.Validations.Profile;
 using Ecommerce.Validations.User;
 using FluentValidation;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -58,6 +60,21 @@ namespace Ecommerce.Extensions
             services.AddDbContext<ApplicationDBContext>(options =>
             {
                 options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+        }
+
+        public static void AddRateLimit(this IServiceCollection services)
+        {
+            services.AddRateLimiter(options =>
+            {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+                options.AddFixedWindowLimiter("fixed", _ =>
+                {
+                    _.Window = TimeSpan.FromSeconds(10);
+                    _.PermitLimit = 5;
+                    _.QueueLimit = 2;
+                    _.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+                });
             });
         }
 

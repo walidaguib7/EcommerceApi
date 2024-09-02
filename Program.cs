@@ -1,8 +1,10 @@
+using System.Threading.RateLimiting;
 using Ecommerce.Data;
 using Ecommerce.Extensions;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -42,6 +44,7 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+builder.Services.AddRateLimit();
 
 builder.Services.AddDB(builder);
 builder.Services.AddCustomServices();
@@ -113,6 +116,7 @@ app.UseDirectoryBrowser(new DirectoryBrowserOptions
 });
 
 app.UseHttpsRedirection();
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

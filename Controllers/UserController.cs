@@ -6,6 +6,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace Ecommerce.Controllers
 {
@@ -16,6 +17,7 @@ namespace Ecommerce.Controllers
         private readonly IUser _userRepo = userRepo;
 
         [HttpPost("SignUp")]
+        [EnableRateLimiting(policyName: "fixed")]
         public async Task<IActionResult> CreateAccountAsync([FromBody] RegisterDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -40,6 +42,7 @@ namespace Ecommerce.Controllers
 
 
         [HttpPost("SignIn")]
+        [EnableRateLimiting("fixed")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
