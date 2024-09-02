@@ -59,6 +59,10 @@ namespace Ecommerce.Data
             .Property(p => p.Gender)
             .HasConversion<string>();
 
+            builder.Entity<User>()
+            .Property(u => u.role)
+            .HasConversion<string>();
+
 
             builder.ConfigRelations();
 

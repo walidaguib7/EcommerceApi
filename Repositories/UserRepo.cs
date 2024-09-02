@@ -14,6 +14,7 @@ namespace Ecommerce.Repositories
         [FromKeyedServices("register")] IValidator<RegisterDto> RegisterValidator,
         [FromKeyedServices("login")] IValidator<LoginDto> LoginValidator,
         IToken tokenService
+
         ) : IUser
     {
         private readonly UserManager<User> manager = _manager;
@@ -21,17 +22,26 @@ namespace Ecommerce.Repositories
         private readonly IValidator<RegisterDto> _RegisterValidator = RegisterValidator;
         private readonly IValidator<LoginDto> _LoginValidator = LoginValidator;
         private readonly IToken _tokenService = tokenService;
+
+
+
         public async Task<User?> CreateUser(RegisterDto dto)
         {
             var result = _RegisterValidator.Validate(dto);
             if (result.IsValid)
             {
-                var user = dto.toUser();
+                var user = new User
+                {
+                    UserName = dto.username,
+                    Email = dto.email,
+                    role = dto.role
+                };
+                Console.WriteLine($"{user.role}");
 
                 var model = await manager.CreateAsync(user, dto.password);
                 if (model.Succeeded)
                 {
-                    if (dto.isAdmin == true)
+                    if (dto.role == Helpers.Role.Admin)
                     {
                         await manager.AddToRoleAsync(user, "admin");
                     }
@@ -61,7 +71,7 @@ namespace Ecommerce.Repositories
                 var status = await signInManager.CheckPasswordSignInAsync(user, dto.password, false);
                 if (status.Succeeded)
                 {
-                    return new NewUser { Id = user.Id, token = _tokenService.createToken(user) };
+                    return new NewUser { Id = user.Id, token = _tokenService.createToken(user), role = user.role.ToString() };
                 }
                 else
                 {

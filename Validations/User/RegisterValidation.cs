@@ -5,7 +5,8 @@ namespace Ecommerce.Validations.User
 {
     public class RegisterValidation : AbstractValidator<RegisterDto>
     {
-        public RegisterValidation() {
+        public RegisterValidation()
+        {
 
             RuleFor(u => u.email)
                 .EmailAddress().NotEmpty().NotNull().WithMessage("please write a valid email");
@@ -15,8 +16,8 @@ namespace Ecommerce.Validations.User
             RuleFor(u => u.password)
                 .NotNull().NotEmpty().MinimumLength(12)
                 .WithMessage("password must have 12 letters");
-            RuleFor(u => u.isAdmin)
-                .NotNull();
+            RuleFor(u => u.role)
+                .NotNull().IsInEnum();
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿
+using Ecommerce.Helpers;
 using Microsoft.AspNetCore.Identity;
 
 namespace Ecommerce.Models
 {
     public class User : IdentityUser
     {
+        public Role role { get; set; }
         public int? ProfileId { get; set; }
         public Profiles Profile { get; set; }
         public ICollection<Orders> orders { get; set; } = [];

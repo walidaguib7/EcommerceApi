@@ -11,6 +11,7 @@ namespace Ecommerce.Mappers
             {
                 Email = dto.email,
                 UserName = dto.username,
+                role = dto.role
 
             };
         }
