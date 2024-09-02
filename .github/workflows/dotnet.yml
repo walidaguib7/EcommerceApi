@@ -27,6 +27,8 @@ jobs:
         run: dotnet test --no-build --verbosity normal
       - name: Build Docker Image
         run: docker build -t ecommerce .
+      - name: rename docker image
+        run: docker tag ecommerce:latest walidaguib7/ecommerce
       - name: Log in to Docker Hub
         run: docker login -u walidaguib7 -p ${{ secrets.DOCKER_PASS }}
       - name: Push Docker Image
