@@ -6,6 +6,7 @@ using Ecommerce.Dtos.Followers;
 using Ecommerce.Dtos.MediaDtos;
 using Ecommerce.Dtos.Products;
 using Ecommerce.Dtos.Profile;
+using Ecommerce.Dtos.ProuctFiles;
 using Ecommerce.Dtos.User;
 using Ecommerce.Repositories;
 using Ecommerce.Services;
@@ -13,6 +14,7 @@ using Ecommerce.Validations.Blocking;
 using Ecommerce.Validations.Category;
 using Ecommerce.Validations.Following;
 using Ecommerce.Validations.Media;
+using Ecommerce.Validations.ProductFiles;
 using Ecommerce.Validations.Products;
 using Ecommerce.Validations.Profile;
 using Ecommerce.Validations.User;
@@ -38,6 +40,7 @@ namespace Ecommerce.Extensions
             services.AddScoped<IBlocking, blockingRepo>();
             services.AddScoped<IProfile, ProfilesRepo>();
             services.AddTransient<IProduct, ProductsRepo>();
+            services.AddScoped<IProductFiles, ProductFilesRepo>();
         }
 
         public static void AddValidationServices(this IServiceCollection services)
@@ -53,6 +56,7 @@ namespace Ecommerce.Extensions
             services.AddKeyedScoped<IValidator<UpdateProfileDto>, UpdateProfileValidation>("UpdateProfile");
             services.AddKeyedScoped<IValidator<CreateProductDto>, CreateProductValidation>("createProduct");
             services.AddKeyedScoped<IValidator<UpdateProductDto>, UpdateProductValidation>("updateProduct");
+            services.AddKeyedScoped<IValidator<CreateProductFile>, ProductFilesValidation>("productFile");
         }
 
         public static void AddDB(this IServiceCollection services, WebApplicationBuilder builder)
