@@ -14,17 +14,26 @@ namespace Ecommerce.Test.Controllers
     public class MediaControllerTest
     {
         private readonly IMedia media = A.Fake<IMedia>();
-        private readonly ApplicationDBContext context = A.Fake<ApplicationDBContext>();
+
 
         [Fact]
         public async void MediaController_CreateFile_ReturnsCreated()
         {
             var file = A.Fake<IFormFile>();
 
-            var controller = new MediaController(media, context);
+            var controller = new MediaController(media);
 
             var result = await controller.UploadFile(file);
 
+            result.Should().BeOfType(typeof(OkObjectResult));
+        }
+        [Theory]
+        [InlineData("userId")]
+        public async Task MediaController_UploadFiles_ReturnsOk(string userId)
+        {
+            IFormFileCollection formFiles = A.Fake<IFormFileCollection>();
+            MediaController controller = new MediaController(media);
+            var result = await controller.UploadMultiFiles(formFiles, userId);
             result.Should().BeOfType(typeof(OkObjectResult));
         }
 
@@ -33,7 +42,7 @@ namespace Ecommerce.Test.Controllers
         public async Task MediaController_DeleteFile_ReturnsOk(int id)
         {
 
-            var controller = new MediaController(media, context);
+            var controller = new MediaController(media);
             var result = await controller.DeleteFile(id);
             result.Should().BeOfType(typeof(OkObjectResult));
         }
@@ -44,7 +53,7 @@ namespace Ecommerce.Test.Controllers
         {
             IFormFile formFile = A.Fake<IFormFile>();
 
-            var controller = new MediaController(media, context);
+            var controller = new MediaController(media);
             var result = await controller.UpdateFile(id, formFile);
             result.Should().BeOfType(typeof(OkObjectResult));
         }

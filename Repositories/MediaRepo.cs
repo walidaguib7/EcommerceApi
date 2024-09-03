@@ -67,45 +67,54 @@ namespace Ecommerce.Repositories
             return uniqueFileName;
         }
 
-        public async Task<List<string>> UploadFiles(IFormFileCollection files)
+        public async Task<List<string>> UploadFiles(IFormFileCollection files, string userId)
         {
-            if (files == null || files.Count == 0)
+            var user = await context.Users.Where(u => u.Id == userId).FirstAsync();
+            if (user.role == Helpers.Role.Admin)
             {
-                throw new Exception("No files were uploaded.");
-            }
-
-            var allowedExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".jfif" };
-
-            var uploadedFileNames = new List<string>();
-
-            foreach (var file in files)
-            {
-                var extension = Path.GetExtension(file.FileName).ToLower();
-
-                if (!allowedExtensions.Contains(extension))
+                if (files == null || files.Count == 0)
                 {
-                    throw new Exception($"Invalid file format. Only {string.Join(", ", allowedExtensions)} files are allowed.");
+                    throw new Exception("No files were uploaded.");
                 }
 
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
-                var filePath = Path.Combine("Media", uniqueFileName);
+                var allowedExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".jfif" };
 
-                try
+                var uploadedFileNames = new List<string>();
+
+                foreach (var file in files)
                 {
-                    await using (var stream = new FileStream(filePath, FileMode.Create))
+                    var extension = Path.GetExtension(file.FileName).ToLower();
+
+                    if (!allowedExtensions.Contains(extension))
                     {
-                        await file.CopyToAsync(stream);
+                        throw new Exception($"Invalid file format. Only {string.Join(", ", allowedExtensions)} files are allowed.");
                     }
 
-                    uploadedFileNames.Add(uniqueFileName);
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
+                    var filePath = Path.Combine("Media", uniqueFileName);
+
+                    try
+                    {
+                        await using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        uploadedFileNames.Add(uniqueFileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+
+                return uploadedFileNames;
+            }
+            else
+            {
+                throw new UnauthorizedAccessException();
             }
 
-            return uploadedFileNames;
         }
 
         public async Task<MediaModel?> DeleteFile(int id)

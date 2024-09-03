@@ -12,10 +12,10 @@ namespace Ecommerce.Controllers
 {
     [Route("api/media")]
     [ApiController]
-    public class MediaController(IMedia _media, ApplicationDBContext _context) : ControllerBase
+    public class MediaController(IMedia _media) : ControllerBase
     {
         private readonly IMedia media = _media;
-        private readonly ApplicationDBContext context = _context;
+        
 
 
         [HttpPost("UploadFile")]
@@ -42,11 +42,9 @@ namespace Ecommerce.Controllers
         [Route("{userId}")]
         public async Task<IActionResult> UploadMultiFiles(IFormFileCollection formFiles, [FromRoute] string userId)
         {
-            var user = await context.Users.FindAsync(userId);
-            if (user == null) return NotFound();
-            if (user.role == Role.Admin)
+            try
             {
-                List<string> files = await media.UploadFiles(formFiles);
+                List<string> files = await media.UploadFiles(formFiles, userId);
                 ICollection<MediaModel> models = [];
                 foreach (string file in files)
                 {
@@ -67,10 +65,11 @@ namespace Ecommerce.Controllers
                 var mediaModel = models.Select(m => m.ToFileDto());
                 return Ok(mediaModel);
             }
-            else
+            catch (UnauthorizedAccessException)
             {
                 return Unauthorized();
             }
+
 
         }
 
