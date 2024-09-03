@@ -1,4 +1,5 @@
-﻿using Ecommerce.Helpers;
+﻿using Ecommerce.Data;
+using Ecommerce.Helpers;
 using Ecommerce.Mappers;
 using Ecommerce.Models;
 using Ecommerce.Services;
@@ -11,10 +12,10 @@ namespace Ecommerce.Controllers
 {
     [Route("api/media")]
     [ApiController]
-    public class MediaController(IMedia _media, UserManager<User> _manager) : ControllerBase
+    public class MediaController(IMedia _media, ApplicationDBContext _context) : ControllerBase
     {
         private readonly IMedia media = _media;
-        private readonly UserManager<User> manager = _manager;
+        private readonly ApplicationDBContext context = _context;
 
 
         [HttpPost("UploadFile")]
@@ -41,7 +42,7 @@ namespace Ecommerce.Controllers
         [Route("{userId}")]
         public async Task<IActionResult> UploadMultiFiles(IFormFileCollection formFiles, [FromRoute] string userId)
         {
-            var user = await manager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await context.Users.FindAsync(userId);
             if (user == null) return NotFound();
             if (user.role == Role.Admin)
             {

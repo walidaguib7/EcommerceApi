@@ -70,5 +70,12 @@ namespace Ecommerce.Data
 
 
         }
+
+        public static implicit operator ApplicationDBContext(global::Moq.Mock<ApplicationDBContext> v)
+        {
+            throw new NotImplementedException();
+        }
+
+        
     }
 }

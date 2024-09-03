@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2YYaXnYXTKEDJb9yCiD+oJnnJmByFPhu4KEkD82sXHWOHKieEiFdAxsLrs6UD+PEjIK0erorveYP5Dt/Kr+fqQ==",
+  "dgSpecHash": "N8QG/l6T1HhFmvuWbGDoLFMYln1FUcUG7H+EKCSFfXD/RigqUhDyDkacM7uiCu089aYr5yCsceTOesrrwuBt0Q==",
   "success": true,
   "projectFilePath": "D:\\AW7\\Ecommerce\\tests\\tests.csproj",
   "expectedPackageFiles": [
@@ -60,6 +60,7 @@
     "C:\\Users\\User\\.nuget\\packages\\microsoft.testplatform.testhost\\17.10.0\\microsoft.testplatform.testhost.17.10.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\moq\\4.20.71\\moq.4.20.71.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\mysql.data\\9.0.0\\mysql.data.9.0.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\mysql.entityframeworkcore\\8.0.5\\mysql.entityframeworkcore.8.0.5.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\mysqlconnector\\2.3.7\\mysqlconnector.2.3.7.nupkg.sha512",

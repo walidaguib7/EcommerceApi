@@ -1261,6 +1261,18 @@
           "lib/netstandard2.0/Mono.TextTemplating.dll": {}
         }
       },
+      "Moq/4.20.71": {
+        "type": "package",
+        "dependencies": {
+          "Castle.Core": "5.1.1"
+        },
+        "compile": {
+          "lib/net6.0/Moq.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Moq.dll": {}
+        }
+      },
       "MySql.Data/9.0.0": {
         "type": "package",
         "dependencies": {
@@ -3205,6 +3217,7 @@
           "Microsoft.EntityFrameworkCore.Tools": "8.0.8",
           "Microsoft.Extensions.Caching.StackExchangeRedis": "8.0.8",
           "Microsoft.NET.Test.Sdk": "17.10.0",
+          "Moq": "4.20.71",
           "MySql.Data": "9.0.0",
           "MySql.EntityFrameworkCore": "8.0.5",
           "MySqlConnector": "2.3.7",
@@ -5269,6 +5282,23 @@
         "lib/netstandard2.0/Mono.TextTemplating.dll",
         "mono.texttemplating.2.2.1.nupkg.sha512",
         "mono.texttemplating.nuspec"
+      ]
+    },
+    "Moq/4.20.71": {
+      "sha512": "sVyDjL8RDhB2CHYlAc8JCVdULQDqKPLKQj8B9yplEHg+MoNkWcuz3soUpwqTbNmFRJrKgVs8iqFK1SYlBTG5/A==",
+      "type": "package",
+      "path": "moq/4.20.71",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net462/Moq.dll",
+        "lib/net6.0/Moq.dll",
+        "lib/netstandard2.0/Moq.dll",
+        "lib/netstandard2.1/Moq.dll",
+        "moq.4.20.71.nupkg.sha512",
+        "moq.nuspec",
+        "readme.md"
       ]
     },
     "MySql.Data/9.0.0": {
@@ -9585,6 +9615,7 @@
       "FakeItEasy >= 8.3.0",
       "FluentAssertions >= 6.12.0",
       "Microsoft.NET.Test.Sdk >= 17.10.0",
+      "Moq >= 4.20.71",
       "coverlet.collector >= 6.0.0",
       "xunit >= 2.6.3",
       "xunit.runner.visualstudio >= 2.8.2"
@@ -9648,6 +9679,10 @@
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
             "version": "[17.10.0, )"
+          },
+          "Moq": {
+            "target": "Package",
+            "version": "[4.20.71, )"
           },
           "coverlet.collector": {
             "target": "Package",
