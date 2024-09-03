@@ -72,5 +72,25 @@ namespace Ecommerce.Controllers
             }
 
         }
+
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> DeleteFile([FromRoute] int id)
+        {
+            var file = await media.DeleteFile(id);
+            if (file == null) return NotFound();
+            return Ok("File deleted!");
+        }
+
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> UpdateFile([FromRoute] int id, IFormFile file)
+        {
+            var model = await media.UpdateFile(id, file);
+            if (model == null) return NotFound("File Not Found!");
+            return Ok("File updated!");
+        }
+
     }
 }

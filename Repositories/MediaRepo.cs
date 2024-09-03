@@ -4,6 +4,7 @@ using Ecommerce.Mappers;
 using Ecommerce.Models;
 using Ecommerce.Services;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Repositories
 {
@@ -105,6 +106,26 @@ namespace Ecommerce.Repositories
             }
 
             return uploadedFileNames;
+        }
+
+        public async Task<MediaModel?> DeleteFile(int id)
+        {
+            var file = await context.media.Where(f => f.Id == id).FirstAsync();
+            if (file == null) return null;
+            context.Remove(file);
+            await context.SaveChangesAsync();
+            return file;
+        }
+
+        public async Task<MediaModel?> UpdateFile(int id, IFormFile file)
+        {
+            var model = await context.media.Where(f => f.Id == id).FirstAsync();
+            if (model == null) return null;
+            var f = await UploadImage(file);
+            if (f == null) return null;
+            model.file = f;
+            await context.SaveChangesAsync();
+            return model;
         }
     }
 }
