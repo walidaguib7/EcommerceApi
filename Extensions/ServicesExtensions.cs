@@ -3,6 +3,7 @@ using Ecommerce.Data;
 using Ecommerce.Dtos.Blocking;
 using Ecommerce.Dtos.Category;
 using Ecommerce.Dtos.Comments;
+using Ecommerce.Dtos.Comments.CommentLikes;
 using Ecommerce.Dtos.Followers;
 using Ecommerce.Dtos.MediaDtos;
 using Ecommerce.Dtos.Products;
@@ -14,6 +15,7 @@ using Ecommerce.Services;
 using Ecommerce.Validations.Blocking;
 using Ecommerce.Validations.Category;
 using Ecommerce.Validations.Comments;
+using Ecommerce.Validations.Comments.CommentLikes;
 using Ecommerce.Validations.Following;
 using Ecommerce.Validations.Media;
 using Ecommerce.Validations.ProductFiles;
@@ -44,6 +46,7 @@ namespace Ecommerce.Extensions
             services.AddTransient<IProduct, ProductsRepo>();
             services.AddScoped<IProductFiles, ProductFilesRepo>();
             services.AddScoped<IComments, CommentsRepo>();
+            services.AddSingleton<ICommentLikes, CommentlikesRepo>();
         }
 
         public static void AddValidationServices(this IServiceCollection services)
@@ -67,6 +70,8 @@ namespace Ecommerce.Extensions
 
             services.AddKeyedScoped<IValidator<CreateCommentDto>, CreateCommentValiation>("createComment");
             services.AddKeyedScoped<IValidator<UpdateCommentDto>, UpdateCommentValidation>("updateComment");
+
+            services.AddKeyedSingleton<IValidator<CreateCommentLike>, CommentLikesValidation>("commentLike");
         }
 
         public static void AddDB(this IServiceCollection services, WebApplicationBuilder builder)
