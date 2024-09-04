@@ -2,6 +2,7 @@
 using Ecommerce.Data;
 using Ecommerce.Dtos.Blocking;
 using Ecommerce.Dtos.Category;
+using Ecommerce.Dtos.Comments;
 using Ecommerce.Dtos.Followers;
 using Ecommerce.Dtos.MediaDtos;
 using Ecommerce.Dtos.Products;
@@ -12,6 +13,7 @@ using Ecommerce.Repositories;
 using Ecommerce.Services;
 using Ecommerce.Validations.Blocking;
 using Ecommerce.Validations.Category;
+using Ecommerce.Validations.Comments;
 using Ecommerce.Validations.Following;
 using Ecommerce.Validations.Media;
 using Ecommerce.Validations.ProductFiles;
@@ -41,6 +43,7 @@ namespace Ecommerce.Extensions
             services.AddScoped<IProfile, ProfilesRepo>();
             services.AddTransient<IProduct, ProductsRepo>();
             services.AddScoped<IProductFiles, ProductFilesRepo>();
+            services.AddScoped<IComments, CommentsRepo>();
         }
 
         public static void AddValidationServices(this IServiceCollection services)
@@ -50,13 +53,20 @@ namespace Ecommerce.Extensions
 
             services.AddKeyedScoped<IValidator<CreateCategoryDto>, CategoryValidation>("category");
             services.AddKeyedScoped<IValidator<CreateFile>, MediaValidation>("media");
+
             services.AddKeyedScoped<IValidator<FollowDto>, FollowingValidation>("following");
             services.AddKeyedScoped<IValidator<BlockUserDto>, BlockingValidation>("blocking");
+
             services.AddKeyedScoped<IValidator<CreateProfileDto>, CreateProfileValidation>("createProfile");
             services.AddKeyedScoped<IValidator<UpdateProfileDto>, UpdateProfileValidation>("UpdateProfile");
+
             services.AddKeyedScoped<IValidator<CreateProductDto>, CreateProductValidation>("createProduct");
             services.AddKeyedScoped<IValidator<UpdateProductDto>, UpdateProductValidation>("updateProduct");
+
             services.AddKeyedScoped<IValidator<CreateProductFile>, ProductFilesValidation>("productFile");
+
+            services.AddKeyedScoped<IValidator<CreateCommentDto>, CreateCommentValiation>("createComment");
+            services.AddKeyedScoped<IValidator<UpdateCommentDto>, UpdateCommentValidation>("updateComment");
         }
 
         public static void AddDB(this IServiceCollection services, WebApplicationBuilder builder)
