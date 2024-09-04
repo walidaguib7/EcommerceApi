@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Collections;
 
 namespace Ecommerce.Dtos.Comments
 {
@@ -12,6 +10,8 @@ namespace Ecommerce.Dtos.Comments
         public DateTime CreatedAt { get; set; }
         public string UserId { get; set; }
         public string username { get; set; }
+        public int Likes { get; set; }
+        public ICollection LikeCollection { get; set; }
     }
 
 }

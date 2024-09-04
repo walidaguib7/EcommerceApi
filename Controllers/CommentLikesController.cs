@@ -39,7 +39,7 @@ namespace Ecommerce.Controllers
 
         [HttpDelete]
         [Route("{id:int}/{userId}")]
-        public async Task<IActionResult> deleteCommentLike(int id, string userId)
+        public async Task<IActionResult> UnLike(int id, string userId)
         {
             var like = await commentLikesService.UnlikeComment(userId, id);
             if (like == null) return NotFound();

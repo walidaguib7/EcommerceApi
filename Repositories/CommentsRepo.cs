@@ -59,6 +59,7 @@ namespace Ecommerce.Repositories
             var comments = await context.comments
             .Include(c => c.user)
             .Include(c => c.user.Profile)
+            .Include(c => c.commentLikes)
             .ToListAsync();
             await cacheService.SetAsync(key, comments);
             return comments;
@@ -71,6 +72,7 @@ namespace Ecommerce.Repositories
             if (cachedComment != null) return cachedComment;
             var comment = await context.comments
             .Include(c => c.user)
+            .Include(c => c.commentLikes)
             .Where(c => c.Id == id).FirstAsync();
             if (comment == null) return null;
             await cacheService.SetAsync(key, comment);

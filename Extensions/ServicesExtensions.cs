@@ -46,7 +46,7 @@ namespace Ecommerce.Extensions
             services.AddTransient<IProduct, ProductsRepo>();
             services.AddScoped<IProductFiles, ProductFilesRepo>();
             services.AddScoped<IComments, CommentsRepo>();
-            services.AddSingleton<ICommentLikes, CommentlikesRepo>();
+            services.AddScoped<ICommentLikes, CommentlikesRepo>();
         }
 
         public static void AddValidationServices(this IServiceCollection services)

@@ -9,11 +9,11 @@ namespace Ecommerce.Models
         public Role role { get; set; }
         public int? ProfileId { get; set; }
         public Profiles Profile { get; set; }
-        public ICollection<Orders> orders { get; set; } = [];
-        public ICollection<CommentLikes> commentLikes { get; set; } = [];
-        public ICollection<Payments> payments { get; set; } = [];
-        public ICollection<Follower> followers { get; set; } = [];
-        public ICollection<Following> followings { get; set; } = [];
-        public ICollection<BlockedUsers> blockedUsers { get; set; } = [];
+        public List<Orders> orders { get; set; } = [];
+        public List<CommentLikes> commentLikes { get; set; } = [];
+        public List<Payments> payments { get; set; } = [];
+        public List<Follower> followers { get; set; } = [];
+        public List<Following> followings { get; set; } = [];
+        public List<BlockedUsers> blockedUsers { get; set; } = [];
     }
 }

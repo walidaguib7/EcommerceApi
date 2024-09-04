@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.Dtos.Comments;
@@ -28,6 +29,9 @@ namespace Ecommerce.Mappers
                 CreatedAt = comment.CreatedAt,
                 UserId = comment.UserId,
                 username = comment.user.UserName,
+                Likes = comment.commentLikes.ToList().Capacity,
+                LikeCollection = comment.commentLikes.Select(c => c.ToDto()).ToList()
+
             };
         }
     }

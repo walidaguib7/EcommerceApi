@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string file { get; set; }
-        public ICollection<ProductFiles> productFiles { get; set; } = [];
+        public List<ProductFiles> productFiles { get; set; } = [];
     }
 }
