@@ -6,16 +6,19 @@ using Ecommerce.Services;
 using FakeItEasy;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Ecommerce.Repositories
 {
     public class ProductFilesRepo(
         ApplicationDBContext _context,
-        IValidator<CreateProductFile> _validator
+        [FromKeyedServices("productFile")] IValidator<CreateProductFile> _validator,
+        ICache _cacheService
         ) : IProductFiles
     {
         private readonly ApplicationDBContext context = _context;
         private readonly IValidator<CreateProductFile> validator = _validator;
+        private readonly ICache cacheService = _cacheService;
         public async Task<ProductFiles?> CreateProductFiles(CreateProductFile productFile, string userId)
         {
             var user = await context.Users.FindAsync(userId);
@@ -43,7 +46,15 @@ namespace Ecommerce.Repositories
 
         public async Task<IEnumerable<ProductFiles>> GetProductFiles(int ProductId)
         {
-            return await context.productFiles.Where(p => p.ProductId == ProductId).ToListAsync();
+            var key = $"pf_{ProductId}";
+            var CachedProductFiles = await cacheService.GetFromCacheAsync<IEnumerable<ProductFiles>>(key);
+            if (!CachedProductFiles.IsNullOrEmpty()) return CachedProductFiles;
+            var productFiles = await context.productFiles
+            .Include(pf => pf.Product)
+            .Include(pf => pf.file)
+            .Where(p => p.ProductId == ProductId).ToListAsync();
+            await cacheService.SetAsync(key, productFiles);
+            return productFiles;
         }
     }
 }

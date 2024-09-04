@@ -10,9 +10,9 @@
         public DateTime? UpdateAt { get; set; }
         public string userId { get; set; }
         public User user { get; set; }
-        public IEnumerable<Order_Product> order_Products { get; set; } = [];
+        public ICollection<Order_Product> order_Products { get; set; } = [];
 
 
-        public IEnumerable<ProductFiles> productFiles { get; set; } = [];
+        public ICollection<ProductFiles> productFiles { get; set; } = [];
     }
 }
