@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Ecommerce.Migrations
 {
     /// <inheritdoc />
-    public partial class newDB : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,6 +37,7 @@ namespace Ecommerce.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    role = table.Column<string>(type: "longtext", nullable: false),
                     ProfileId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
@@ -230,8 +231,9 @@ namespace Ecommerce.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<string>(type: "longtext", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    CreatedAt = table.Column<DateOnly>(type: "date", nullable: false)
+                    parentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -240,6 +242,12 @@ namespace Ecommerce.Migrations
                         name: "FK_comments_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_comments_comments_parentId",
+                        column: x => x.parentId,
+                        principalTable: "comments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -586,8 +594,8 @@ namespace Ecommerce.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "74408f15-7243-4c55-9284-55a79a6f94f9", null, "user", "USER" },
-                    { "98c5d36a-14e8-4bf0-b844-b4138f411d9b", null, "admin", "ADMIN" }
+                    { "2a5f323a-a63e-4d6a-8a33-6f481121e56f", null, "user", "USER" },
+                    { "e6335880-9b41-41e9-a88d-52a5606d9937", null, "admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -636,6 +644,11 @@ namespace Ecommerce.Migrations
                 name: "IX_commentLikes_CommentId",
                 table: "commentLikes",
                 column: "CommentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_comments_parentId",
+                table: "comments",
+                column: "parentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_comments_UserId",

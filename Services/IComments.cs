@@ -9,10 +9,11 @@ namespace Ecommerce.Services
 {
     public interface IComments
     {
-        public Task<ICollection<Comments>> GetAllComments();
-        public Task<Comments?> GetComment(int id);
+        public Task<List<Comments>> GetAllComments();
+        public Task<List<Comments>> GetAllReplies(int commentId);
+        public Task<Comments?> GetComment(int commentId);
         public Task<Comments> CreateComment(CreateCommentDto dto);
-        public Task<Comments?> UpdateComment(int id, UpdateCommentDto dto);
-        public Task<Comments?> DeleteComment(int id);
+        public Task<Comments?> UpdateComment(int commentId, UpdateCommentDto dto);
+        public Task<Comments?> DeleteComment(int commentId);
     }
 }

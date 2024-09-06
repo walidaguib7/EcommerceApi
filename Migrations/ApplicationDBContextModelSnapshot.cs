@@ -81,9 +81,14 @@ namespace Ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int?>("parentId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("parentId");
 
                     b.ToTable("comments");
                 });
@@ -492,13 +497,13 @@ namespace Ecommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e9730324-5a9d-4bee-982c-fdef33bf4a36",
+                            Id = "e6335880-9b41-41e9-a88d-52a5606d9937",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "db1fc663-1493-4f9d-8a5b-7843d93233a8",
+                            Id = "2a5f323a-a63e-4d6a-8a33-6f481121e56f",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -651,6 +656,13 @@ namespace Ecommerce.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.Comments", "parent")
+                        .WithMany("replies")
+                        .HasForeignKey("parentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("parent");
 
                     b.Navigation("user");
                 });
@@ -918,6 +930,8 @@ namespace Ecommerce.Migrations
             modelBuilder.Entity("Ecommerce.Models.Comments", b =>
                 {
                     b.Navigation("commentLikes");
+
+                    b.Navigation("replies");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.MediaModel", b =>

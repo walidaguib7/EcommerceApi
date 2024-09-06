@@ -11,8 +11,7 @@ namespace Ecommerce.Validations.Comments
     {
         public UpdateCommentValidation()
         {
-            RuleFor(c => c.Content)
-            .NotEmpty().NotNull().MaximumLength(255);
+            RuleFor(c => c.content).NotNull().NotEmpty().MaximumLength(255);
         }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.Dtos.Comments;
@@ -15,8 +14,9 @@ namespace Ecommerce.Mappers
             return new Comments
             {
                 Content = dto.Content,
+                CreatedAt = dto.CreatedAt,
+                parentId = dto.parentId,
                 UserId = dto.UserId,
-                CreatedAt = dto.CreatedAt
             };
         }
 
@@ -27,11 +27,11 @@ namespace Ecommerce.Mappers
                 Id = comment.Id,
                 Content = comment.Content,
                 CreatedAt = comment.CreatedAt,
+                parentId = comment.parentId,
                 UserId = comment.UserId,
                 username = comment.user.UserName,
-                Likes = comment.commentLikes.ToList().Capacity,
-                LikeCollection = comment.commentLikes.Select(c => c.ToDto()).ToList()
-
+                repliesCount = comment.replies.ToList().Capacity,
+                likes = comment.commentLikes.Select(cl => cl.ToDto()).ToList()
             };
         }
     }

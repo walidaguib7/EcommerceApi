@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240902004314_UpdateRoles")]
-    partial class UpdateRoles
+    [Migration("20240906174718_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,16 +77,21 @@ namespace Ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int?>("parentId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("parentId");
 
                     b.ToTable("comments");
                 });
@@ -495,13 +500,13 @@ namespace Ecommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7a8a87f9-51f0-466c-87b0-e410c46bcadb",
+                            Id = "e6335880-9b41-41e9-a88d-52a5606d9937",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "887ac148-8a7b-4b7e-afdf-7165a336a1f9",
+                            Id = "2a5f323a-a63e-4d6a-8a33-6f481121e56f",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -654,6 +659,13 @@ namespace Ecommerce.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.Comments", "parent")
+                        .WithMany("replies")
+                        .HasForeignKey("parentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("parent");
 
                     b.Navigation("user");
                 });
@@ -921,6 +933,8 @@ namespace Ecommerce.Migrations
             modelBuilder.Entity("Ecommerce.Models.Comments", b =>
                 {
                     b.Navigation("commentLikes");
+
+                    b.Navigation("replies");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.MediaModel", b =>

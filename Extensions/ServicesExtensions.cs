@@ -67,11 +67,10 @@ namespace Ecommerce.Extensions
             services.AddKeyedScoped<IValidator<UpdateProductDto>, UpdateProductValidation>("updateProduct");
 
             services.AddKeyedScoped<IValidator<CreateProductFile>, ProductFilesValidation>("productFile");
-
-            services.AddKeyedScoped<IValidator<CreateCommentDto>, CreateCommentValiation>("createComment");
-            services.AddKeyedScoped<IValidator<UpdateCommentDto>, UpdateCommentValidation>("updateComment");
-
             services.AddKeyedSingleton<IValidator<CreateCommentLike>, CommentLikesValidation>("commentLike");
+
+            services.AddKeyedScoped<IValidator<CreateCommentDto>, CreateCommentValidation>("createComment");
+            services.AddKeyedScoped<IValidator<UpdateCommentDto>, UpdateCommentValidation>("updateComment");
         }
 
         public static void AddDB(this IServiceCollection services, WebApplicationBuilder builder)

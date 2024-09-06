@@ -9,6 +9,14 @@ namespace Ecommerce.Extensions
         public static void ConfigRelations(this ModelBuilder builder)
         {
 
+
+            builder.Entity<Comments>()
+            .HasOne(c => c.parent)
+            .WithMany(c => c.replies)
+            .HasForeignKey(c => c.parentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
             builder.Entity<User>()
             .HasOne(u => u.Profile)
             .WithOne(u => u.user)

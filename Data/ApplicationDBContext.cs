@@ -36,6 +36,8 @@ namespace Ecommerce.Data
         {
             base.OnModelCreating(builder);
 
+
+
             List<IdentityRole> roles =
             [
                 new IdentityRole
@@ -76,6 +78,6 @@ namespace Ecommerce.Data
             throw new NotImplementedException();
         }
 
-        
+
     }
 }
