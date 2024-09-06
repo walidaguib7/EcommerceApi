@@ -18,12 +18,16 @@ namespace Ecommerce.Repositories
             {
                 return default;
             }
-
             var decodedData = Encoding.UTF8.GetString(cachedData);
             return JsonConvert.DeserializeObject<T>(decodedData, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             });
+        }
+
+        public async Task RemoveCaching(string key)
+        {
+            await cache.RemoveAsync(key);
         }
 
         public async Task SetAsync<T>(string key, T values)
