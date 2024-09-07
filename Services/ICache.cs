@@ -8,6 +8,8 @@
 
         public Task RemoveCaching(string key);
 
+        public Task RefreshCaching(string key);
+
 
     }
 }

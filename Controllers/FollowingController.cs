@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Dtos.Followers;
+using Ecommerce.Filters;
 using Ecommerce.Helpers;
 using Ecommerce.Mappers;
 using Ecommerce.Services;
@@ -15,9 +16,9 @@ namespace Ecommerce.Controllers
         private readonly IFollowing followingService = _followingService;
         [HttpGet]
         [Route("followers/{userId}")]
-        public async Task<IActionResult> GetFollowers([FromRoute] string userId)
+        public async Task<IActionResult> GetFollowers([FromRoute] string userId, [FromQuery] QueryFilters query)
         {
-            var followers = await followingService.GetFollowers(userId);
+            var followers = await followingService.GetFollowers(userId, query);
             var follower = followers.Select(f => f.ToFollowerDto());
             return Ok(follower);
         }
@@ -25,16 +26,16 @@ namespace Ecommerce.Controllers
 
         [HttpGet]
         [Route("{followerId}")]
-        public async Task<IActionResult> GetFollowings([FromRoute] string followerId)
+        public async Task<IActionResult> GetFollowings([FromRoute] string followerId, [FromQuery] QueryFilters query)
         {
-            var followings = await followingService.GetFollowings(followerId);
+            var followings = await followingService.GetFollowings(followerId, query);
             var following = followings.Select(f => f.ToFollowingDto());
             return Ok(following);
         }
 
         [HttpGet]
         [Route("follower/{userId}/{followerId}")]
-        public async Task<IActionResult> GetFollower(string userId , string followerId)
+        public async Task<IActionResult> GetFollower(string userId, string followerId)
         {
             var follower = await followingService.getFollower(userId, followerId);
             return Ok(follower.ToFollowerDto());
@@ -48,11 +49,13 @@ namespace Ecommerce.Controllers
             {
                 await followingService.FollowUser(dto);
                 return Created();
-            }catch(ValidationException e)
+            }
+            catch (ValidationException e)
             {
                 return BadRequest(
                     new ValidationErrorResponse { Errors = e.Errors.Select(e => e.ErrorMessage) });
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
@@ -80,6 +83,6 @@ namespace Ecommerce.Controllers
             }
         }
 
-        
+
     }
 }

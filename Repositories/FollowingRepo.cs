@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Data;
 using Ecommerce.Dtos.Followers;
+using Ecommerce.Filters;
 using Ecommerce.Mappers;
 using Ecommerce.Models;
 using Ecommerce.Services;
@@ -54,20 +55,54 @@ namespace Ecommerce.Repositories
             return follower;
         }
 
-        public async Task<ICollection<Follower>> GetFollowers(string userId)
+        public async Task<ICollection<Follower>> GetFollowers(string userId, QueryFilters query)
         {
-            var key = $"followers_{userId}";
+            var key = $"followers_{userId}_page{query.PageNumber}_limit{query.Limit}_sortBy{query.SortBy}_desc{query.IsDescending}_name{query.Name}";
             var CachedFollowers = await cacheService.GetFromCacheAsync<ICollection<Follower>>(key);
             if (!CachedFollowers.IsNullOrEmpty())
             {
                 return CachedFollowers;
             }
-            var followers = await context.followers
+            var followers = context.followers
                 .Include(f => f.follower)
                 .Include(f => f.follower.Profile)
-                .Where(f => f.UserId == userId).ToListAsync();
-            await cacheService.SetAsync<ICollection<Follower>>(key, followers);
-            return followers;
+                .Where(f => f.UserId == userId).AsQueryable();
+
+            if (!string.IsNullOrEmpty(query.Name) || !string.IsNullOrWhiteSpace(query.Name))
+            {
+                followers = followers.Where(f => f.follower.UserName.Contains(query.Name));
+            }
+
+            if (!string.IsNullOrEmpty(query.SortBy) || !string.IsNullOrWhiteSpace(query.SortBy))
+            {
+
+                await cacheService.RemoveCaching($"followers_{userId}");
+                if (query.SortBy.Equals("Id", StringComparison.OrdinalIgnoreCase))
+                {
+
+                    followers = query.IsDescending ?
+                                 followers.OrderByDescending(f => f.FollowerId)
+                                 : followers.OrderBy(f => f.FollowerId);
+
+
+
+                }
+
+                if (query.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+
+                    followers = query.IsDescending ?
+                                 followers.OrderByDescending(f => f.follower.UserName)
+                                 : followers.OrderBy(f => f.follower.UserName);
+
+
+                }
+            }
+            var skipNumber = (query.PageNumber - 1) * query.Limit;
+            var pagedFollowers = await followers.Skip(skipNumber).Take(query.Limit).ToListAsync();
+
+            await cacheService.SetAsync(key, pagedFollowers);
+            return pagedFollowers;
 
         }
 
@@ -85,21 +120,45 @@ namespace Ecommerce.Repositories
             return followingUser;
         }
 
-        public async Task<ICollection<Following>> GetFollowings(string followerId)
+        public async Task<ICollection<Following>> GetFollowings(string followerId, QueryFilters query)
         {
-            var key = $"followings_{followerId}";
+            var key = $"followings_{followerId}_page{query.PageNumber}_limit{query.Limit}_sortBy{query.SortBy}_desc{query.IsDescending}_name{query.Name}";
             var CachedFollowings = await cacheService.GetFromCacheAsync<ICollection<Following>>(key);
             if (!CachedFollowings.IsNullOrEmpty())
             {
                 return CachedFollowings;
             }
-            var followings = await context.followings
+            var followings = context.followings
                 .Include(f => f.following)
+                .Where(f => f.followerId == followerId).AsQueryable();
 
-                .Where(f => f.followerId == followerId).ToListAsync();
+            if (!string.IsNullOrEmpty(query.Name) || !string.IsNullOrWhiteSpace(query.Name))
+            {
+                followings = followings.Where(f => f.following.UserName.Contains(query.Name));
+            }
 
-            await cacheService.SetAsync(key, followings);
-            return followings;
+            if (!string.IsNullOrEmpty(query.SortBy) || !string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                if (query.SortBy.Equals("Id", StringComparison.OrdinalIgnoreCase))
+                {
+                    followings = query.IsDescending ?
+                                 followings.OrderByDescending(f => f.followingId)
+                                 : followings.OrderBy(f => f.followingId);
+                }
+
+                if (query.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    followings = query.IsDescending ?
+                                 followings.OrderByDescending(f => f.following.UserName)
+                                 : followings.OrderBy(f => f.following.UserName);
+                }
+            }
+
+            var skipNumber = (query.PageNumber - 1) * query.Limit;
+            var pagedFollowings = await followings.Skip(skipNumber).Take(query.Limit).ToListAsync();
+            await cacheService.SetAsync(key, pagedFollowings);
+
+            return pagedFollowings;
         }
 
         public async Task<Follower> Unfollow(FollowDto dto)

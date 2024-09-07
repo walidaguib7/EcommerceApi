@@ -34,6 +34,8 @@ namespace Ecommerce.Repositories
                 var model = dto.ToModel();
                 await context.comments.AddAsync(model);
                 await context.SaveChangesAsync();
+                await cacheService.RemoveCaching("comments");
+                await cacheService.RemoveCaching("replies");
                 return model;
             }
             else
@@ -48,6 +50,8 @@ namespace Ecommerce.Repositories
             if (comment == null) return null;
             context.comments.Remove(comment);
             await context.SaveChangesAsync();
+            await cacheService.RemoveCaching("comments");
+            await cacheService.RemoveCaching("replies");
             return comment;
 
         }
@@ -71,7 +75,7 @@ namespace Ecommerce.Repositories
 
         public async Task<List<Comments>> GetAllReplies(int commentId)
         {
-            string key = $"replies_{commentId}";
+            string key = $"replies";
             var cachedReplies = await cacheService.GetFromCacheAsync<List<Comments>>(key);
             if (!cachedReplies.IsNullOrEmpty()) return cachedReplies;
             var replies = await context.comments
@@ -105,6 +109,8 @@ namespace Ecommerce.Repositories
                 if (comment == null) return null;
                 comment.Content = dto.content;
                 await context.SaveChangesAsync();
+                await cacheService.RemoveCaching("comments");
+                await cacheService.RemoveCaching("replies");
                 return comment;
             }
             else

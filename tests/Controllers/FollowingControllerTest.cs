@@ -1,6 +1,7 @@
 
 using Ecommerce.Controllers;
 using Ecommerce.Dtos.Followers;
+using Ecommerce.Filters;
 using Ecommerce.Services;
 using FakeItEasy;
 using FluentAssertions;
@@ -16,8 +17,9 @@ namespace Ecommerce.Test.Controllers
         [InlineData("1", "2")]
         public async Task FollowingController_GetFollowers_ReturnsOk(string userId, string excpected)
         {
+            QueryFilters query = A.Fake<QueryFilters>();
             FollowingController controller = new FollowingController(followingService);
-            var result = await controller.GetFollowers(userId);
+            var result = await controller.GetFollowers(userId, query);
             result.Should().BeOfType(typeof(OkObjectResult));
         }
 
@@ -25,8 +27,9 @@ namespace Ecommerce.Test.Controllers
         [InlineData("1", "2")]
         public async Task FollowingController_GetFollowings_ReturnsOk(string userId, string excpected)
         {
+            QueryFilters query = A.Fake<QueryFilters>();
             FollowingController controller = new FollowingController(followingService);
-            var result = await controller.GetFollowings(userId);
+            var result = await controller.GetFollowings(userId, query);
             result.Should().BeOfType(typeof(OkObjectResult));
         }
 

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Ecommerce.Repositories
 {
@@ -18,11 +19,17 @@ namespace Ecommerce.Repositories
             {
                 return default;
             }
+
             var decodedData = Encoding.UTF8.GetString(cachedData);
             return JsonConvert.DeserializeObject<T>(decodedData, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             });
+        }
+
+        public async Task RefreshCaching(string key)
+        {
+            await cache.RefreshAsync(key);
         }
 
         public async Task RemoveCaching(string key)
