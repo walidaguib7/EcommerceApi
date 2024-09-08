@@ -5,7 +5,5 @@
         public string followingId { get; set; }
         public string username { get; set; }
 
-        public string? ProfilePicture { get; set; }
-
     }
 }

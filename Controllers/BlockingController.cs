@@ -1,4 +1,5 @@
 using Ecommerce.Dtos.Blocking;
+using Ecommerce.Filters;
 using Ecommerce.Helpers;
 using Ecommerce.Mappers;
 using Ecommerce.Services;
@@ -16,9 +17,9 @@ namespace Ecommerce.Controllers
 
         [HttpGet]
         [Route("{userId}")]
-        public async Task<IActionResult> GetBlockedUsers([FromRoute] string userId)
+        public async Task<IActionResult> GetBlockedUsers([FromRoute] string userId , [FromQuery] QueryFilters query)
         {
-            var users = await blockingService.GetBlockedUsers(userId);
+            var users = await blockingService.GetBlockedUsers(userId , query);
             var user = users.Select(u => u.ToDto());
             return Ok(user);
         }

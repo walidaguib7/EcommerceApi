@@ -1,5 +1,6 @@
 using Ecommerce.Data;
 using Ecommerce.Dtos.Products;
+using Ecommerce.Filters;
 using Ecommerce.Mappers;
 using Ecommerce.Models;
 using Ecommerce.Services;
@@ -37,7 +38,6 @@ namespace Ecommerce.Repositories
                     await context.products.AddAsync(product);
                     await context.SaveChangesAsync();
                     return product;
-
                 }
                 else
                 {
@@ -71,29 +71,77 @@ namespace Ecommerce.Repositories
             return product;
         }
 
-        public async Task<IEnumerable<Products>> GetProducts()
+        public async Task<IEnumerable<Products>> GetProducts(QueryFilters query)
         {
-            string key = $"products";
+            var key = $"Products_page{query.PageNumber}_limit{query.Limit}_sortBy{query.SortBy}_desc{query.IsDescending}_name{query.Name}";
             var cachedProducts = await cacheService.GetFromCacheAsync<IEnumerable<Products>>(key);
             if (cachedProducts != null) return cachedProducts;
-            var products = await context.products
+
+            var products = context.products
             .Include(p => p.user)
-            .ToListAsync();
-            await cacheService.SetAsync(key, products);
-            return products;
+            .AsQueryable();
+            if (!string.IsNullOrEmpty(query.Name) || !string.IsNullOrWhiteSpace(query.Name))
+            {
+                products = products.Where(f => f.Name.Contains(query.Name));
+            }
+
+            if (!string.IsNullOrEmpty(query.SortBy) || !string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                if (query.SortBy.Equals("Id", StringComparison.OrdinalIgnoreCase))
+                {
+                    products = query.IsDescending ?
+                                 products.OrderByDescending(f => f.Id)
+                                 : products.OrderBy(f => f.Id);
+                }
+
+                if (query.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    products = query.IsDescending ?
+                                 products.OrderByDescending(f => f.Name)
+                                 : products.OrderBy(f => f.Name);
+                }
+            }
+
+            var skipNumber = (query.PageNumber - 1) * query.Limit;
+            var pagedproducts = await products.Skip(skipNumber).Take(query.Limit).ToListAsync();
+            await cacheService.SetAsync(key, pagedproducts);
+            return pagedproducts;
         }
 
-        public async Task<IEnumerable<Products>> GetProducts(string userId)
+        public async Task<IEnumerable<Products>> GetProducts(string userId, QueryFilters query)
         {
-            string key = $"products_{userId}";
+            var key = $"Products_{userId}_page{query.PageNumber}_limit{query.Limit}_sortBy{query.SortBy}_desc{query.IsDescending}_name{query.Name}";
             var cachedProducts = await cacheService.GetFromCacheAsync<IEnumerable<Products>>(key);
             if (cachedProducts != null) return cachedProducts;
-            var products = await context.products
+            var products = context.products
             .Include(p => p.user)
-            .Where(p => p.userId == userId)
-            .ToListAsync();
-            await cacheService.SetAsync(key, products);
-            return products;
+            .AsQueryable();
+            if (!string.IsNullOrEmpty(query.Name) || !string.IsNullOrWhiteSpace(query.Name))
+            {
+                products = products.Where(f => f.Name.Contains(query.Name));
+            }
+
+            if (!string.IsNullOrEmpty(query.SortBy) || !string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                if (query.SortBy.Equals("Id", StringComparison.OrdinalIgnoreCase))
+                {
+                    products = query.IsDescending ?
+                                 products.OrderByDescending(f => f.Id)
+                                 : products.OrderBy(f => f.Id);
+                }
+
+                if (query.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    products = query.IsDescending ?
+                                 products.OrderByDescending(f => f.Name)
+                                 : products.OrderBy(f => f.Name);
+                }
+            }
+
+            var skipNumber = (query.PageNumber - 1) * query.Limit;
+            var pagedproducts = await products.Skip(skipNumber).Take(query.Limit).ToListAsync();
+            await cacheService.SetAsync(key, pagedproducts);
+            return pagedproducts;
         }
 
         public async Task<Products?> UpdateProduct(int id, UpdateProductDto dto)

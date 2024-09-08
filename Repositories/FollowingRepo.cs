@@ -157,7 +157,6 @@ namespace Ecommerce.Repositories
             var skipNumber = (query.PageNumber - 1) * query.Limit;
             var pagedFollowings = await followings.Skip(skipNumber).Take(query.Limit).ToListAsync();
             await cacheService.SetAsync(key, pagedFollowings);
-
             return pagedFollowings;
         }
 

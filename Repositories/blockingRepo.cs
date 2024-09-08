@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Ecommerce.Data;
 using Ecommerce.Dtos.Blocking;
 using Ecommerce.Dtos.Followers;
+using Ecommerce.Filters;
 using Ecommerce.Mappers;
 using Ecommerce.Models;
 using Ecommerce.Services;
@@ -19,14 +16,14 @@ namespace Ecommerce.Repositories
         ApplicationDBContext _context,
         [FromKeyedServices("blocking")] IValidator<BlockUserDto> _validator,
         ICache _cache,
-        IFollowing _followingService
+        IFollowing _userservice
     )
      : IBlocking
     {
         private readonly ApplicationDBContext context = _context;
         private readonly IValidator<BlockUserDto> validator = _validator;
         private readonly ICache cache = _cache;
-        private readonly IFollowing followingService = _followingService;
+        private readonly IFollowing userservice = _userservice;
         public async Task<BlockedUsers?> BlockUser(BlockUserDto dto)
         {
             var result = validator.Validate(dto);
@@ -36,14 +33,14 @@ namespace Ecommerce.Repositories
                 {
                     try
                     {
-                        var follower = await followingService.getFollower(dto.UserId, dto.BlockedUserId);
+                        var follower = await userservice.getFollower(dto.UserId, dto.BlockedUserId);
                         if (follower == null)
                         {
                             return null;
                         }
                         else
                         {
-                            await followingService.Unfollow(new FollowDto
+                            await userservice.Unfollow(new FollowDto
                             {
                                 userId = dto.UserId,
                                 followerId = dto.BlockedUserId
@@ -56,14 +53,14 @@ namespace Ecommerce.Repositories
                     }
                     try
                     {
-                        var following = await followingService.getFollower(dto.BlockedUserId, dto.UserId);
+                        var following = await userservice.getFollower(dto.BlockedUserId, dto.UserId);
                         if (following == null)
                         {
                             return null;
                         }
                         else
                         {
-                            await followingService.Unfollow(new FollowDto
+                            await userservice.Unfollow(new FollowDto
                             {
                                 userId = dto.BlockedUserId,
                                 followerId = dto.UserId
@@ -90,22 +87,45 @@ namespace Ecommerce.Repositories
             }
         }
 
-        public async Task<List<BlockedUsers>> GetBlockedUsers(string userId)
+        public async Task<List<BlockedUsers>> GetBlockedUsers(string userId, QueryFilters query)
         {
-            string key = $"blocking_{userId}";
+            var key = $"users_{userId}_page{query.PageNumber}_limit{query.Limit}_sortBy{query.SortBy}_desc{query.IsDescending}_name{query.Name}";
             var cachedBlockedUsers = await cache.GetFromCacheAsync<List<BlockedUsers>>(key);
             if (!cachedBlockedUsers.IsNullOrEmpty())
             {
                 return cachedBlockedUsers;
             }
 
-            var users = await context.blockedUsers
+            var users = context.blockedUsers
             .Include(b => b.blockedUser)
             .Include(b => b.user)
+            .Where(b => b.userId == userId).AsQueryable();
+            if (!string.IsNullOrEmpty(query.Name) || !string.IsNullOrWhiteSpace(query.Name))
+            {
+                users = users.Where(f => f.blockedUser.UserName.Contains(query.Name));
+            }
 
-            .Where(b => b.userId == userId).ToListAsync();
-            await cache.SetAsync(key, users);
-            return users;
+            if (!string.IsNullOrEmpty(query.SortBy) || !string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                if (query.SortBy.Equals("Id", StringComparison.OrdinalIgnoreCase))
+                {
+                    users = query.IsDescending ?
+                                 users.OrderByDescending(f => f.blockedUserId)
+                                 : users.OrderBy(f => f.blockedUserId);
+                }
+
+                if (query.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    users = query.IsDescending ?
+                                 users.OrderByDescending(f => f.blockedUser.UserName)
+                                 : users.OrderBy(f => f.blockedUser.UserName);
+                }
+            }
+
+            var skipNumber = (query.PageNumber - 1) * query.Limit;
+            var pagedUsers = await users.Skip(skipNumber).Take(query.Limit).ToListAsync();
+            await cache.SetAsync(key, pagedUsers);
+            return pagedUsers;
         }
 
         public async Task<BlockedUsers?> UnblockUser(BlockUserDto dto)

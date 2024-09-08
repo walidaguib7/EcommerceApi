@@ -2,6 +2,7 @@
 
 using Ecommerce.Controllers;
 using Ecommerce.Dtos.Blocking;
+using Ecommerce.Filters;
 using Ecommerce.Services;
 using FakeItEasy;
 using FluentAssertions;
@@ -16,8 +17,9 @@ namespace Ecommerce.Test.Controllers
         [InlineData("z", "q")]
         public async Task BlockingController_GetBlockedUsers_ReturnOk(string userId, string excpected)
         {
+            QueryFilters query = A.Fake<QueryFilters>();
             BlockingController controller = new BlockingController(blokingService);
-            var result = await controller.GetBlockedUsers(excpected);
+            var result = await controller.GetBlockedUsers(excpected , query);
             result.Should().BeOfType(typeof(OkObjectResult));
         }
 

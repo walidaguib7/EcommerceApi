@@ -1,5 +1,6 @@
 
 using Ecommerce.Dtos.Products;
+using Ecommerce.Filters;
 using Ecommerce.Helpers;
 using Ecommerce.Mappers;
 using Ecommerce.Services;
@@ -20,9 +21,9 @@ namespace Ecommerce.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetProducts([FromQuery] QueryFilters query)
         {
-            var products = await productService.GetProducts();
+            var products = await productService.GetProducts(query);
             var product = products.Select(p => p.ToDto());
             return Ok(product);
         }
@@ -30,9 +31,9 @@ namespace Ecommerce.Controllers
         [HttpGet]
         [Route("{userId}")]
 
-        public async Task<IActionResult> GetProducts([FromRoute] string userId)
+        public async Task<IActionResult> GetProducts([FromRoute] string userId, [FromQuery] QueryFilters query)
         {
-            var products = await productService.GetProducts(userId);
+            var products = await productService.GetProducts(userId, query);
             var product = products.Select(p => p.ToDto());
             return Ok(product);
         }
