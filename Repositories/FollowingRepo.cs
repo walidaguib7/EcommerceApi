@@ -12,13 +12,11 @@ namespace Ecommerce.Repositories
 {
     public class FollowingRepo(
         ApplicationDBContext _context,
-        [FromKeyedServices("following")] IValidator<FollowDto> _validator,
-        ICache _cacheService
+        [FromKeyedServices("following")] IValidator<FollowDto> _validator
         ) : IFollowing
     {
         private readonly ApplicationDBContext context = _context;
         private readonly IValidator<FollowDto> validator = _validator;
-        private readonly ICache cacheService = _cacheService;
         public async Task<Follower> FollowUser(FollowDto dto)
         {
             var result = validator.Validate(dto);
@@ -39,30 +37,20 @@ namespace Ecommerce.Repositories
 
         public async Task<Follower> getFollower(string userId, string followerId)
         {
-            var key = $"follower_{userId}_{followerId}";
-            var cachedFollower = await cacheService.GetFromCacheAsync<Follower>(key);
-            if (cachedFollower != null)
-            {
-                return cachedFollower;
-            }
+
+
 
             var follower = await context.followers
                 .Include(f => f.follower)
                 .Include(f => f.follower.Profile)
                 .Where(f => f.UserId == userId && f.FollowerId == followerId)
                 .FirstAsync();
-            await cacheService.SetAsync(key, follower);
+
             return follower;
         }
 
         public async Task<ICollection<Follower>> GetFollowers(string userId, QueryFilters query)
         {
-            var key = $"followers_{userId}_page{query.PageNumber}_limit{query.Limit}_sortBy{query.SortBy}_desc{query.IsDescending}_name{query.Name}";
-            var CachedFollowers = await cacheService.GetFromCacheAsync<ICollection<Follower>>(key);
-            if (!CachedFollowers.IsNullOrEmpty())
-            {
-                return CachedFollowers;
-            }
             var followers = context.followers
                 .Include(f => f.follower)
                 .Include(f => f.follower.Profile)
@@ -76,7 +64,7 @@ namespace Ecommerce.Repositories
             if (!string.IsNullOrEmpty(query.SortBy) || !string.IsNullOrWhiteSpace(query.SortBy))
             {
 
-                await cacheService.RemoveCaching($"followers_{userId}");
+
                 if (query.SortBy.Equals("Id", StringComparison.OrdinalIgnoreCase))
                 {
 
@@ -100,34 +88,22 @@ namespace Ecommerce.Repositories
             }
             var skipNumber = (query.PageNumber - 1) * query.Limit;
             var pagedFollowers = await followers.Skip(skipNumber).Take(query.Limit).ToListAsync();
-
-            await cacheService.SetAsync(key, pagedFollowers);
             return pagedFollowers;
 
         }
 
         public async Task<Following> GetFollowing(string followerId, string followingId)
         {
-            var key = $"following_{followerId}_{followingId}";
-            var cachedFollowing = await cacheService.GetFromCacheAsync<Following>(key);
-            if (cachedFollowing != null) return cachedFollowing;
             var followingUser = await context.followings
                 .Include(f => f.following)
                 .Include(f => f.follower.Profile)
                 .Where(f => f.followerId == followerId && f.followingId == followingId)
                 .FirstAsync();
-            await cacheService.SetAsync(key, followingUser);
             return followingUser;
         }
 
         public async Task<ICollection<Following>> GetFollowings(string followerId, QueryFilters query)
         {
-            var key = $"followings_{followerId}_page{query.PageNumber}_limit{query.Limit}_sortBy{query.SortBy}_desc{query.IsDescending}_name{query.Name}";
-            var CachedFollowings = await cacheService.GetFromCacheAsync<ICollection<Following>>(key);
-            if (!CachedFollowings.IsNullOrEmpty())
-            {
-                return CachedFollowings;
-            }
             var followings = context.followings
                 .Include(f => f.following)
                 .Where(f => f.followerId == followerId).AsQueryable();
@@ -156,7 +132,6 @@ namespace Ecommerce.Repositories
 
             var skipNumber = (query.PageNumber - 1) * query.Limit;
             var pagedFollowings = await followings.Skip(skipNumber).Take(query.Limit).ToListAsync();
-            await cacheService.SetAsync(key, pagedFollowings);
             return pagedFollowings;
         }
 

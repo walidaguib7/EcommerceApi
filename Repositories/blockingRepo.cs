@@ -89,13 +89,6 @@ namespace Ecommerce.Repositories
 
         public async Task<List<BlockedUsers>> GetBlockedUsers(string userId, QueryFilters query)
         {
-            var key = $"users_{userId}_page{query.PageNumber}_limit{query.Limit}_sortBy{query.SortBy}_desc{query.IsDescending}_name{query.Name}";
-            var cachedBlockedUsers = await cache.GetFromCacheAsync<List<BlockedUsers>>(key);
-            if (!cachedBlockedUsers.IsNullOrEmpty())
-            {
-                return cachedBlockedUsers;
-            }
-
             var users = context.blockedUsers
             .Include(b => b.blockedUser)
             .Include(b => b.user)
@@ -124,7 +117,6 @@ namespace Ecommerce.Repositories
 
             var skipNumber = (query.PageNumber - 1) * query.Limit;
             var pagedUsers = await users.Skip(skipNumber).Take(query.Limit).ToListAsync();
-            await cache.SetAsync(key, pagedUsers);
             return pagedUsers;
         }
 

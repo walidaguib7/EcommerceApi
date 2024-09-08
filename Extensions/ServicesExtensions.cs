@@ -10,6 +10,7 @@ using Ecommerce.Dtos.Products;
 using Ecommerce.Dtos.Profile;
 using Ecommerce.Dtos.ProuctFiles;
 using Ecommerce.Dtos.User;
+using Ecommerce.Dtos.WishLists;
 using Ecommerce.Repositories;
 using Ecommerce.Services;
 using Ecommerce.Validations.Blocking;
@@ -22,9 +23,11 @@ using Ecommerce.Validations.ProductFiles;
 using Ecommerce.Validations.Products;
 using Ecommerce.Validations.Profile;
 using Ecommerce.Validations.User;
+using Ecommerce.Validations.WishLists;
 using FluentValidation;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 
 namespace Ecommerce.Extensions
@@ -47,6 +50,7 @@ namespace Ecommerce.Extensions
             services.AddScoped<IProductFiles, ProductFilesRepo>();
             services.AddScoped<IComments, CommentsRepo>();
             services.AddScoped<ICommentLikes, CommentlikesRepo>();
+            services.AddScoped<IWishList, WishListsRepo>();
         }
 
         public static void AddValidationServices(this IServiceCollection services)
@@ -71,6 +75,8 @@ namespace Ecommerce.Extensions
 
             services.AddKeyedScoped<IValidator<CreateCommentDto>, CreateCommentValidation>("createComment");
             services.AddKeyedScoped<IValidator<UpdateCommentDto>, UpdateCommentValidation>("updateComment");
+
+            services.AddKeyedScoped<IValidator<AddItemDto>, AddToWishListsValidation>("addItem");
         }
 
         public static void AddDB(this IServiceCollection services, WebApplicationBuilder builder)
@@ -98,13 +104,37 @@ namespace Ecommerce.Extensions
 
         public static void AddRedisDB(this IServiceCollection services, WebApplicationBuilder builder)
         {
-            services.AddStackExchangeRedisCache(opt =>
-            {
-                string RedisConnectionString = builder.Configuration["Redis:ConnectionString"];
-                opt.Configuration = RedisConnectionString;
-                opt.InstanceName = "instance";
-            });
+            // services.AddStackExchangeRedisCache(opt =>
+            // {
+            //     string RedisConnectionString = builder.Configuration["Redis:ConnectionString"];
+            //     opt.Configuration = RedisConnectionString;
+            //     opt.InstanceName = "instance";
+            //     opt.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions
+            //     {
 
+            //     };
+
+
+            // });
+
+            var config = new ConfigurationOptions
+            {
+                EndPoints = { "localhost:6397" },
+                AllowAdmin = true,
+                ConnectTimeout = 10000,
+                ClientName = "instance",
+                SyncTimeout = 5000,
+                Ssl = true,
+                SslProtocols = System.Security.Authentication.SslProtocols.Tls12,
+                ConnectRetry = 5,
+                KeepAlive = 60,
+                DefaultDatabase = 1,
+                AsyncTimeout = 5000,
+                ConfigurationChannel = "myConfigChannel"
+            };
+
+            var Redisconnection = ConnectionMultiplexer.Connect(config);
+            services.AddSingleton<IConnectionMultiplexer>(Redisconnection);
 
 
         }

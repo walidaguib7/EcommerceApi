@@ -61,7 +61,7 @@ namespace Ecommerce.Repositories
 
         public async Task<Products?> GetProduct(int id)
         {
-            string key = $"product_{id}";
+            string key = $"product_Id";
             var cachedProduct = await cacheService.GetFromCacheAsync<Products>(key);
             if (cachedProduct != null) return cachedProduct;
             var product = await context.products
@@ -73,9 +73,6 @@ namespace Ecommerce.Repositories
 
         public async Task<IEnumerable<Products>> GetProducts(QueryFilters query)
         {
-            var key = $"Products_page{query.PageNumber}_limit{query.Limit}_sortBy{query.SortBy}_desc{query.IsDescending}_name{query.Name}";
-            var cachedProducts = await cacheService.GetFromCacheAsync<IEnumerable<Products>>(key);
-            if (cachedProducts != null) return cachedProducts;
 
             var products = context.products
             .Include(p => p.user)
@@ -104,15 +101,13 @@ namespace Ecommerce.Repositories
 
             var skipNumber = (query.PageNumber - 1) * query.Limit;
             var pagedproducts = await products.Skip(skipNumber).Take(query.Limit).ToListAsync();
-            await cacheService.SetAsync(key, pagedproducts);
+
             return pagedproducts;
         }
 
         public async Task<IEnumerable<Products>> GetProducts(string userId, QueryFilters query)
         {
-            var key = $"Products_{userId}_page{query.PageNumber}_limit{query.Limit}_sortBy{query.SortBy}_desc{query.IsDescending}_name{query.Name}";
-            var cachedProducts = await cacheService.GetFromCacheAsync<IEnumerable<Products>>(key);
-            if (cachedProducts != null) return cachedProducts;
+
             var products = context.products
             .Include(p => p.user)
             .AsQueryable();
@@ -140,7 +135,6 @@ namespace Ecommerce.Repositories
 
             var skipNumber = (query.PageNumber - 1) * query.Limit;
             var pagedproducts = await products.Skip(skipNumber).Take(query.Limit).ToListAsync();
-            await cacheService.SetAsync(key, pagedproducts);
             return pagedproducts;
         }
 
