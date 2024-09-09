@@ -1,27 +1,25 @@
-﻿using Ecommerce.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Ecommerce.Services;
-using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using StackExchange.Redis;
-using System.Text;
-using System.Text.Json.Serialization;
 
 namespace Ecommerce.Repositories
 {
-    public class CacheRepo : ICache
+    public class RedisService : ICache
     {
+        private readonly IConnectionMultiplexer connection;
 
-
-        private readonly IDatabase database;
-
+        public RedisService(IConnectionMultiplexer _connection)
+        {
+            connection = _connection;
+        }
         public async Task<T?> GetFromCacheAsync<T>(string key)
         {
-            if (database == null)
-            {
-                // Handle null database (log error, throw exception, etc.)
-                return default;
-            }
+            var database = connection.GetDatabase();
+            if (database == null) throw new Exception("redis database not found");
 
             var cachedData = await database.StringGetAsync(key);
             if (cachedData.IsNullOrEmpty)
@@ -46,12 +44,14 @@ namespace Ecommerce.Repositories
 
         public async Task RemoveCaching(string key)
         {
+            var database = connection.GetDatabase();
             await database.KeyDeleteAsync(key);
         }
 
-        public async Task SetAsync<T>(string key, T value, TimeSpan expiration)
+        public async Task SetAsync<T>(string key, T values, TimeSpan expiration)
         {
-            var serializedData = JsonConvert.SerializeObject(value, new JsonSerializerSettings
+            var database = connection.GetDatabase();
+            var serializedData = JsonConvert.SerializeObject(values, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             });
@@ -66,10 +66,5 @@ namespace Ecommerce.Repositories
                 Console.WriteLine($"Error setting cache: {ex.Message}");
             }
         }
-
-
-
-
-
     }
 }

@@ -36,14 +36,14 @@ namespace Ecommerce.Extensions
     {
         public static void AddCustomServices(this IServiceCollection services)
         {
-            services.AddDistributedMemoryCache();
+            services.AddScoped<ICache, RedisService>();
             services.AddScoped<IUser, UserRepo>();
             services.AddSingleton<IToken, TokenRepo>();
             services.AddScoped<ICategory, CategoryRepo>();
             services.AddTransient<IMedia, MediaRepo>();
             services.AddScoped<IMessages, MessagesRepo>();
             services.AddScoped<IFollowing, FollowingRepo>();
-            services.AddTransient<ICache, CacheRepo>();
+
             services.AddScoped<IBlocking, blockingRepo>();
             services.AddScoped<IProfile, ProfilesRepo>();
             services.AddTransient<IProduct, ProductsRepo>();
@@ -106,36 +106,14 @@ namespace Ecommerce.Extensions
         {
             // services.AddStackExchangeRedisCache(opt =>
             // {
-            //     string RedisConnectionString = builder.Configuration["Redis:ConnectionString"];
-            //     opt.Configuration = RedisConnectionString;
-            //     opt.InstanceName = "instance";
-            //     opt.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions
-            //     {
-
-            //     };
-
+            //     string RedisConnectionString = builder.Configuration["RedisConnectionString"];
 
             // });
 
-            var config = new ConfigurationOptions
-            {
-                EndPoints = { "localhost:6397" },
-                AllowAdmin = true,
-                ConnectTimeout = 10000,
-                ClientName = "instance",
-                SyncTimeout = 5000,
-                Ssl = true,
-                SslProtocols = System.Security.Authentication.SslProtocols.Tls12,
-                ConnectRetry = 5,
-                KeepAlive = 60,
-                DefaultDatabase = 1,
-                AsyncTimeout = 5000,
-                ConfigurationChannel = "myConfigChannel"
-            };
 
-            var Redisconnection = ConnectionMultiplexer.Connect(config);
-            services.AddSingleton<IConnectionMultiplexer>(Redisconnection);
-
+            services.AddSingleton<IConnectionMultiplexer>(x =>
+                ConnectionMultiplexer.Connect(builder.Configuration.GetValue<string>("RedisConnectionString"))
+            );
 
         }
     }

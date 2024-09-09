@@ -53,7 +53,7 @@ namespace Ecommerce.Repositories
             .Include(pf => pf.Product)
             .Include(pf => pf.file)
             .Where(p => p.ProductId == ProductId).ToListAsync();
-            await cacheService.SetAsync(key, productFiles);
+            await cacheService.SetAsync(key, productFiles, TimeSpan.FromSeconds(30));
             return productFiles;
         }
     }
