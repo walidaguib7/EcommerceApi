@@ -36,7 +36,8 @@ namespace Ecommerce.Extensions
     {
         public static void AddCustomServices(this IServiceCollection services)
         {
-            services.AddScoped<ICache, RedisService>();
+            services.AddDistributedMemoryCache();
+            services.AddScoped<ICache, CacheRepo>();
             services.AddScoped<IUser, UserRepo>();
             services.AddSingleton<IToken, TokenRepo>();
             services.AddScoped<ICategory, CategoryRepo>();
@@ -104,16 +105,20 @@ namespace Ecommerce.Extensions
 
         public static void AddRedisDB(this IServiceCollection services, WebApplicationBuilder builder)
         {
-            // services.AddStackExchangeRedisCache(opt =>
-            // {
-            //     string RedisConnectionString = builder.Configuration["RedisConnectionString"];
+            services.AddStackExchangeRedisCache(opt =>
+            {
+                string RedisConnectionString = builder.Configuration["RedisConnectionString"];
+                opt.Configuration = RedisConnectionString;
+                opt.InstanceName = "client";
+                opt.ConfigurationOptions = new ConfigurationOptions
+                {
+                    ConnectTimeout = 5000,
+                };
 
-            // });
+            });
 
 
-            services.AddSingleton<IConnectionMultiplexer>(x =>
-                ConnectionMultiplexer.Connect(builder.Configuration.GetValue<string>("RedisConnectionString"))
-            );
+
 
         }
     }

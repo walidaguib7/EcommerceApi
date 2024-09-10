@@ -67,7 +67,7 @@ namespace Ecommerce.Repositories
             var product = await context.products
             .Include(p => p.user)
             .FirstOrDefaultAsync(p => p.Id == id);
-            await cacheService.SetAsync(key, product, TimeSpan.FromSeconds(30));
+            await cacheService.SetAsync(key, product);
             return product;
         }
 

@@ -45,7 +45,7 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 builder.Services.AddRateLimit();
-builder.Services.AddRedisDB(builder);
+//builder.Services.AddRedisDB(builder);
 builder.Services.AddDB(builder);
 builder.Services.AddCustomServices();
 builder.Services.AddValidationServices();

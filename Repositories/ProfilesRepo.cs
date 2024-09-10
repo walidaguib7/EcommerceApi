@@ -61,7 +61,7 @@ namespace Ecommerce.Repositories
             .Where(p => p.userId == userId)
             .FirstAsync();
             if (profile == null) return null;
-            await CacheService.SetAsync(key, profile, TimeSpan.FromSeconds(30));
+            await CacheService.SetAsync(key, profile);
             return profile;
         }
 

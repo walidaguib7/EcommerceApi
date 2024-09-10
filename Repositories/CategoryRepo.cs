@@ -55,7 +55,7 @@ namespace Ecommerce.Repositories
                 return CachedCategories;
             }
             var categories = await context.categories.ToListAsync();
-            await cacheService.SetAsync(key, categories, TimeSpan.FromSeconds(30));
+            await cacheService.SetAsync(key, categories);
             return categories;
         }
 
