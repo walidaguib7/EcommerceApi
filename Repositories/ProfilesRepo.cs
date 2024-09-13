@@ -39,6 +39,7 @@ namespace Ecommerce.Repositories
                 user.ProfileId = profile.Id;
                 await userManager.UpdateAsync(user);
                 await context.SaveChangesAsync();
+                await CacheService.RemoveCaching("profile");
                 return profile;
 
             }
@@ -50,11 +51,9 @@ namespace Ecommerce.Repositories
 
         public async Task<Profiles?> GetProfile(string userId)
         {
-
-            string key = $"profile_{userId}";
-            var Cachedprofile = await CacheService.GetFromCacheAsync<Profiles>(key);
-            if (Cachedprofile != null) return Cachedprofile;
-
+            string key = "profile";
+            var cachedProfile = await CacheService.GetFromCacheAsync<Profiles>(key);
+            if (cachedProfile != null) return cachedProfile;
             var profile = await context.profiles
             .Include(p => p.user)
             .Include(p => p.file)
@@ -84,6 +83,8 @@ namespace Ecommerce.Repositories
                 profile.city = dto.city;
                 profile.ZipCode = dto.ZipCode;
                 profile.fileId = dto.fileId == null ? 1 : dto.fileId;
+                await context.SaveChangesAsync();
+                await CacheService.RemoveCaching("profile");
                 return profile;
 
             }

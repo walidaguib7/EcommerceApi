@@ -7,6 +7,7 @@ using Ecommerce.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Ecommerce.Repositories
 {
@@ -37,6 +38,7 @@ namespace Ecommerce.Repositories
                     Products product = dto.ToModel();
                     await context.products.AddAsync(product);
                     await context.SaveChangesAsync();
+                    await cacheService.RemoveCaching("products");
                     return product;
                 }
                 else
@@ -56,18 +58,16 @@ namespace Ecommerce.Repositories
             if (product == null) return null;
             context.products.Remove(product);
             await context.SaveChangesAsync();
+            await cacheService.RemoveCaching("products");
             return product;
         }
 
         public async Task<Products?> GetProduct(int id)
         {
-            string key = $"product_Id";
-            var cachedProduct = await cacheService.GetFromCacheAsync<Products>(key);
-            if (cachedProduct != null) return cachedProduct;
+
             var product = await context.products
             .Include(p => p.user)
             .FirstOrDefaultAsync(p => p.Id == id);
-            await cacheService.SetAsync(key, product);
             return product;
         }
 
@@ -107,7 +107,9 @@ namespace Ecommerce.Repositories
 
         public async Task<IEnumerable<Products>> GetProducts(string userId, QueryFilters query)
         {
-
+            string key = "products";
+            var cachedProducts = await cacheService.GetFromCacheAsync<IEnumerable<Products>>(key);
+            if (!cachedProducts.IsNullOrEmpty()) return cachedProducts;
             var products = context.products
             .Include(p => p.user)
             .AsQueryable();
@@ -135,6 +137,7 @@ namespace Ecommerce.Repositories
 
             var skipNumber = (query.PageNumber - 1) * query.Limit;
             var pagedproducts = await products.Skip(skipNumber).Take(query.Limit).ToListAsync();
+            await cacheService.SetAsync(key, pagedproducts);
             return pagedproducts;
         }
 
@@ -156,6 +159,7 @@ namespace Ecommerce.Repositories
                     product.Price = dto.Price;
                     product.UpdateAt = DateTime.Today;
                     await context.SaveChangesAsync();
+                    await cacheService.RemoveCaching("products");
                     return product;
                 }
                 else

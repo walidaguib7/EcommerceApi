@@ -11,6 +11,7 @@ using Ecommerce.Dtos.Profile;
 using Ecommerce.Dtos.ProuctFiles;
 using Ecommerce.Dtos.User;
 using Ecommerce.Dtos.WishLists;
+using Ecommerce.Helpers;
 using Ecommerce.Repositories;
 using Ecommerce.Services;
 using Ecommerce.Validations.Blocking;
@@ -25,6 +26,7 @@ using Ecommerce.Validations.Profile;
 using Ecommerce.Validations.User;
 using Ecommerce.Validations.WishLists;
 using FluentValidation;
+
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -36,8 +38,7 @@ namespace Ecommerce.Extensions
     {
         public static void AddCustomServices(this IServiceCollection services)
         {
-            services.AddDistributedMemoryCache();
-            services.AddScoped<ICache, CacheRepo>();
+            services.AddScoped<ICache, RedisCacheRepo>();
             services.AddScoped<IUser, UserRepo>();
             services.AddSingleton<IToken, TokenRepo>();
             services.AddScoped<ICategory, CategoryRepo>();
@@ -103,23 +104,15 @@ namespace Ecommerce.Extensions
             });
         }
 
-        public static void AddRedisDB(this IServiceCollection services, WebApplicationBuilder builder)
+        public static void AddRedis(this IServiceCollection services, WebApplicationBuilder builder)
         {
-            services.AddStackExchangeRedisCache(opt =>
-            {
-                string RedisConnectionString = builder.Configuration["RedisConnectionString"];
-                opt.Configuration = RedisConnectionString;
-                opt.InstanceName = "client";
-                opt.ConfigurationOptions = new ConfigurationOptions
-                {
-                    ConnectTimeout = 5000,
-                };
-
-            });
-
-
-
-
+            services.AddSingleton<IConnectionMultiplexer>
+            (
+                x => ConnectionMultiplexer.Connect(builder.Configuration.GetValue<string>("RedisConnectionString"))
+            )
+            ;
         }
+
     }
+
 }

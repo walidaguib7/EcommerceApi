@@ -2,6 +2,7 @@ using System.Threading.RateLimiting;
 using Ecommerce.Data;
 using Ecommerce.Extensions;
 using Ecommerce.Models;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
@@ -43,9 +44,8 @@ builder.Services.AddSwaggerGen(option =>
         }
     });
 });
-
+builder.Services.AddRedis(builder);
 builder.Services.AddRateLimit();
-//builder.Services.AddRedisDB(builder);
 builder.Services.AddDB(builder);
 builder.Services.AddCustomServices();
 builder.Services.AddValidationServices();

@@ -29,6 +29,7 @@ namespace Ecommerce.Repositories
                 var category = dto.ToCategory();
                 await context.categories.AddAsync(category);
                 await context.SaveChangesAsync();
+                await cacheService.RemoveCaching("categories");
                 return category;
             }
             else
@@ -43,17 +44,15 @@ namespace Ecommerce.Repositories
             if (category == null) return null;
             context.categories.Remove(category);
             await context.SaveChangesAsync();
+            await cacheService.RemoveCaching("categories");
             return category;
         }
 
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
-            var key = $"categories";
-            var CachedCategories = await cacheService.GetFromCacheAsync<IEnumerable<Category>>(key);
-            if (!CachedCategories.IsNullOrEmpty())
-            {
-                return CachedCategories;
-            }
+            string key = "categories";
+            var cachedValues = await cacheService.GetFromCacheAsync<IEnumerable<Category>>(key);
+            if (!cachedValues.IsNullOrEmpty()) return cachedValues;
             var categories = await context.categories.ToListAsync();
             await cacheService.SetAsync(key, categories);
             return categories;
@@ -61,6 +60,7 @@ namespace Ecommerce.Repositories
 
         public async Task<Category?> GetCategoryAsync(int id)
         {
+
             var category = await context.categories.FindAsync(id);
             if (category == null) return null;
             return category;

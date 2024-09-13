@@ -31,6 +31,7 @@ namespace Ecommerce.Repositories
                     var model = productFile.ToModel();
                     await context.productFiles.AddAsync(model);
                     await context.SaveChangesAsync();
+                    await cacheService.RemoveCaching("pFiles");
                     return model;
                 }
                 else
@@ -46,9 +47,9 @@ namespace Ecommerce.Repositories
 
         public async Task<IEnumerable<ProductFiles>> GetProductFiles(int ProductId)
         {
-            var key = $"pf_{ProductId}";
-            var CachedProductFiles = await cacheService.GetFromCacheAsync<IEnumerable<ProductFiles>>(key);
-            if (!CachedProductFiles.IsNullOrEmpty()) return CachedProductFiles;
+            string key = "pFiles";
+            var cachedFiles = await cacheService.GetFromCacheAsync<IEnumerable<ProductFiles>>(key);
+            if (!cachedFiles.IsNullOrEmpty()) return cachedFiles;
             var productFiles = await context.productFiles
             .Include(pf => pf.Product)
             .Include(pf => pf.file)
