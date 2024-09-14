@@ -31,6 +31,7 @@ namespace Ecommerce.Repositories
                 var item = dto.ToModel();
                 await context.wishlists.AddAsync(item);
                 await context.SaveChangesAsync();
+                await cacheService.RemoveCaching("cart");
                 return item;
             }
             else
@@ -45,16 +46,20 @@ namespace Ecommerce.Repositories
             if (item == null) return null;
             context.wishlists.Remove(item);
             await context.SaveChangesAsync();
+            await cacheService.RemoveCaching("cart");
             return item;
         }
 
         public async Task<List<Wishlists>> GetAll(string userId)
         {
-
+            string key = "cart";
+            var cachedCart = await cacheService.GetFromCacheAsync<List<Wishlists>>(key);
+            if (!cachedCart.IsNullOrEmpty()) return cachedCart;
             var items = await context.wishlists
             .Include(w => w.user)
             .Include(w => w.Product)
             .Where(w => w.userId == userId).ToListAsync();
+            await cacheService.SetAsync(key, items);
             return items;
         }
     }

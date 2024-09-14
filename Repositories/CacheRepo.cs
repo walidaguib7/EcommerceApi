@@ -30,6 +30,11 @@ namespace Ecommerce.Repositories
 
         }
 
+        public Task RemoveByPattern(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task RemoveCaching(string key)
         {
             await cacheService.RemoveAsync(key);

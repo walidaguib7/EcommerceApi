@@ -31,8 +31,8 @@ namespace Ecommerce.Repositories
                 await context.followers.AddAsync(follow);
                 await context.followings.AddAsync(new Following { followerId = dto.followerId, followingId = dto.userId });
                 await context.SaveChangesAsync();
-                await cache.RemoveCaching("followers");
-                await cache.RemoveCaching("followings");
+                await cache.RemoveByPattern("followers");
+                await cache.RemoveByPattern("followings");
                 return follow;
             }
             else
@@ -58,7 +58,7 @@ namespace Ecommerce.Repositories
 
         public async Task<ICollection<Follower>> GetFollowers(string userId, QueryFilters query)
         {
-            string key = "followers";
+            string key = $"followers_{query.PageNumber}_{query.Limit}_{query.SortBy}_{query.IsDescending}_{query.Name}";
             var cachedFollowers = await cache.GetFromCacheAsync<ICollection<Follower>>(key);
             if (!cachedFollowers.IsNullOrEmpty()) return cachedFollowers;
             var followers = context.followers
@@ -115,7 +115,7 @@ namespace Ecommerce.Repositories
 
         public async Task<ICollection<Following>> GetFollowings(string followerId, QueryFilters query)
         {
-            string key = "followings";
+            string key = $"followings_{query.PageNumber}_{query.Limit}_{query.SortBy}_{query.IsDescending}_{query.Name}";
             var cachedFollowings = await cache.GetFromCacheAsync<ICollection<Following>>(key);
             if (!cachedFollowings.IsNullOrEmpty()) return cachedFollowings;
             var followings = context.followings
@@ -164,8 +164,8 @@ namespace Ecommerce.Repositories
                 context.followers.Remove(user);
                 context.followings.Remove(followingUser);
                 await context.SaveChangesAsync();
-                await cache.RemoveCaching("followers");
-                await cache.RemoveCaching("followings");
+                await cache.RemoveByPattern("followers");
+                await cache.RemoveByPattern("followings");
                 return user;
             }
             else

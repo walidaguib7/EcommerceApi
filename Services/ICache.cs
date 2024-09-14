@@ -8,5 +8,7 @@
         public Task SetAsync<T>(string key, T values);
 
         public Task RemoveCaching(string key);
+
+        public Task RemoveByPattern(string pattern);
     }
 }

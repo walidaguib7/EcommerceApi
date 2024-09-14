@@ -39,6 +39,7 @@ namespace Ecommerce.Repositories
                     await context.products.AddAsync(product);
                     await context.SaveChangesAsync();
                     await cacheService.RemoveCaching("products");
+                    await cacheService.RemoveByPattern("products");
                     return product;
                 }
                 else
@@ -59,6 +60,7 @@ namespace Ecommerce.Repositories
             context.products.Remove(product);
             await context.SaveChangesAsync();
             await cacheService.RemoveCaching("products");
+            await cacheService.RemoveByPattern("products");
             return product;
         }
 
@@ -73,17 +75,21 @@ namespace Ecommerce.Repositories
 
         public async Task<IEnumerable<Products>> GetProducts(QueryFilters query)
         {
-
+            string key = $"products_{query.PageNumber}_{query.Limit}_{query.SortBy}_{query.IsDescending}_{query.Name}";
+            var cachedProducts = await cacheService.GetFromCacheAsync<IEnumerable<Products>>(key);
+            if (!cachedProducts.IsNullOrEmpty()) return cachedProducts;
             var products = context.products
             .Include(p => p.user)
             .AsQueryable();
             if (!string.IsNullOrEmpty(query.Name) || !string.IsNullOrWhiteSpace(query.Name))
             {
+                await cacheService.RemoveCaching("products");
                 products = products.Where(f => f.Name.Contains(query.Name));
             }
 
             if (!string.IsNullOrEmpty(query.SortBy) || !string.IsNullOrWhiteSpace(query.SortBy))
             {
+                await cacheService.RemoveCaching("products");
                 if (query.SortBy.Equals("Id", StringComparison.OrdinalIgnoreCase))
                 {
                     products = query.IsDescending ?
@@ -101,13 +107,13 @@ namespace Ecommerce.Repositories
 
             var skipNumber = (query.PageNumber - 1) * query.Limit;
             var pagedproducts = await products.Skip(skipNumber).Take(query.Limit).ToListAsync();
-
+            await cacheService.SetAsync(key, pagedproducts);
             return pagedproducts;
         }
 
         public async Task<IEnumerable<Products>> GetProducts(string userId, QueryFilters query)
         {
-            string key = "products";
+            string key = $"products_{userId}_{query.PageNumber}_{query.Limit}_{query.SortBy}_{query.IsDescending}_{query.Name}";
             var cachedProducts = await cacheService.GetFromCacheAsync<IEnumerable<Products>>(key);
             if (!cachedProducts.IsNullOrEmpty()) return cachedProducts;
             var products = context.products
@@ -160,6 +166,7 @@ namespace Ecommerce.Repositories
                     product.UpdateAt = DateTime.Today;
                     await context.SaveChangesAsync();
                     await cacheService.RemoveCaching("products");
+                    await cacheService.RemoveByPattern("products");
                     return product;
                 }
                 else

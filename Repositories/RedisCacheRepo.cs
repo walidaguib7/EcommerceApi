@@ -26,6 +26,17 @@ namespace Ecommerce.Repositories
             });
         }
 
+        public async Task RemoveByPattern(string pattern)
+        {
+            var db = _connection.GetDatabase();
+            var server = _connection.GetServer(_connection.GetEndPoints().First());
+            var keys = server.Keys(pattern: pattern + "*");
+            foreach (var key in keys)
+            {
+                await db.KeyDeleteAsync(key);
+            }
+        }
+
         public async Task RemoveCaching(string key)
         {
             var db = _connection.GetDatabase();
@@ -44,7 +55,7 @@ namespace Ecommerce.Repositories
             {
 
                 // var data = Encoding.UTF8.GetBytes(serializedData);
-                await db.StringSetAsync(key, serializedData, expiry: TimeSpan.FromSeconds(10));
+                await db.StringSetAsync(key, serializedData, expiry: TimeSpan.FromMinutes(4));
                 logger.Log(LogLevel.Information, key);
             }
             catch (Exception ex)
