@@ -9,6 +9,7 @@ using Ecommerce.Dtos.MediaDtos;
 using Ecommerce.Dtos.Products;
 using Ecommerce.Dtos.Profile;
 using Ecommerce.Dtos.ProuctFiles;
+using Ecommerce.Dtos.Reviews;
 using Ecommerce.Dtos.User;
 using Ecommerce.Dtos.WishLists;
 using Ecommerce.Helpers;
@@ -23,6 +24,7 @@ using Ecommerce.Validations.Media;
 using Ecommerce.Validations.ProductFiles;
 using Ecommerce.Validations.Products;
 using Ecommerce.Validations.Profile;
+using Ecommerce.Validations.Reviews;
 using Ecommerce.Validations.User;
 using Ecommerce.Validations.WishLists;
 using FluentValidation;
@@ -45,7 +47,6 @@ namespace Ecommerce.Extensions
             services.AddTransient<IMedia, MediaRepo>();
             services.AddScoped<IMessages, MessagesRepo>();
             services.AddScoped<IFollowing, FollowingRepo>();
-
             services.AddScoped<IBlocking, blockingRepo>();
             services.AddScoped<IProfile, ProfilesRepo>();
             services.AddTransient<IProduct, ProductsRepo>();
@@ -53,6 +54,7 @@ namespace Ecommerce.Extensions
             services.AddScoped<IComments, CommentsRepo>();
             services.AddScoped<ICommentLikes, CommentlikesRepo>();
             services.AddScoped<IWishList, WishListsRepo>();
+            services.AddScoped<IReviews, ReviewsRepo>();
         }
 
         public static void AddValidationServices(this IServiceCollection services)
@@ -79,6 +81,9 @@ namespace Ecommerce.Extensions
             services.AddKeyedScoped<IValidator<UpdateCommentDto>, UpdateCommentValidation>("updateComment");
 
             services.AddKeyedScoped<IValidator<AddItemDto>, AddToWishListsValidation>("addItem");
+
+            services.AddKeyedScoped<IValidator<CreateReviewDto>, CreateReviewValidation>("createReview");
+            services.AddKeyedScoped<IValidator<UpdateReviewDto>, UpdateReviewValidation>("updateReview");
         }
 
         public static void AddDB(this IServiceCollection services, WebApplicationBuilder builder)
