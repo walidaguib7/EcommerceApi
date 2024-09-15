@@ -90,7 +90,7 @@ namespace Ecommerce.Extensions
         {
             services.AddDbContext<ApplicationDBContext>(options =>
             {
-                options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
         }
 
