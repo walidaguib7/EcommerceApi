@@ -11,8 +11,6 @@
         public string userId { get; set; }
         public User user { get; set; }
         public List<Order_Product> order_Products { get; set; } = [];
-
-
         public List<ProductFiles> productFiles { get; set; } = [];
     }
 }

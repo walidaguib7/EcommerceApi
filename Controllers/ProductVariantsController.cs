@@ -37,7 +37,7 @@ namespace Ecommerce.Controllers
 
         [HttpPost]
         [Route("{userId}")]
-        public async Task<IActionResult> Createvariant([FromRoute] string userId, [FromBody] CreateProductVariant variant)
+        public async Task<IActionResult> CreateVariant([FromRoute] string userId, [FromBody] CreateProductVariant variant)
         {
             try
             {
