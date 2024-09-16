@@ -7,6 +7,7 @@ using Ecommerce.Dtos.Comments.CommentLikes;
 using Ecommerce.Dtos.Followers;
 using Ecommerce.Dtos.MediaDtos;
 using Ecommerce.Dtos.Products;
+using Ecommerce.Dtos.Products.Variants;
 using Ecommerce.Dtos.Profile;
 using Ecommerce.Dtos.ProuctFiles;
 using Ecommerce.Dtos.Reviews;
@@ -23,6 +24,7 @@ using Ecommerce.Validations.Following;
 using Ecommerce.Validations.Media;
 using Ecommerce.Validations.ProductFiles;
 using Ecommerce.Validations.Products;
+using Ecommerce.Validations.Products.Variants;
 using Ecommerce.Validations.Profile;
 using Ecommerce.Validations.Reviews;
 using Ecommerce.Validations.User;
@@ -51,6 +53,7 @@ namespace Ecommerce.Extensions
             services.AddScoped<IProfile, ProfilesRepo>();
             services.AddTransient<IProduct, ProductsRepo>();
             services.AddScoped<IProductFiles, ProductFilesRepo>();
+            services.AddScoped<IVariants, ProductsVariantsRepo>();
             services.AddScoped<IComments, CommentsRepo>();
             services.AddScoped<ICommentLikes, CommentlikesRepo>();
             services.AddScoped<IWishList, WishListsRepo>();
@@ -84,6 +87,9 @@ namespace Ecommerce.Extensions
 
             services.AddKeyedScoped<IValidator<CreateReviewDto>, CreateReviewValidation>("createReview");
             services.AddKeyedScoped<IValidator<UpdateReviewDto>, UpdateReviewValidation>("updateReview");
+
+            services.AddKeyedScoped<IValidator<CreateProductVariant>, CreateProductVariantValidation>("createVariant");
+            services.AddKeyedScoped<IValidator<UpdateProductVariant>, UpdateProductVariantValidation>("updateVariant");
         }
 
         public static void AddDB(this IServiceCollection services, WebApplicationBuilder builder)

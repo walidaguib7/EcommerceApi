@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -537,6 +538,28 @@ namespace Ecommerce.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Variants",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    size = table.Column<string>(type: "text", nullable: false),
+                    colors = table.Column<List<string>>(type: "text[]", nullable: false),
+                    quantity = table.Column<int>(type: "integer", nullable: false),
+                    ProductId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Variants", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Variants_products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "wishlists",
                 columns: table => new
                 {
@@ -567,8 +590,8 @@ namespace Ecommerce.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0d230f11-71ef-4cf3-8da4-2d7df7e3ec2e", null, "user", "USER" },
-                    { "6d0a753a-8b18-4f45-98e0-91044dc8d7ac", null, "admin", "ADMIN" }
+                    { "8307d6d4-07c5-45c7-9674-6752a7737049", null, "admin", "ADMIN" },
+                    { "e19b3356-d9f7-411b-a545-926889443c1c", null, "user", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -710,6 +733,11 @@ namespace Ecommerce.Migrations
                 column: "userId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Variants_ProductId",
+                table: "Variants",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_wishlists_ProductId",
                 table: "wishlists",
                 column: "ProductId");
@@ -770,6 +798,9 @@ namespace Ecommerce.Migrations
 
             migrationBuilder.DropTable(
                 name: "reviews");
+
+            migrationBuilder.DropTable(
+                name: "Variants");
 
             migrationBuilder.DropTable(
                 name: "wishlists");

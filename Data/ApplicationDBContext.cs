@@ -28,6 +28,7 @@ namespace Ecommerce.Data
         public DbSet<Following> followings { get; set; }
         public DbSet<BlockedUsers> blockedUsers { get; set; }
         public DbSet<Order_Product> order_Products { get; set; }
+        public DbSet<ProductsVariants> Variants { get; set; }
         public DbSet<Reviews> reviews { get; set; }
         public DbSet<Wishlists> wishlists { get; set; }
         public DbSet<ProductFiles> productFiles { get; set; }

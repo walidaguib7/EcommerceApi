@@ -8,21 +8,17 @@ namespace Ecommerce.Extensions
     {
         public static void ConfigRelations(this ModelBuilder builder)
         {
-
-
             builder.Entity<Comments>()
             .HasOne(c => c.parent)
             .WithMany(c => c.replies)
             .HasForeignKey(c => c.parentId)
             .OnDelete(DeleteBehavior.Cascade);
 
-
             builder.Entity<User>()
             .HasOne(u => u.Profile)
             .WithOne(u => u.user)
             .HasForeignKey<Profiles>(u => u.userId)
             .IsRequired();
-
 
             //Comment Likes config
             builder.Entity<CommentLikes>(c => c.HasKey(c => new { c.UserId, c.CommentId }));
@@ -70,16 +66,22 @@ namespace Ecommerce.Extensions
 
             //Blocked users config
             builder.Entity<BlockedUsers>(bu => bu.HasKey(bu => new { bu.userId, bu.blockedUserId }));
+
             builder.Entity<User>()
                 .HasMany(f => f.blockedUsers)
                 .WithOne(f => f.user)
                 .HasForeignKey(f => f.userId);
 
             builder.Entity<Following>(f => f.HasKey(f => new { f.followerId, f.followingId }));
+
             builder.Entity<User>()
                 .HasMany(f => f.followings)
                 .WithOne(f => f.follower)
                 .HasForeignKey(f => f.followerId);
+
+            builder.Entity<ProductsVariants>()
+            .Property(p => p.colors)
+            .HasColumnType("text[]");
         }
     }
 }
