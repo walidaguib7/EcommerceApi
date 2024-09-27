@@ -1,4 +1,5 @@
-﻿using Ecommerce.Dtos.User;
+﻿using Ecommerce.Data;
+using Ecommerce.Dtos.User;
 using Ecommerce.Mappers;
 using Ecommerce.Models;
 using Ecommerce.Services;
@@ -13,7 +14,9 @@ namespace Ecommerce.Repositories
         SignInManager<User> _signin,
         [FromKeyedServices("register")] IValidator<RegisterDto> RegisterValidator,
         [FromKeyedServices("login")] IValidator<LoginDto> LoginValidator,
-        IToken tokenService
+        IToken tokenService,
+        IVerification _verification,
+        ApplicationDBContext _context
 
         ) : IUser
     {
@@ -22,6 +25,8 @@ namespace Ecommerce.Repositories
         private readonly IValidator<RegisterDto> _RegisterValidator = RegisterValidator;
         private readonly IValidator<LoginDto> _LoginValidator = LoginValidator;
         private readonly IToken _tokenService = tokenService;
+        private readonly IVerification verification = _verification;
+        private readonly ApplicationDBContext context = _context;
 
 
 
@@ -49,6 +54,17 @@ namespace Ecommerce.Repositories
                     {
                         await manager.AddToRoleAsync(user, "user");
                     }
+
+
+                    // send email verification
+                    int code = verification.GenerateCode();
+                    await verification.SendVerificationEmail(dto.email, "", code);
+                    await verification.CreateVerification(new EmailVerification
+                    {
+                        code = code,
+                        userId = user.Id
+                    });
+
                 }
 
                 return user;
@@ -57,6 +73,15 @@ namespace Ecommerce.Repositories
             {
                 throw new ValidationException(result.Errors);
             }
+        }
+
+        public async Task<User?> DeleteUser(string userId)
+        {
+            var user = await context.Users.Where(u => u.Id == userId).FirstAsync();
+            if (user == null) return null;
+            context.Users.Remove(user);
+            await context.SaveChangesAsync();
+            return user;
         }
 
         public async Task<NewUser?> login(LoginDto dto)
@@ -81,6 +106,30 @@ namespace Ecommerce.Repositories
             else
             {
                 throw new ValidationException(result.Errors);
+            }
+        }
+
+        public Task<User?> UpdateUser()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool?> VerifyUser(string userId, int verificationCode)
+        {
+            var verification = await context.emailVerifications.Where(e => e.code == verificationCode).FirstAsync();
+
+            var user = await context.Users.Where(u => u.Id == userId).FirstAsync();
+            if (verification == null || user == null) return null;
+
+            if (verification.code == verificationCode)
+            {
+                user.EmailConfirmed = true;
+                await context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

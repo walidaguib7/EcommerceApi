@@ -15,6 +15,7 @@ namespace Ecommerce.Data
 
         }
 
+        public DbSet<EmailVerification> emailVerifications { get; set; }
         public DbSet<Profiles> profiles { get; set; }
         public DbSet<Category> categories { get; set; }
         public DbSet<MediaModel> media { get; set; }
@@ -65,6 +66,11 @@ namespace Ecommerce.Data
             builder.Entity<User>()
             .Property(u => u.role)
             .HasConversion<string>();
+
+            builder.Entity<Orders>()
+            .Property(p => p.Order_Status).HasConversion<string>();
+            builder.Entity<Payments>()
+            .Property(p => p.Status).HasConversion<string>();
 
 
             builder.ConfigRelations();

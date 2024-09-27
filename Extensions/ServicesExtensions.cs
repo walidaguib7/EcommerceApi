@@ -43,6 +43,7 @@ namespace Ecommerce.Extensions
         public static void AddCustomServices(this IServiceCollection services)
         {
             services.AddScoped<ICache, RedisCacheRepo>();
+            services.AddTransient<IVerification, UserVerificationRepo>();
             services.AddScoped<IUser, UserRepo>();
             services.AddSingleton<IToken, TokenRepo>();
             services.AddScoped<ICategory, CategoryRepo>();
@@ -64,6 +65,7 @@ namespace Ecommerce.Extensions
         {
             services.AddKeyedScoped<IValidator<RegisterDto>, RegisterValidation>("register");
             services.AddKeyedScoped<IValidator<LoginDto>, LoginValidation>("login");
+            services.AddKeyedScoped<IValidator<UpdateUserDto>, UpdateUserValidation>("updateUser");
 
             services.AddKeyedScoped<IValidator<CreateCategoryDto>, CategoryValidation>("category");
             services.AddKeyedScoped<IValidator<CreateFile>, MediaValidation>("media");
@@ -124,6 +126,11 @@ namespace Ecommerce.Extensions
             ;
         }
 
+        public static void AddMailing(this IServiceCollection services, WebApplicationBuilder builder)
+        {
+            var smtpSettings = builder.Configuration.GetSection("Smtp");
+            services.AddSingleton(smtpSettings);
+        }
     }
 
 }

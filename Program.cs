@@ -48,6 +48,7 @@ builder.Services.AddRedis(builder);
 builder.Services.AddRateLimit();
 builder.Services.AddDB(builder);
 builder.Services.AddCustomServices();
+builder.Services.AddMailing(builder);
 builder.Services.AddValidationServices();
 builder.Services.AddIdentity<User, IdentityRole>(options =>
             {

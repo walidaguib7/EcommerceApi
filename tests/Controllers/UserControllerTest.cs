@@ -32,5 +32,22 @@ namespace Ecommerce.Test.Controllers
             var result = await controller.Login(dto);
             result.Should().BeOfType(typeof(OkObjectResult));
         }
+
+        [Theory]
+        [InlineData("userId", 0)]
+        public async Task UserController_verifyUser_ReturnsOk(string userId, int code)
+        {
+            UserController controller = new UserController(userService);
+            var result = await controller.verifyUser(userId, code);
+            result.Should().BeOfType(typeof(OkObjectResult));
+        }
+        [Theory]
+        [InlineData("userId")]
+        public async Task UserController_DeleteUser_ReturnsOk(string userId)
+        {
+            UserController controller = new UserController(userService);
+            var result = await controller.DeleteUser(userId);
+            result.Should().BeOfType(typeof(OkObjectResult));
+        }
     }
 }

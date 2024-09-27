@@ -1734,6 +1734,19 @@
           }
         }
       },
+      "Stateless/2.3.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/3.5/Stateless.dll": {
+            "related": ".pdb;.XML"
+          }
+        },
+        "runtime": {
+          "lib/3.5/Stateless.dll": {
+            "related": ".pdb;.XML"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/6.7.3": {
         "type": "package",
         "dependencies": {
@@ -3336,6 +3349,7 @@
           "Newtonsoft.Json": "13.0.3",
           "Npgsql": "8.0.4",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4",
+          "Stateless": "2.3.1.1",
           "Swashbuckle.AspNetCore": "6.7.3",
           "xunit": "2.6.3"
         },
@@ -5933,6 +5947,21 @@
         "lib/netstandard2.0/StackExchange.Redis.xml",
         "stackexchange.redis.2.7.27.nupkg.sha512",
         "stackexchange.redis.nuspec"
+      ]
+    },
+    "Stateless/2.3.1.1": {
+      "sha512": "FBK9kegWjVNqocIp0iejwh+ifIxfcrueovbLeR3YBuOfchF3u44ZqnPkUD17aOoX4vVY5ovt/+StqCltwLhGAA==",
+      "type": "package",
+      "path": "stateless/2.3.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/3.5/Stateless.XML",
+        "lib/3.5/Stateless.dll",
+        "lib/3.5/Stateless.pdb",
+        "license.txt",
+        "stateless.2.3.1.1.nupkg.sha512",
+        "stateless.nuspec"
       ]
     },
     "Swashbuckle.AspNetCore/6.7.3": {
@@ -9965,5 +9994,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Stateless 2.3.1.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Stateless",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

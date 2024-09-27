@@ -62,5 +62,22 @@ namespace Ecommerce.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        [HttpPatch("verifyUser")]
+        public async Task<IActionResult> verifyUser(string userId, int code)
+        {
+            var result = await _userRepo.VerifyUser(userId, code);
+            if (result == null) return NotFound("verification code or user are not found!");
+            return Ok("User account confirmed!");
+        }
+
+        [HttpDelete]
+        [Route("{userId}")]
+        public async Task<IActionResult> DeleteUser([FromRoute] string userId)
+        {
+            var result = await _userRepo.DeleteUser(userId);
+            if (result == null) return NotFound();
+            return Ok("user deleted!");
+        }
     }
 }
