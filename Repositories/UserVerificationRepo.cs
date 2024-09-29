@@ -31,14 +31,14 @@ namespace Ecommerce.Repositories
             return random;
         }
 
-        public async Task SendVerificationEmail(string email, string subject, int code)
+        public async Task SendVerificationEmail(string email, string subject, string code)
         {
             var client = new SmtpClient(configuration.GetSection("Smtp").GetValue<string>("Host"), configuration.GetSection("Smtp").GetValue<int>("Port"))
             {
                 Credentials = new NetworkCredential(configuration.GetSection("Smtp").GetValue<string>("UserName"), configuration.GetSection("Smtp").GetValue<string>("Password")),
                 EnableSsl = configuration.GetSection("Smtp").GetValue<bool>("EnableSsl")
             };
-            var mailMessage = new MailMessage("noreply@yourapp.com", email, subject, code.ToString());
+            var mailMessage = new MailMessage("noreply@yourapp.com", email, subject, code);
             await client.SendMailAsync(mailMessage);
         }
     }

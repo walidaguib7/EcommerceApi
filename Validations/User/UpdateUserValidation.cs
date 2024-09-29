@@ -12,7 +12,8 @@ namespace Ecommerce.Validations.User
         public UpdateUserValidation()
         {
             RuleFor(u => u.username).NotEmpty().NotNull();
-            RuleFor(u => u.password).NotEmpty().NotNull();
+            RuleFor(u => u.email).EmailAddress().NotEmpty().NotNull();
+
         }
     }
 }

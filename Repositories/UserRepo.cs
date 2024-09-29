@@ -14,6 +14,7 @@ namespace Ecommerce.Repositories
         SignInManager<User> _signin,
         [FromKeyedServices("register")] IValidator<RegisterDto> RegisterValidator,
         [FromKeyedServices("login")] IValidator<LoginDto> LoginValidator,
+        [FromKeyedServices("updateUser")] IValidator<UpdateUserDto> _UpdateUserValidator,
         IToken tokenService,
         IVerification _verification,
         ApplicationDBContext _context
@@ -24,6 +25,7 @@ namespace Ecommerce.Repositories
         private readonly SignInManager<User> signInManager = _signin;
         private readonly IValidator<RegisterDto> _RegisterValidator = RegisterValidator;
         private readonly IValidator<LoginDto> _LoginValidator = LoginValidator;
+        private readonly IValidator<UpdateUserDto> UpdateUserValidator = _UpdateUserValidator;
         private readonly IToken _tokenService = tokenService;
         private readonly IVerification verification = _verification;
         private readonly ApplicationDBContext context = _context;
@@ -58,7 +60,7 @@ namespace Ecommerce.Repositories
 
                     // send email verification
                     int code = verification.GenerateCode();
-                    await verification.SendVerificationEmail(dto.email, "", code);
+                    await verification.SendVerificationEmail(dto.email, "", code.ToString());
                     await verification.CreateVerification(new EmailVerification
                     {
                         code = code,
@@ -82,6 +84,23 @@ namespace Ecommerce.Repositories
             context.Users.Remove(user);
             await context.SaveChangesAsync();
             return user;
+        }
+
+        public async Task<string?> GenerateResetPasswordToken(string userId)
+        {
+            var user = await context.Users.Where(u => u.Id == userId).FirstAsync();
+            if (user == null) return null;
+            string token = await manager.GeneratePasswordResetTokenAsync(user);
+            string numericString = new string(token.Where(char.IsDigit).ToArray()).Substring(0, 5);
+            await verification.SendVerificationEmail(user.Email, "", token);
+            await verification.CreateVerification(new EmailVerification
+            {
+                code = int.Parse(numericString),
+                userId = user.Id
+            });
+
+            await context.SaveChangesAsync();
+            return token;
         }
 
         public async Task<NewUser?> login(LoginDto dto)
@@ -109,11 +128,51 @@ namespace Ecommerce.Repositories
             }
         }
 
-        public Task<User?> UpdateUser()
+        public async Task<User?> PasswordReset(string userId, PasswordDto dto)
         {
-            throw new NotImplementedException();
+            var user = await context.Users.FindAsync(userId);
+            if (user == null) return null;
+            var result = await manager.ResetPasswordAsync(user, dto.Token, dto.NewPassword);
+            if (result.Succeeded)
+            {
+                return user;
+            }
+            else
+            {
+                throw new Exception("Cannot reset password , try again!");
+            }
         }
 
+        public async Task<User?> UpdateUser(string userId, UpdateUserDto dto)
+
+        {
+            var user = await context.Users.Where(u => u.Id == userId).FirstAsync();
+            if (user == null) return null;
+            var result = UpdateUserValidator.Validate(dto);
+            if (result.IsValid)
+            {
+                if (user.Email != dto.email)
+                {
+                    user.Email = dto.email;
+                    user.EmailConfirmed = false;
+                    int code = verification.GenerateCode();
+                    await verification.SendVerificationEmail(dto.email, "", code.ToString());
+                    await verification.CreateVerification(new EmailVerification
+                    {
+                        code = code,
+                        userId = userId,
+                    });
+
+                }
+                user.UserName = dto.username;
+                await context.SaveChangesAsync();
+                return user;
+            }
+            else
+            {
+                throw new ValidationException(result.Errors);
+            }
+        }
         public async Task<bool?> VerifyUser(string userId, int verificationCode)
         {
             var verification = await context.emailVerifications.Where(e => e.code == verificationCode).FirstAsync();
@@ -132,5 +191,6 @@ namespace Ecommerce.Repositories
                 return false;
             }
         }
+        
     }
 }

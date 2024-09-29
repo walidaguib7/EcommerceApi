@@ -8,7 +8,7 @@ namespace Ecommerce.Services
 {
     public interface IVerification
     {
-        public Task SendVerificationEmail(string email, string subject, int code);
+        public Task SendVerificationEmail(string email, string subject, string code);
         public int GenerateCode();
         public Task<EmailVerification> CreateVerification(EmailVerification verification);
     }

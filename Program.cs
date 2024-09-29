@@ -56,7 +56,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
                 options.Password.RequireLowercase = true;
                 options.Password.RequiredLength = 12;
                 options.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<ApplicationDBContext>();
+            }).AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>
             {

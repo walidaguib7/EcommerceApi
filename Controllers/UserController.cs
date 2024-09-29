@@ -79,5 +79,59 @@ namespace Ecommerce.Controllers
             if (result == null) return NotFound();
             return Ok("user deleted!");
         }
+
+
+        [HttpPatch()]
+        [Route("UpdateUser/{userId}")]
+        public async Task<IActionResult> UpdateUser([FromRoute] string userId, [FromBody] UpdateUserDto dto)
+        {
+            try
+            {
+                var result = await _userRepo.UpdateUser(userId, dto);
+                if (result == null) return NotFound();
+                return Ok("User updated");
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(new ValidationErrorResponse { Errors = e.Errors.Select(e => e.ErrorMessage) });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("GenerateToken/{userId}")]
+        public async Task<IActionResult> GenerateToken([FromRoute] string userId)
+        {
+            try
+            {
+                var result = await _userRepo.GenerateResetPasswordToken(userId);
+                if (result == null) return NotFound();
+                return Ok("Token has been sent, check you inbox!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPatch]
+        [Route("ResetPassword/{userId}")]
+        public async Task<IActionResult> ResetPassword([FromRoute] string userId, [FromBody] PasswordDto dto)
+        {
+            try
+            {
+                var result = await _userRepo.PasswordReset(userId, dto);
+                if (result == null) return NotFound("User Not Found!");
+                return Ok("password updated!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
